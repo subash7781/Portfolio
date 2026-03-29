@@ -1,0 +1,70 @@
+@import "tailwindcss";
+
+@theme {
+  --font-headline: "Manrope", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "Manrope", ui-sans-serif, system-ui, sans-serif;
+  --font-label: "Inter", ui-sans-serif, system-ui, sans-serif;
+
+  --color-primary: #172839;
+  --color-primary-container: #2d3e50;
+  --color-on-primary: #ffffff;
+  
+  --color-secondary: #5f5e5e;
+  --color-on-secondary: #ffffff;
+  
+  --color-tertiary: #002e07;
+  --color-tertiary-container: #00470f;
+  --color-tertiary-fixed: #98f994;
+  --color-on-tertiary-fixed: #002204;
+  
+  --color-background: #f7fafc;
+  --color-on-background: #181c1e;
+  
+  --color-surface: #f7fafc;
+  --color-surface-container-low: #f1f4f6;
+  --color-surface-container-high: #e5e9eb;
+  --color-surface-container-highest: #e0e3e5;
+  --color-surface-container-lowest: #ffffff;
+  --color-on-surface-variant: #43474c;
+  
+  --color-outline-variant: #c4c6cd;
+  
+  --radius-none: 0px;
+  --radius-sm: 0px;
+  --radius-md: 0px;
+  --radius-lg: 0px;
+  --radius-xl: 0px;
+  --radius-2xl: 0px;
+  --radius-3xl: 0px;
+  --radius-full: 9999px;
+}
+
+@layer base {
+  * {
+    @apply border-outline-variant/20;
+    border-radius: 0px !important;
+  }
+  body {
+    @apply bg-background text-on-background font-body antialiased;
+  }
+}
+
+.glass-nav {
+  @apply bg-surface-container-lowest/80 backdrop-blur-xl border-b border-outline-variant/10;
+}
+
+.impact-card {
+  @apply bg-surface-container-lowest p-12 space-y-6 transition-all duration-300;
+}
+
+.impact-card:hover {
+  @apply shadow-2xl shadow-primary/5 -translate-y-1;
+}
+
+.skill-bar-bg {
+  @apply h-1 bg-primary-container w-full overflow-hidden;
+}
+
+.skill-bar-fill {
+  @apply h-full bg-tertiary-fixed transition-all duration-1000 ease-out;
+}
