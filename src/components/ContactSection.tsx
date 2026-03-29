@@ -1,3 +1,5 @@
+import { CONTACT_EMAIL_HREF, LINKEDIN_PROFILE_URL } from "../data/content";
+
 export function ContactSection() {
   return (
     <section
@@ -15,18 +17,20 @@ export function ContactSection() {
           Let&apos;s discuss data architecture.
         </h2>
         <div className="flex flex-col sm:flex-row justify-center gap-6 pt-8">
-          <button
-            type="button"
-            className="bg-surface-container-lowest text-primary font-bold px-12 py-6 text-sm uppercase tracking-widest transition-all hover:bg-tertiary-fixed hover:text-on-tertiary-fixed active:scale-95"
+          <a
+            href={CONTACT_EMAIL_HREF}
+            className="bg-surface-container-lowest text-primary font-bold px-12 py-6 text-sm uppercase tracking-widest transition-all hover:bg-tertiary-fixed hover:text-on-tertiary-fixed active:scale-95 inline-flex justify-center"
           >
             Initiate Email
-          </button>
-          <button
-            type="button"
-            className="border border-on-primary-container text-on-primary font-bold px-12 py-6 text-sm uppercase tracking-widest transition-all hover:bg-on-primary-fixed-variant active:scale-95"
+          </a>
+          <a
+            href={LINKEDIN_PROFILE_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="border border-on-primary-container text-on-primary font-bold px-12 py-6 text-sm uppercase tracking-widest transition-all hover:bg-on-primary-fixed-variant active:scale-95 inline-flex justify-center"
           >
-            View Detailed Portfolio
-          </button>
+            LinkedIn
+          </a>
         </div>
       </div>
     </section>

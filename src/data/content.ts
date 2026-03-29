@@ -10,9 +10,8 @@ import {
 export const navLinks: {
   name: string;
   href: string;
-  active?: boolean;
 }[] = [
-  { name: "Home", href: "#home", active: true },
+  { name: "Home", href: "#home" },
   { name: "Experience", href: "#experience" },
   { name: "Projects", href: "#projects" },
   { name: "Contact", href: "#contact" },
