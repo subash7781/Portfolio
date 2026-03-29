@@ -1,5 +1,5 @@
 import { Download } from "lucide-react";
-import { navLinks } from "../data/content";
+import { CV_PDF_HREF, navLinks } from "../data/content";
 
 export function Navigation() {
   return (
@@ -23,13 +23,15 @@ export function Navigation() {
             </a>
           ))}
         </div>
-        <button
-          type="button"
+        <a
+          href={CV_PDF_HREF}
+          download="Subash_cv.pdf"
           className="bg-primary hover:bg-primary-container text-on-primary px-6 py-2 text-[10px] font-label uppercase tracking-[0.2em] transition-all active:scale-95 flex items-center gap-2"
+          aria-label="Download CV (PDF)"
         >
-          <Download size={14} />
+          <Download size={14} aria-hidden />
           Download CV
-        </button>
+        </a>
       </div>
     </nav>
   );

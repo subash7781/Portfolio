@@ -69,6 +69,9 @@ export const heroSocialLinks = [
 /** Served from `public/` — Vite exposes as root URL */
 export const HERO_IMAGE_SRC = "/1771043543078.jpeg";
 
+/** Resume PDF in `public/` */
+export const CV_PDF_HREF = "/Subash_cv.pdf";
+
 export const projects: {
   title: string;
   summary: string;
