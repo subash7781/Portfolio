@@ -1,3 +1,5 @@
+import { socialLinks } from "../data/content";
+
 export function Footer() {
   return (
     <footer className="bg-surface-container-lowest border-t border-outline-variant/10">
@@ -9,15 +11,23 @@ export function Footer() {
           © 2024 Data Analyst. All rights reserved.
         </div>
         <div className="flex gap-10">
-          {["LinkedIn", "GitHub", "Email"].map((link) => (
-            <a
-              key={link}
-              href="#"
-              className="text-secondary hover:text-primary underline decoration-1 underline-offset-8 transition-all font-label text-[10px] uppercase tracking-widest"
-            >
-              {link}
-            </a>
-          ))}
+          {socialLinks.map((link) => {
+            const external =
+              link.href.startsWith("http://") ||
+              link.href.startsWith("https://");
+            return (
+              <a
+                key={link.name}
+                href={link.href}
+                {...(external
+                  ? { target: "_blank", rel: "noopener noreferrer" }
+                  : {})}
+                className="text-secondary hover:text-primary underline decoration-1 underline-offset-8 transition-all font-label text-[10px] uppercase tracking-widest"
+              >
+                {link.name}
+              </a>
+            );
+          })}
         </div>
       </div>
     </footer>

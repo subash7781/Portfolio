@@ -1,6 +1,6 @@
 import { motion } from "motion/react";
 import { Linkedin, Github, Mail, MapPin } from "lucide-react";
-import { HERO_IMAGE_SRC, heroSocialLinks } from "../data/content";
+import { HERO_IMAGE_SRC, socialLinks } from "../data/content";
 
 const socialIcons = {
   LinkedIn: Linkedin,
@@ -41,12 +41,18 @@ export function Hero() {
           </p>
 
           <div className="flex flex-wrap gap-8 pt-4">
-            {heroSocialLinks.map((social) => {
+            {socialLinks.map((social) => {
               const Icon = socialIcons[social.name];
+              const external =
+                social.href.startsWith("http://") ||
+                social.href.startsWith("https://");
               return (
                 <a
                   key={social.name}
                   href={social.href}
+                  {...(external
+                    ? { target: "_blank", rel: "noopener noreferrer" }
+                    : {})}
                   className="group flex items-center gap-2 text-primary font-bold transition-all"
                 >
                   <Icon

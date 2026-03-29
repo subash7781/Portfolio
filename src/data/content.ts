@@ -60,11 +60,20 @@ export const education = [
   },
 ];
 
-export const heroSocialLinks = [
-  { name: "LinkedIn", href: "#" },
+export const LINKEDIN_PROFILE_URL =
+  "https://www.linkedin.com/in/subash-kannan-217520339/";
+
+export const CONTACT_EMAIL_HREF = "mailto:imksubash007@gmail.com";
+
+/** Hero + footer — same links everywhere */
+export const socialLinks: {
+  name: "LinkedIn" | "GitHub" | "Email";
+  href: string;
+}[] = [
+  { name: "LinkedIn", href: LINKEDIN_PROFILE_URL },
   { name: "GitHub", href: "#" },
-  { name: "Email", href: "mailto:imksubash007@gmail.com" },
-] as const;
+  { name: "Email", href: CONTACT_EMAIL_HREF },
+];
 
 /** Served from `public/` — Vite exposes as root URL */
 export const HERO_IMAGE_SRC = "/1771043543078.jpeg";
