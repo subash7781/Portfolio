@@ -75,7 +75,7 @@ export const socialLinks: {
 ];
 
 /** Served from `public/` — Vite exposes as root URL */
-export const HERO_IMAGE_SRC = "/1771043543078.jpeg";
+export const HERO_IMAGE_SRC = "/profile.png";
 
 /** Resume PDF in `public/` */
 export const CV_PDF_HREF = "/Subash_cv.pdf";
