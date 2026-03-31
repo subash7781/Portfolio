@@ -65,17 +65,20 @@ export const education = [
   },
   {
     type: "Certification",
-    title: "Advanced Data Visualization",
-    institution: "UC Davis / Claude Certified",
-    location: "Remote",
-    period: "Cred ID: DS-99210",
+    title: "SQL for Data Science",
+    institution: "University of California, Davis",
+    location: "Coursera",
+    period: "2024",
+    credentialUrl:
+      "https://www.coursera.org/account/accomplishments/verify/YWV7WCFCFDEC?utm_source=link&utm_medium=certificate&utm_content=cert_image&utm_campaign=sharing_cta&utm_product=course",
   },
   {
-    type: "Technical Mastery",
-    title: "SQL for Data Science",
-    institution: "Professional Certificate",
-    location: "Online",
-    period: "2022",
+    type: "Certification",
+    title: "Claude 101",
+    institution: "Anthropic",
+    location: "Remote",
+    period: "2024",
+    credentialUrl: "https://verify.skilljar.com/c/2zoacjan4ehz",
   },
 ];
 

@@ -1,5 +1,6 @@
 import { motion } from "motion/react";
 import { education } from "../data/content";
+import { ExternalLink } from "lucide-react";
 
 export function EducationSection() {
   return (
@@ -38,6 +39,17 @@ export function EducationSection() {
                   <p className="text-on-surface-variant font-medium text-lg">
                     {item.institution}
                   </p>
+                  {item.credentialUrl && (
+                    <a
+                      href={item.credentialUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 mt-2 text-sm font-medium text-tertiary-container hover:text-tertiary-fixed transition-colors"
+                    >
+                      <span>Show credential</span>
+                      <ExternalLink size={14} />
+                    </a>
+                  )}
                 </div>
                 <div className="md:text-right flex flex-col justify-end">
                   <div className="text-base font-bold text-primary">
