@@ -35,31 +35,25 @@ export function ContactSection() {
         <h2 className="text-6xl md:text-8xl font-bold tracking-tighter leading-[0.85]">
           Let&apos;s discuss data architecture.
         </h2>
-        <div className="flex flex-col sm:flex-row justify-center gap-6 pt-8">
-          {!showForm && (
+        {!showForm ? (
+          <div className="flex flex-col sm:flex-row justify-center gap-6 pt-8">
             <button
               onClick={() => setShowForm(true)}
               className="bg-surface-container-lowest text-primary font-bold px-12 py-6 text-sm uppercase tracking-widest transition-all hover:bg-tertiary-fixed hover:text-on-tertiary-fixed active:scale-95 inline-flex justify-center"
             >
               Initiate Email
             </button>
-          )}
-          <a
-            href={LINKEDIN_PROFILE_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="border border-on-primary-container text-on-primary font-bold px-12 py-6 text-sm uppercase tracking-widest transition-all hover:bg-on-primary-fixed-variant active:scale-95 inline-flex justify-center"
-          >
-            LinkedIn
-          </a>
-        </div>
-
-        {/* Client Details Collection Section - shown after clicking Initiate Email */}
-        {showForm && (
-          <div className="pt-16 border-t border-on-primary-container/30 mt-16 animate-fadeIn">
-            <h3 className="font-label text-[10px] uppercase tracking-[0.5em] text-on-primary-container mb-12">
-              Share Your Details
-            </h3>
+            <a
+              href={LINKEDIN_PROFILE_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="border border-on-primary-container text-on-primary font-bold px-12 py-6 text-sm uppercase tracking-widest transition-all hover:bg-on-primary-fixed-variant active:scale-95 inline-flex justify-center"
+            >
+              LinkedIn
+            </a>
+          </div>
+        ) : (
+          <div className="pt-8 animate-fadeIn">
             <form className="max-w-5xl mx-auto" onSubmit={handleSubmit}>
               <div className="flex flex-col md:flex-row justify-center items-start gap-8 md:gap-12">
                 <div className="flex-1 text-center md:text-left w-full">
