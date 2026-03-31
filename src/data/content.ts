@@ -62,7 +62,7 @@ export const education = [
 export const LINKEDIN_PROFILE_URL =
   "https://www.linkedin.com/in/subash-kannan-217520339/";
 
-export const CONTACT_EMAIL_HREF = "mailto:imksubash007@gmail.com";
+export const CONTACT_EMAIL_HREF = "mailto:subashkannan.work@gmail.com";
 
 /** Hero + footer — same links everywhere */
 export const socialLinks: {
@@ -70,7 +70,7 @@ export const socialLinks: {
   href: string;
 }[] = [
   { name: "LinkedIn", href: LINKEDIN_PROFILE_URL },
-  { name: "GitHub", href: "#" },
+  { name: "GitHub", href: "https://github.com/subash7781" },
   { name: "Email", href: CONTACT_EMAIL_HREF },
 ];
 
