@@ -6,6 +6,7 @@
 import { BentoSection } from "./components/BentoSection";
 import { ContactSection } from "./components/ContactSection";
 import { EducationSection } from "./components/EducationSection";
+import { ExperienceSection } from "./components/ExperienceSection";
 import { Footer } from "./components/Footer";
 import { Hero } from "./components/Hero";
 import { ImpactSection } from "./components/ImpactSection";
@@ -22,6 +23,7 @@ export default function App() {
         <ImpactSection />
         <BentoSection />
         <ProjectsSection />
+        <ExperienceSection />
         <EducationSection />
         <ContactSection />
       </main>
