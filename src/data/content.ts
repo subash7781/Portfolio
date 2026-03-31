@@ -39,17 +39,17 @@ export const skills: {
 export const experience = [
   {
     type: "Full-time",
-    title: "Founder & Business Operations Analyst",
+    title: "Business Operations Analyst",
     company: "Sri Ganapathy Stone Works",
     location: "Coimbatore, India",
     period: "Dec 2024 - Dec 2025",
     highlights: [
-      "Drove a 20% increase in company profitability by conducting financial modelling and revenue analysis using Excel and SQL, identifying pricing inefficiencies — directly translating data insights into strategic decisions within a B2C commerce environment.",
-      "Led market research and competitive analysis to identify growth opportunities, inform pricing strategies, and feed business targets — mirroring the market intelligence responsibilities central to TikTok Commerce's account management function.",
+      "Drove a 20% increase in company profitability by conducting financial modelling and revenue analysis using Excel and SQL, identifying pricing inefficiencies — directly translating data insights into strategic decisions within a B2B commerce environment.",
+      "Led market research and competitive analysis to identify growth opportunities, inform pricing strategies, and feed business targets — mirroring the market intelligence responsibilities central to enterprise account management functions.",
       "Performed data consolidation and analysis on daily sales, inventory, and procurement data using SQL and Excel, enabling real-time performance tracking and stakeholder reporting aligned with data-driven lead management and operational support.",
       "Built and maintained interactive Excel dashboards and KPI reports, delivering clear data storytelling to senior leadership — directly supporting performance tracking and showcase-style reporting for business partners.",
       "Collaborated cross-functionally with suppliers and operations teams, applying KPI-backed insights to reduce procurement costs by 2.5% and improve supply chain efficiency — demonstrating strong stakeholder engagement and organisational planning skills.",
-      "Resolved operational and supply-demand imbalances by applying statistical analysis and data modelling, improving cost control and reinforcing data-backed process improvements in a fast-paced B2C setting.",
+      "Resolved operational and supply-demand imbalances by applying statistical analysis and data modelling, improving cost control and reinforcing data-backed process improvements in a fast-paced B2B setting.",
       "Streamlined workflows through continuous process improvement and automation initiatives, identifying performance gaps and implementing solutions — showcasing the proactive, detail-oriented approach required for general operational support.",
     ],
   },

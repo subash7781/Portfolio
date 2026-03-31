@@ -7,8 +7,15 @@
 - [App.tsx](file://src/App.tsx)
 - [index.css](file://src/index.css)
 - [Navigation.tsx](file://src/components/Navigation.tsx)
+- [ExperienceSection.tsx](file://src/components/ExperienceSection.tsx)
 - [package.json](file://package.json)
 </cite>
+
+## Update Summary
+**Changes Made**
+- Updated anchor navigation section to reflect the corrected section ID implementation
+- Enhanced troubleshooting guide with navigation-related debugging steps
+- Added comprehensive explanation of proper anchor navigation setup
 
 ## Table of Contents
 1. [Introduction](#introduction)
@@ -16,16 +23,19 @@
 3. [Core Components](#core-components)
 4. [Architecture Overview](#architecture-overview)
 5. [Detailed Component Analysis](#detailed-component-analysis)
-6. [Dependency Analysis](#dependency-analysis)
-7. [Performance Considerations](#performance-considerations)
-8. [Troubleshooting Guide](#troubleshooting-guide)
-9. [Conclusion](#conclusion)
+6. [Anchor Navigation and Section IDs](#anchor-navigation-and-section-ids)
+7. [Dependency Analysis](#dependency-analysis)
+8. [Performance Considerations](#performance-considerations)
+9. [Troubleshooting Guide](#troubleshooting-guide)
+10. [Conclusion](#conclusion)
 
 ## Introduction
 
 The EducationSection component is a specialized React component designed to present academic background and professional certifications in a visually appealing timeline format. This component serves as a crucial element in establishing educational credentials and professional qualifications for data analysts and professionals in the technology field.
 
 The component utilizes modern React patterns including TypeScript interfaces, TailwindCSS styling, and Framer Motion animations to create an engaging user experience. It dynamically renders educational entries with smooth entrance animations and responsive design patterns that adapt to different screen sizes.
+
+**Updated**: The component now features properly configured anchor navigation with the correct section ID `"education"` for seamless page navigation.
 
 ## Project Structure
 
@@ -41,6 +51,7 @@ EducationSection[EducationSection.tsx]
 Navigation[Navigation.tsx]
 Hero[Hero.tsx]
 ProjectsSection[ProjectsSection.tsx]
+ExperienceSection[ExperienceSection.tsx]
 end
 subgraph "Data Layer"
 Content[content.ts]
@@ -59,6 +70,8 @@ EducationSection --> Motion
 EducationSection --> Tailwind
 App --> Navigation
 Navigation --> Content
+App --> ExperienceSection
+ExperienceSection --> Content
 App --> CSS
 ```
 
@@ -66,6 +79,7 @@ App --> CSS
 - [App.tsx:15-32](file://src/App.tsx#L15-L32)
 - [EducationSection.tsx:1-58](file://src/components/EducationSection.tsx#L1-L58)
 - [content.ts:38-60](file://src/data/content.ts#L38-L60)
+- [ExperienceSection.tsx:1-80](file://src/components/ExperienceSection.tsx#L1-L80)
 
 **Section sources**
 - [App.tsx:15-32](file://src/App.tsx#L15-L32)
@@ -97,7 +111,7 @@ ComponentProps --> EducationEntry : "renders"
 ```
 
 **Diagram sources**
-- [content.ts:38-60](file://src/data/content.ts#L38-L60)
+- [content.ts:58-80](file://src/data/content.ts#L58-L80)
 
 The educational data structure consists of five essential fields:
 
@@ -108,7 +122,7 @@ The educational data structure consists of five essential fields:
 - **period**: Timeframe or credential identifier
 
 **Section sources**
-- [content.ts:38-60](file://src/data/content.ts#L38-L60)
+- [content.ts:58-80](file://src/data/content.ts#L58-L80)
 
 ## Architecture Overview
 
@@ -123,7 +137,7 @@ participant Section as EducationSection.tsx
 participant Data as content.ts
 participant Motion as motion/react
 participant Tailwind as TailwindCSS
-User->>Nav : Scroll to Experience
+User->>Nav : Click Education Link
 Nav->>App : Update active section
 App->>Section : Render EducationSection
 Section->>Data : Import education array
@@ -137,7 +151,7 @@ Note over Section,Data : Dynamic rendering of educational entries
 **Diagram sources**
 - [App.tsx:24-25](file://src/App.tsx#L24-L25)
 - [EducationSection.tsx:22-51](file://src/components/EducationSection.tsx#L22-L51)
-- [content.ts:38-60](file://src/data/content.ts#L38-L60)
+- [content.ts:58-80](file://src/data/content.ts#L58-L80)
 
 The component follows a unidirectional data flow pattern where the App component orchestrates rendering, the EducationSection handles presentation logic, and the content.ts file provides the data layer.
 
@@ -220,7 +234,7 @@ The component supports multiple certification types through the `type` field, en
 
 **Section sources**
 - [EducationSection.tsx:32-48](file://src/components/EducationSection.tsx#L32-L48)
-- [content.ts:38-60](file://src/data/content.ts#L38-L60)
+- [content.ts:58-80](file://src/data/content.ts#L58-L80)
 
 ### Academic Background Presentation
 
@@ -246,6 +260,89 @@ Location --> Period
 
 **Section sources**
 - [EducationSection.tsx:31-49](file://src/components/EducationSection.tsx#L31-L49)
+
+## Anchor Navigation and Section IDs
+
+**Updated**: The EducationSection component now features properly configured anchor navigation with the correct section ID.
+
+The component's anchor navigation system is built on a coordinated relationship between three key elements:
+
+### Section ID Configuration
+
+The EducationSection component defines its unique anchor point using the `id` attribute:
+
+```typescript
+<section
+  id="education"
+  className="py-32 px-8 md:px-16 lg:px-24 bg-surface-container-high"
+>
+```
+
+**Section sources**
+- [EducationSection.tsx:6-8](file://src/components/EducationSection.tsx#L6-L8)
+
+### Navigation Link Synchronization
+
+The navigation component maintains a synchronized mapping between link names and section IDs:
+
+```typescript
+export const navLinks: {
+  name: string;
+  href: string;
+}[] = [
+  { name: "Home", href: "#home" },
+  { name: "Experience", href: "#experience" },
+  { name: "Projects", href: "#projects" },
+  { name: "Education", href: "#education" }, // ✅ Correctly points to education section
+  { name: "Contact", href: "#contact" },
+];
+```
+
+**Section sources**
+- [content.ts:10-19](file://src/data/content.ts#L10-L19)
+
+### Active State Management
+
+The Navigation component automatically manages active states based on scroll position:
+
+```typescript
+function hrefToSectionId(href: string): string {
+  return href.replace(/^#/, ""); // Converts "#education" to "education"
+}
+
+// ... scroll event handling ...
+for (const id of sectionIds) {
+  const el = document.getElementById(id); // ✅ Finds element with id="education"
+  // ... positioning logic ...
+}
+```
+
+**Section sources**
+- [Navigation.tsx:6-8](file://src/components/Navigation.tsx#L6-L8)
+- [Navigation.tsx:21-29](file://src/components/Navigation.tsx#L21-L29)
+
+### Navigation Flow
+
+```mermaid
+sequenceDiagram
+participant User as User
+participant Nav as Navigation.tsx
+participant Browser as Browser
+participant Section as EducationSection.tsx
+User->>Nav : Click "Education" link
+Nav->>Browser : Navigate to #education
+Browser->>Section : Scroll to element with id="education"
+Section->>Nav : Update active state to "education"
+Nav-->>User : Highlight active navigation item
+```
+
+**Diagram sources**
+- [Navigation.tsx:49-83](file://src/components/Navigation.tsx#L49-L83)
+- [EducationSection.tsx:6-8](file://src/components/EducationSection.tsx#L6-L8)
+
+**Section sources**
+- [Navigation.tsx:49-83](file://src/components/Navigation.tsx#L49-L83)
+- [EducationSection.tsx:6-8](file://src/components/EducationSection.tsx#L6-L8)
 
 ## Dependency Analysis
 
@@ -274,12 +371,14 @@ end
 subgraph "Data Dependencies"
 content.ts --> TypeScript
 App.tsx --> React
+ExperienceSection --> content
 end
 ```
 
 **Diagram sources**
 - [package.json:13-24](file://package.json#L13-L24)
 - [EducationSection.tsx:1](file://src/components/EducationSection.tsx#L1)
+- [ExperienceSection.tsx:1](file://src/components/ExperienceSection.tsx#L1)
 
 ### Internal Dependencies
 
@@ -291,16 +390,18 @@ App[App.tsx] --> EducationSection[EducationSection.tsx]
 EducationSection --> content[content.ts]
 Navigation --> content
 content --> EducationData[Education Array]
+content --> ExperienceData[Experience Array]
 style App fill:#e1f5fe
 style EducationSection fill:#f3e5f5
 style content fill:#e8f5e8
 style EducationData fill:#fff3e0
+style ExperienceData fill:#f3e5f5
 ```
 
 **Diagram sources**
 - [App.tsx:8](file://src/App.tsx#L8)
 - [EducationSection.tsx:2](file://src/components/EducationSection.tsx#L2)
-- [content.ts:38](file://src/data/content.ts#L38)
+- [content.ts:58](file://src/data/content.ts#L58)
 
 **Section sources**
 - [package.json:13-24](file://package.json#L13-L24)
@@ -356,16 +457,22 @@ The component follows React best practices for memory efficiency:
 - **Solution**: Review grid column definitions and media queries
 - **Check**: Ensure consistent spacing and padding values
 
+**Issue**: Anchor navigation not working
+- **Cause**: Mismatched section ID and navigation link
+- **Solution**: Verify EducationSection has `id="education"` matches navigation link
+- **Check**: Ensure Navigation component converts `href` to correct `id` format
+
 ### Debugging Tips
 
 1. **Console Logging**: Add temporary console.log statements in the education mapping
 2. **Props Validation**: Implement runtime validation for educational data
 3. **Animation Testing**: Test animations in isolation with static data
 4. **Responsive Testing**: Use browser developer tools to test different screen sizes
+5. **Navigation Testing**: Use browser dev tools to verify element with `id="education"` exists
 
 **Section sources**
 - [EducationSection.tsx:22-51](file://src/components/EducationSection.tsx#L22-L51)
-- [content.ts:38-60](file://src/data/content.ts#L38-L60)
+- [content.ts:58-80](file://src/data/content.ts#L58-L80)
 
 ## Conclusion
 
@@ -373,12 +480,15 @@ The EducationSection component represents a sophisticated implementation of educ
 
 The component's strength lies in its modular design that separates concerns between data, presentation, and interaction patterns. This separation enables easy maintenance, extensibility, and consistent user experience across different devices and screen sizes.
 
+**Updated**: The component now features properly configured anchor navigation with the correct section ID `"education"`, ensuring seamless navigation between sections and proper active state management in the navigation bar.
+
 Key architectural strengths include:
 - Clean separation of data and presentation logic
 - Responsive design patterns that adapt to various screen sizes
 - Performance-conscious animation implementation
 - Type-safe TypeScript integration
 - Consistent styling through TailwindCSS utility classes
+- Proper anchor navigation with synchronized section IDs and navigation links
 
 The component successfully establishes educational credentials by presenting information in a clear, hierarchical format that emphasizes institutional reputation, academic achievements, and professional certifications. Its timeline visualization creates a logical narrative flow that helps visitors quickly understand the educational journey and professional development timeline.
 
