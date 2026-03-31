@@ -64,6 +64,17 @@ export const LINKEDIN_PROFILE_URL =
 
 export const CONTACT_EMAIL_HREF = "mailto:subashkannan.work@gmail.com";
 
+/** Gmail compose URL for direct Gmail opening */
+export const GMAIL_COMPOSE_URL =
+  "https://mail.google.com/mail/?view=cm&fs=1&to=subashkannan.work@gmail.com";
+
+/** Client contact details for reference */
+export const clientDetails = {
+  name: "Subash Kannan",
+  email: "subashkannan.work@gmail.com",
+  phone: "+353 874380146",
+};
+
 /** Hero + footer — same links everywhere */
 export const socialLinks: {
   name: "LinkedIn" | "GitHub" | "Email";
