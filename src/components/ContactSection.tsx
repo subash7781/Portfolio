@@ -36,12 +36,14 @@ export function ContactSection() {
           Let&apos;s discuss data architecture.
         </h2>
         <div className="flex flex-col sm:flex-row justify-center gap-6 pt-8">
-          <button
-            onClick={() => setShowForm(true)}
-            className="bg-surface-container-lowest text-primary font-bold px-12 py-6 text-sm uppercase tracking-widest transition-all hover:bg-tertiary-fixed hover:text-on-tertiary-fixed active:scale-95 inline-flex justify-center"
-          >
-            Initiate Email
-          </button>
+          {!showForm && (
+            <button
+              onClick={() => setShowForm(true)}
+              className="bg-surface-container-lowest text-primary font-bold px-12 py-6 text-sm uppercase tracking-widest transition-all hover:bg-tertiary-fixed hover:text-on-tertiary-fixed active:scale-95 inline-flex justify-center"
+            >
+              Initiate Email
+            </button>
+          )}
           <a
             href={LINKEDIN_PROFILE_URL}
             target="_blank"
