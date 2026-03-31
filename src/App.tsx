@@ -22,8 +22,8 @@ export default function App() {
         <Hero />
         <ImpactSection />
         <BentoSection />
-        <ProjectsSection />
         <ExperienceSection />
+        <ProjectsSection />
         <EducationSection />
         <ContactSection />
       </main>
