@@ -93,7 +93,7 @@ export const education = [
   {
     type: "Certification",
     title: "SQL for Data Science",
-    institution: "University of California, Davis",
+    institution: "University of California, Davis, United States of America",
     location: "Coursera",
     period: "2022",
     credentialUrl:

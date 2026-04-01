@@ -35,7 +35,7 @@ export function EducationSection() {
                       <img
                         src={item.logo}
                         alt={`${item.institution} logo`}
-                        className={`w-full h-full object-contain ${item.institution.includes('Dublin Business') ? 'scale-150' : ''}`}
+                        className={`w-full h-full object-contain ${(item.institution.includes('Dublin Business') || item.institution.includes('California')) ? 'scale-150' : ''}`}
                         onError={(e) => {
                           (e.target as HTMLImageElement).style.display = 'none';
                         }}
