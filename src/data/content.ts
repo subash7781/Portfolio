@@ -4,7 +4,10 @@ import {
   Terminal,
   BarChart3,
   Table,
-  Sigma,
+  GitBranch,
+  Cloud,
+  LineChart,
+  Layers,
 } from "lucide-react";
 
 export const navLinks: {
@@ -18,22 +21,28 @@ export const navLinks: {
   { name: "Contact", href: "#contact" },
 ];
 
+export type SkillTier = "must-have" | "good-to-have" | "edge";
+
 export const skills: {
   name: string;
   icon: LucideIcon;
   level: number;
+  tier: SkillTier;
   fullWidth?: boolean;
 }[] = [
-  { name: "SQL", icon: Database, level: 90 },
-  { name: "Python", icon: Terminal, level: 85 },
-  { name: "Power BI", icon: BarChart3, level: 95 },
-  { name: "Excel", icon: Table, level: 98 },
-  {
-    name: "Statistics & Probabilities",
-    icon: Sigma,
-    level: 80,
-    fullWidth: true,
-  },
+  { name: "SQL", icon: Database, level: 90, tier: "must-have" },
+  { name: "Power BI", icon: BarChart3, level: 95, tier: "must-have" },
+  { name: "Excel / Pivot Tables", icon: Table, level: 98, tier: "must-have" },
+  { name: "Python (pandas, matplotlib)", icon: Terminal, level: 85, tier: "must-have" },
+  { name: "Tableau", icon: LineChart, level: 75, tier: "good-to-have" },
+  { name: "Data Modelling", icon: Layers, level: 80, tier: "good-to-have" },
+  { name: "ETL Basics", icon: GitBranch, level: 72, tier: "good-to-have" },
+  { name: "Azure / Snowflake", icon: Cloud, level: 60, tier: "edge" },
+];
+
+/** Visible skills pill row on Hero — above the fold */
+export const heroSkillPills = [
+  "SQL", "Python", "Power BI", "Excel", "Tableau",
 ];
 
 export const experience = [

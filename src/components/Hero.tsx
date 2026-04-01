@@ -1,6 +1,6 @@
 import { motion } from "motion/react";
-import { Linkedin, Github, Mail, MapPin } from "lucide-react";
-import { HERO_IMAGE_SRC, socialLinks } from "../data/content";
+import { Linkedin, Github, Mail, MapPin, ShieldCheck } from "lucide-react";
+import { HERO_IMAGE_SRC, socialLinks, heroSkillPills } from "../data/content";
 
 const socialIcons = {
   LinkedIn: Linkedin,
@@ -20,7 +20,7 @@ export function Hero() {
         >
           <div className="space-y-4">
             <span className="font-label text-[10px] uppercase tracking-[0.3em] text-secondary">
-              Business Analytics Specialist
+              Data Analyst — Dublin, Ireland
             </span>
             <h1 className="text-7xl md:text-9xl font-bold tracking-tighter text-primary leading-[0.85]">
               Subash
@@ -35,10 +35,44 @@ export function Hero() {
           </div>
 
           <p className="max-w-xl text-lg text-on-surface-variant leading-relaxed font-body">
-            Synthesizing raw operational data into high-fidelity strategic
-            frameworks. Focused on the intersection of B2C e-commerce logistics
-            and TikTok Commerce scalability.
+            Data analyst based in Dublin. I turn messy datasets into clear
+            decisions using SQL, Python, and Power BI. MSc in Business Analytics
+            from Dublin Business School.
           </p>
+
+          {/* Work authorisation badge */}
+          <motion.div
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4, duration: 0.5 }}
+            className="inline-flex items-center gap-2 bg-tertiary-fixed/10 border border-tertiary-fixed/30 text-primary px-4 py-2 rounded-full"
+          >
+            <ShieldCheck size={14} className="text-tertiary-container" />
+            <span className="font-label text-[11px] uppercase tracking-[0.2em] font-bold">
+              Stamp 1G — Work Authorised in Ireland
+            </span>
+          </motion.div>
+
+          {/* Skills pill row — visible above the fold */}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5, duration: 0.5 }}
+            className="flex flex-wrap gap-2"
+          >
+            {heroSkillPills.map((skill, i) => (
+              <motion.span
+                key={skill}
+                initial={{ opacity: 0, scale: 0.85 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.55 + i * 0.07 }}
+                whileHover={{ scale: 1.08, y: -2 }}
+                className="bg-primary text-on-primary font-label text-[11px] uppercase tracking-[0.15em] px-4 py-2 font-bold cursor-default select-none"
+              >
+                {skill}
+              </motion.span>
+            ))}
+          </motion.div>
 
           <div className="flex flex-wrap gap-8 pt-4">
             {socialLinks.map((social) => {

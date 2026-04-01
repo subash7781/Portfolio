@@ -1,5 +1,5 @@
-import { motion, useInView, useMotionValue, useSpring, useTransform } from "motion/react";
-import { useRef, useEffect } from "react";
+import { motion, useInView, useMotionValue, useSpring, useTransform, AnimatePresence } from "motion/react";
+import { useRef, useEffect, useState, useCallback, type MouseEvent } from "react";
 
 function AnimatedNumber({ value, suffix = "" }: { value: number; suffix?: string }) {
   const ref = useRef(null);
@@ -9,117 +9,441 @@ function AnimatedNumber({ value, suffix = "" }: { value: number; suffix?: string
   const display = useTransform(spring, (v) =>
     suffix === "%" ? `+${v.toFixed(v < 10 ? 1 : 0)}%` : `+${Math.round(v)}`
   );
-
   useEffect(() => {
     if (isInView) motionValue.set(value);
   }, [isInView, motionValue, value]);
-
   return <motion.span ref={ref}>{display}</motion.span>;
 }
 
+// ── ProfitChart SVG config ──────────────────────────────────────────────────
+const PW = 420;
+const PH = 140;
+const PP_L = 28;
+const PP_R = 8;
+const PP_T = 14;
+const PP_B = 24;
+const PC_W = PW - PP_L - PP_R;
+const PC_H = PH - PP_T - PP_B;
+
+const LINE_DATA = [
+  { month: "Jan", short: "J", value: 4 },
+  { month: "Feb", short: "F", value: 6 },
+  { month: "Mar", short: "M", value: 5 },
+  { month: "Apr", short: "A", value: 8 },
+  { month: "May", short: "M", value: 7 },
+  { month: "Jun", short: "J", value: 10 },
+  { month: "Jul", short: "J", value: 12 },
+  { month: "Aug", short: "A", value: 14 },
+  { month: "Sep", short: "S", value: 16 },
+  { month: "Oct", short: "O", value: 17 },
+  { month: "Nov", short: "N", value: 19 },
+  { month: "Dec", short: "D", value: 20 },
+];
+const P_MAX = 22;
+const P_COUNT = LINE_DATA.length;
+
+function ptX(i: number) {
+  return PP_L + (i / (P_COUNT - 1)) * PC_W;
+}
+function ptY(v: number) {
+  return PP_T + PC_H - (v / P_MAX) * PC_H;
+}
+
+function buildLinePath() {
+  return LINE_DATA.map((d, i) => `${i === 0 ? "M" : "L"}${ptX(i).toFixed(1)},${ptY(d.value).toFixed(1)}`).join(" ");
+}
+function buildAreaPath() {
+  const line = LINE_DATA.map((d, i) => `${i === 0 ? "M" : "L"}${ptX(i).toFixed(1)},${ptY(d.value).toFixed(1)}`).join(" ");
+  return `${line} L${ptX(P_COUNT - 1).toFixed(1)},${(PP_T + PC_H).toFixed(1)} L${PP_L.toFixed(1)},${(PP_T + PC_H).toFixed(1)} Z`;
+}
+
 function ProfitChart() {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true });
-  const points = [80, 75, 85, 60, 65, 40, 45, 20, 25, 5, 10];
-  const xs = [0, 40, 80, 120, 160, 200, 240, 280, 320, 360, 400];
+  const svgRef = useRef<SVGSVGElement>(null);
+  const wrapRef = useRef<HTMLDivElement>(null);
+  const isInView = useInView(wrapRef, { once: true });
+  const [animated, setAnimated] = useState(false);
+  const [hovered, setHovered] = useState<number | null>(null);
+
+  useEffect(() => {
+    if (isInView) {
+      const t = setTimeout(() => setAnimated(true), 100);
+      return () => clearTimeout(t);
+    }
+  }, [isInView]);
+
+  const handleMouseMove = useCallback((e: MouseEvent<SVGSVGElement>) => {
+    const svg = svgRef.current;
+    if (!svg) return;
+    const rect = svg.getBoundingClientRect();
+    const svgX = (e.clientX - rect.left) * (PW / rect.width);
+    if (svgX < PP_L || svgX > PP_L + PC_W) { setHovered(null); return; }
+    // snap to nearest point
+    const frac = (svgX - PP_L) / PC_W;
+    const idx = Math.round(frac * (P_COUNT - 1));
+    setHovered(Math.max(0, Math.min(P_COUNT - 1, idx)));
+  }, []);
+
+  const gridVals = [5, 10, 15, 20];
 
   return (
-    <div ref={ref} className="relative w-full h-28 mt-6">
-      <svg viewBox="0 0 400 100" className="w-full h-full" preserveAspectRatio="none">
+    <div ref={wrapRef} className="w-full mt-4 select-none cursor-crosshair">
+      <svg
+        ref={svgRef}
+        viewBox={`0 0 ${PW} ${PH}`}
+        className="w-full"
+        style={{ height: 160, overflow: "visible" }}
+        onMouseMove={handleMouseMove}
+        onMouseLeave={() => setHovered(null)}
+      >
         <defs>
-          <linearGradient id="profitGrad" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#4ade80" stopOpacity="0.4" />
-            <stop offset="100%" stopColor="#4ade80" stopOpacity="0" />
+          <linearGradient id="lineAreaGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="#4ade80" stopOpacity="0.35" />
+            <stop offset="100%" stopColor="#4ade80" stopOpacity="0.02" />
           </linearGradient>
+          <filter id="dotGlow">
+            <feGaussianBlur stdDeviation="2.5" result="blur" />
+            <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+          </filter>
         </defs>
-        {/* Grid lines */}
-        {[25, 50, 75].map((y) => (
-          <line key={y} x1="0" y1={y} x2="400" y2={y} stroke="currentColor" strokeWidth="0.5" className="text-on-surface-variant/10" />
-        ))}
+
+        {/* Grid lines + Y labels */}
+        {gridVals.map((v) => {
+          const y = ptY(v);
+          return (
+            <g key={v}>
+              <line x1={PP_L} y1={y} x2={PW - PP_R} y2={y}
+                stroke="currentColor" strokeWidth="0.4"
+                strokeDasharray="3 4"
+                style={{ color: "rgba(74,222,128,0.15)" }}
+              />
+              <text x={PP_L - 4} y={y + 3.5} textAnchor="end"
+                fontSize="7" fill="rgba(74,222,128,0.4)" fontFamily="monospace">
+                {v}%
+              </text>
+            </g>
+          );
+        })}
+
+        {/* Baseline */}
+        <line x1={PP_L} y1={PP_T + PC_H} x2={PW - PP_R} y2={PP_T + PC_H}
+          stroke="currentColor" strokeWidth="1" style={{ color: "rgba(74,222,128,0.25)" }} />
+
         {/* Area fill */}
         <motion.path
-          d={`M0,100 ${xs.map((x, i) => `L${x},${points[i]}`).join(" ")} L400,100 Z`}
-          fill="url(#profitGrad)"
+          d={buildAreaPath()}
+          fill="url(#lineAreaGrad)"
           initial={{ opacity: 0 }}
-          animate={isInView ? { opacity: 1 } : {}}
-          transition={{ duration: 1, delay: 0.3 }}
+          animate={animated ? { opacity: 1 } : { opacity: 0 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
         />
+
         {/* Line */}
         <motion.path
-          d={`M${xs.map((x, i) => `${x},${points[i]}`).join(" L")}`}
+          d={buildLinePath()}
           fill="none"
           stroke="#4ade80"
           strokeWidth="2.5"
           strokeLinecap="round"
           strokeLinejoin="round"
           initial={{ pathLength: 0 }}
-          animate={isInView ? { pathLength: 1 } : {}}
-          transition={{ duration: 1.5, ease: "easeInOut" }}
+          animate={animated ? { pathLength: 1 } : { pathLength: 0 }}
+          transition={{ duration: 1.6, ease: "easeInOut" }}
         />
-        {/* Dots on key points */}
-        {[2, 5, 8, 10].map((i) => (
+
+        {/* Static dots on all points */}
+        {LINE_DATA.map((d, i) => (
           <motion.circle
             key={i}
-            cx={xs[i]}
-            cy={points[i]}
-            r="4"
-            fill="#4ade80"
+            cx={ptX(i)} cy={ptY(d.value)} r={hovered === i ? 6 : 3}
+            fill={hovered === i ? "#ffffff" : "#4ade80"}
+            stroke={hovered === i ? "#4ade80" : "transparent"}
+            strokeWidth="2"
+            filter={hovered === i ? "url(#dotGlow)" : undefined}
             initial={{ opacity: 0, scale: 0 }}
-            animate={isInView ? { opacity: 1, scale: 1 } : {}}
-            transition={{ delay: 1.2 + i * 0.05, duration: 0.3 }}
+            animate={animated ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0 }}
+            transition={{ delay: 1.4 + i * 0.04, duration: 0.25, type: "spring", stiffness: 300 }}
+            style={{ transition: "r 0.12s, fill 0.12s" }}
           />
         ))}
-      </svg>
-      {/* Month labels */}
-      <div className="flex justify-between mt-1 px-1">
-        {["Jan", "Mar", "May", "Jul", "Sep", "Nov"].map((m) => (
-          <span key={m} className="text-[9px] text-on-surface-variant/40 font-label uppercase tracking-wider">{m}</span>
+
+        {/* Crosshair vertical line */}
+        {hovered !== null && (
+          <line
+            x1={ptX(hovered)} y1={PP_T}
+            x2={ptX(hovered)} y2={PP_T + PC_H}
+            stroke="#4ade80" strokeWidth="0.8"
+            strokeDasharray="3 3" opacity="0.5"
+          />
+        )}
+
+        {/* Horizontal crosshair line */}
+        {hovered !== null && (
+          <line
+            x1={PP_L} y1={ptY(LINE_DATA[hovered].value)}
+            x2={PW - PP_R} y2={ptY(LINE_DATA[hovered].value)}
+            stroke="#4ade80" strokeWidth="0.6"
+            strokeDasharray="2 4" opacity="0.35"
+          />
+        )}
+
+        {/* Tooltip bubble */}
+        {hovered !== null && (() => {
+          const d = LINE_DATA[hovered];
+          const cx = ptX(hovered);
+          const cy = ptY(d.value) - 16;
+          const bw = 72;
+          const bh = 20;
+          const bx = Math.min(Math.max(cx - bw / 2, PP_L), PW - PP_R - bw);
+          return (
+            <g>
+              <rect x={bx} y={cy - bh / 2} width={bw} height={bh} rx="10"
+                fill="#22543d" opacity="0.92" />
+              <text x={bx + bw / 2} y={cy + 4.5} textAnchor="middle"
+                fontSize="9" fontWeight="700" fill="#ffffff" fontFamily="monospace" letterSpacing="0.5">
+                {d.month} · +{d.value}%
+              </text>
+            </g>
+          );
+        })()}
+
+        {/* Month labels */}
+        {LINE_DATA.map((d, i) => (
+          <text key={i}
+            x={ptX(i)} y={PP_T + PC_H + 13}
+            textAnchor="middle" fontSize="8"
+            fontWeight={hovered === i ? "700" : "400"}
+            fill={hovered === i ? "#4ade80" : "rgba(74,222,128,0.4)"}
+            fontFamily="monospace"
+            style={{ transition: "fill 0.12s" }}
+          >
+            {d.short}
+          </text>
         ))}
-      </div>
+      </svg>
     </div>
   );
 }
+
+// SVG dimensions
+const W = 420;
+const H = 130;
+const PAD_L = 28;
+const PAD_R = 8;
+const PAD_T = 12;
+const PAD_B = 24;
+const CHART_W = W - PAD_L - PAD_R;
+const CHART_H = H - PAD_T - PAD_B;
+
+const BAR_DATA = [
+  { month: "Jan", short: "J", value: 65 },
+  { month: "Feb", short: "F", value: 58 },
+  { month: "Mar", short: "M", value: 72 },
+  { month: "Apr", short: "A", value: 61 },
+  { month: "May", short: "M", value: 78 },
+  { month: "Jun", short: "J", value: 70 },
+  { month: "Jul", short: "J", value: 82 },
+  { month: "Aug", short: "A", value: 75 },
+  { month: "Sep", short: "S", value: 88 },
+  { month: "Oct", short: "O", value: 80 },
+  { month: "Nov", short: "N", value: 91 },
+  { month: "Dec", short: "D", value: 85 },
+];
+
+const MAX_VAL = 100;
+const BAR_COUNT = BAR_DATA.length;
+const BAR_TOTAL_W = CHART_W / BAR_COUNT;
+const BAR_GAP = 3;
+const BAR_W = BAR_TOTAL_W - BAR_GAP;
+
+function barX(i: number) { return PAD_L + i * BAR_TOTAL_W + BAR_GAP / 2; }
+function barY(v: number) { return PAD_T + CHART_H - (v / MAX_VAL) * CHART_H; }
+function barH(v: number) { return (v / MAX_VAL) * CHART_H; }
 
 function ProcurementChart() {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true });
-  const bars = [65, 72, 68, 75, 71, 78, 74, 80, 77, 82, 79, 85];
-  const months = ["J", "F", "M", "A", "M", "J", "J", "A", "S", "O", "N", "D"];
+  const svgRef = useRef<SVGSVGElement>(null);
+  const wrapRef = useRef<HTMLDivElement>(null);
+  const isInView = useInView(wrapRef, { once: true });
+  const [hovered, setHovered] = useState<number | null>(null);
+  const [mousePos, setMousePos] = useState<{ x: number; y: number } | null>(null);
+  const [animated, setAnimated] = useState(false);
+
+  useEffect(() => {
+    if (isInView) {
+      const t = setTimeout(() => setAnimated(true), 100);
+      return () => clearTimeout(t);
+    }
+  }, [isInView]);
+
+  const handleMouseMove = useCallback((e: MouseEvent<SVGSVGElement>) => {
+    const svg = svgRef.current;
+    if (!svg) return;
+    const rect = svg.getBoundingClientRect();
+    const scaleX = W / rect.width;
+    const scaleY = H / rect.height;
+    const svgX = (e.clientX - rect.left) * scaleX;
+    const svgY = (e.clientY - rect.top) * scaleY;
+    // which bar?
+    const idx = Math.floor((svgX - PAD_L) / BAR_TOTAL_W);
+    if (idx >= 0 && idx < BAR_COUNT && svgX >= PAD_L && svgX <= PAD_L + CHART_W) {
+      setHovered(idx);
+      setMousePos({ x: svgX, y: svgY });
+    } else {
+      setHovered(null);
+      setMousePos(null);
+    }
+  }, []);
+
+  const handleMouseLeave = () => { setHovered(null); setMousePos(null); };
+
+  const gridLines = [25, 50, 75, 100];
 
   return (
-    <div ref={ref} className="w-full mt-6">
-      <div className="flex items-end gap-1.5 h-24">
-        {bars.map((h, i) => (
-          <div key={i} className="flex-1 flex flex-col items-center gap-1">
-            <motion.div
-              className="w-full rounded-sm bg-primary/70 relative overflow-hidden"
-              style={{ height: `${h}%` }}
-              initial={{ scaleY: 0, originY: 1 }}
-              animate={isInView ? { scaleY: 1 } : {}}
-              transition={{ delay: 0.3 + i * 0.06, duration: 0.5, ease: "easeOut" }}
-            >
-              <motion.div
-                className="absolute inset-0 bg-gradient-to-t from-primary to-primary/40"
-                initial={{ opacity: 0 }}
-                animate={isInView ? { opacity: 1 } : {}}
-                transition={{ delay: 0.8 + i * 0.06 }}
+    <div ref={wrapRef} className="w-full mt-4 select-none cursor-crosshair">
+      <svg
+        ref={svgRef}
+        viewBox={`0 0 ${W} ${H}`}
+        className="w-full"
+        style={{ height: 160, overflow: "visible" }}
+        onMouseMove={handleMouseMove}
+        onMouseLeave={handleMouseLeave}
+      >
+        <defs>
+          <linearGradient id="barGradNormal" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="#4a90d9" stopOpacity="0.95" />
+            <stop offset="100%" stopColor="#1e3a5f" stopOpacity="1" />
+          </linearGradient>
+          <linearGradient id="barGradHover" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="#7bc8ff" stopOpacity="1" />
+            <stop offset="100%" stopColor="#1a6ab5" stopOpacity="1" />
+          </linearGradient>
+          <filter id="barGlow">
+            <feGaussianBlur stdDeviation="2" result="blur" />
+            <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+          </filter>
+        </defs>
+
+        {/* Grid lines */}
+        {gridLines.map((v) => {
+          const y = PAD_T + CHART_H - (v / MAX_VAL) * CHART_H;
+          return (
+            <g key={v}>
+              <line x1={PAD_L} y1={y} x2={W - PAD_R} y2={y}
+                stroke="currentColor" strokeWidth="0.4"
+                strokeDasharray={v === 100 ? "0" : "3 4"}
+                style={{ color: "rgba(30,58,95,0.15)" }}
               />
-            </motion.div>
-          </div>
-        ))}
-      </div>
-      <div className="flex gap-1.5 mt-1">
-        {months.map((m) => (
-          <div key={m} className="flex-1 text-center">
-            <span className="text-[8px] text-on-surface-variant/40 font-label uppercase">{m}</span>
-          </div>
-        ))}
-      </div>
+              <text x={PAD_L - 4} y={y + 3.5} textAnchor="end"
+                fontSize="7" fill="rgba(30,58,95,0.35)" fontFamily="monospace">
+                {v}
+              </text>
+            </g>
+          );
+        })}
+
+        {/* Baseline */}
+        <line x1={PAD_L} y1={PAD_T + CHART_H} x2={W - PAD_R} y2={PAD_T + CHART_H}
+          stroke="currentColor" strokeWidth="1" style={{ color: "rgba(30,58,95,0.3)" }} />
+
+        {/* Bars */}
+        {BAR_DATA.map((bar, i) => {
+          const x = barX(i);
+          const h = barH(bar.value);
+          const y = barY(bar.value);
+          const isH = hovered === i;
+
+          return (
+            <g key={i}>
+              {/* Bar shadow */}
+              {isH && (
+                <rect x={x + 1} y={y + 3} width={BAR_W} height={h}
+                  fill="rgba(30,58,95,0.18)" rx="2" />
+              )}
+              {/* Main bar */}
+              <motion.rect
+                x={x} rx={2}
+                width={BAR_W}
+                initial={{ height: 0, y: PAD_T + CHART_H }}
+                animate={animated ? {
+                  height: h,
+                  y: y,
+                } : { height: 0, y: PAD_T + CHART_H }}
+                transition={{
+                  delay: 0.15 + i * 0.055,
+                  duration: 0.55,
+                  ease: [0.34, 1.4, 0.64, 1],
+                  height: { duration: 0.55 },
+                  y: { duration: 0.55 },
+                }}
+                fill={isH ? "url(#barGradHover)" : "url(#barGradNormal)"}
+                filter={isH ? "url(#barGlow)" : undefined}
+                style={{ transition: "fill 0.15s" }}
+              />
+              {/* Top cap highlight */}
+              <motion.rect
+                x={x + 1} rx={2}
+                width={BAR_W - 2} height={3}
+                initial={{ opacity: 0, y: PAD_T + CHART_H }}
+                animate={animated ? {
+                  opacity: isH ? 0.8 : 0.4,
+                  y: y,
+                } : { opacity: 0, y: PAD_T + CHART_H }}
+                transition={{ delay: 0.15 + i * 0.055, duration: 0.55 }}
+                fill={isH ? "#a8d8ff" : "#6db3e8"}
+              />
+              {/* Month label */}
+              <text
+                x={x + BAR_W / 2}
+                y={PAD_T + CHART_H + 13}
+                textAnchor="middle"
+                fontSize="8"
+                fontWeight={isH ? "700" : "400"}
+                fill={isH ? "#1e3a5f" : "rgba(30,58,95,0.4)"}
+                fontFamily="monospace"
+                style={{ transition: "fill 0.15s, font-weight 0.15s" }}
+              >
+                {bar.short}
+              </text>
+            </g>
+          );
+        })}
+
+        {/* Crosshair vertical line */}
+        {hovered !== null && mousePos && (
+          <line
+            x1={barX(hovered) + BAR_W / 2}
+            y1={PAD_T}
+            x2={barX(hovered) + BAR_W / 2}
+            y2={PAD_T + CHART_H}
+            stroke="#4a90d9"
+            strokeWidth="0.8"
+            strokeDasharray="3 3"
+            opacity="0.5"
+          />
+        )}
+
+        {/* Hover tooltip bubble in SVG */}
+        {hovered !== null && (() => {
+          const bar = BAR_DATA[hovered];
+          const cx = barX(hovered) + BAR_W / 2;
+          const cy = barY(bar.value) - 14;
+          const bw = 64;
+          const bh = 20;
+          const bx = Math.min(Math.max(cx - bw / 2, PAD_L), W - PAD_R - bw);
+          return (
+            <g>
+              <rect x={bx} y={cy - bh / 2} width={bw} height={bh} rx="10"
+                fill="#1e3a5f" opacity="0.92" />
+              <text x={bx + bw / 2} y={cy + 4.5} textAnchor="middle"
+                fontSize="9" fontWeight="700" fill="#ffffff" fontFamily="monospace" letterSpacing="0.5">
+                {bar.month} · {bar.value}%
+              </text>
+            </g>
+          );
+        })()}
+      </svg>
     </div>
   );
-}
-
-export function ImpactSection() {
+}export function ImpactSection() {
   return (
     <section className="bg-surface-container-low py-32 px-8 md:px-16 lg:px-24">
       <div className="max-w-7xl mx-auto">
@@ -155,9 +479,13 @@ export function ImpactSection() {
               </span>
             </div>
             <div className="space-y-1 mt-4">
-              <div className="text-8xl font-bold text-tertiary-container tracking-tighter tabular-nums">
+              <motion.div
+                className="text-8xl font-bold text-tertiary-container tracking-tighter tabular-nums cursor-default select-none"
+                whileHover={{ scale: 1.05, x: 6 }}
+                transition={{ type: "spring", stiffness: 300 }}
+              >
                 <AnimatedNumber value={20} suffix="%" />
-              </div>
+              </motion.div>
               <h3 className="text-2xl font-bold text-primary tracking-tight">
                 Profit Margin Increase
               </h3>
@@ -190,9 +518,13 @@ export function ImpactSection() {
               </span>
             </div>
             <div className="space-y-1 mt-4">
-              <div className="text-8xl font-bold text-primary tracking-tighter tabular-nums">
+              <motion.div
+                className="text-8xl font-bold text-primary tracking-tighter tabular-nums cursor-default select-none"
+                whileHover={{ scale: 1.05, x: 6 }}
+                transition={{ type: "spring", stiffness: 300 }}
+              >
                 <AnimatedNumber value={2.5} suffix="%" />
-              </div>
+              </motion.div>
               <h3 className="text-2xl font-bold text-primary tracking-tight">
                 Procurement Cost Reduction
               </h3>
