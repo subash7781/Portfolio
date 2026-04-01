@@ -80,7 +80,7 @@ export function BentoSection() {
                       initial={{ width: 0 }}
                       whileInView={{ width: `${skill.level}%` }}
                       viewport={{ once: true }}
-                      transition={{ duration: 1.2, ease: "easeOut" }}
+                      transition={{ duration: 0.2, ease: "easeOut" }}
                       className="skill-bar-fill"
                     />
                   </div>

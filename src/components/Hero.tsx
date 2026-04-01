@@ -65,9 +65,11 @@ export function Hero() {
                 key={skill}
                 initial={{ opacity: 0, scale: 0.85 }}
                 animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.55 + i * 0.07 }}
-                whileHover={{ scale: 1.08, y: -2 }}
+                transition={{ delay: 0.55 + i * 0.07, type: "tween", duration: 0.2 }}
                 className="bg-primary text-on-primary font-label text-[11px] uppercase tracking-[0.15em] px-4 py-2 font-bold cursor-default select-none"
+                style={{ display: "inline-block", transition: "transform 80ms linear" }}
+                onMouseEnter={e => (e.currentTarget.style.transform = "scale(1.08) translateY(-2px)")}
+                onMouseLeave={e => (e.currentTarget.style.transform = "scale(1) translateY(0px)")}
               >
                 {skill}
               </motion.span>
