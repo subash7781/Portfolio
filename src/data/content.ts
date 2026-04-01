@@ -69,7 +69,7 @@ export const education = [
     title: "MSc in Business Analytics",
     institution: "Dublin Business School",
     location: "Dublin, IE",
-    period: "2024 - Present",
+    period: "2026 - Present",
     logo: "/dbs-logo.png",
   },
   {

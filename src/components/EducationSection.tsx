@@ -1,6 +1,6 @@
 import { motion } from "motion/react";
 import { education } from "../data/content";
-import { ExternalLink } from "lucide-react";
+import { ExternalLink, GraduationCap } from "lucide-react";
 
 export function EducationSection() {
   return (
@@ -30,15 +30,19 @@ export function EducationSection() {
                 className="bg-surface-container-lowest p-10 flex flex-col md:flex-row justify-between gap-8 group hover:bg-white transition-all cursor-default"
               >
                 <div className="flex items-start gap-6">
-                  {item.logo && (
-                    <div className="shrink-0 w-16 h-16 bg-surface-container-high rounded-lg p-2 flex items-center justify-center">
+                  <div className="shrink-0 w-16 h-16 bg-surface-container-high rounded-lg p-2 flex items-center justify-center">
+                    {item.logo ? (
                       <img
                         src={item.logo}
                         alt={`${item.institution} logo`}
                         className="max-w-full max-h-full object-contain"
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).style.display = 'none';
+                        }}
                       />
-                    </div>
-                  )}
+                    ) : null}
+                    <GraduationCap className="w-8 h-8 text-secondary" />
+                  </div>
                   <div className="space-y-3">
                     <div className="font-label text-[10px] uppercase tracking-[0.2em] text-secondary">
                       {item.type}
