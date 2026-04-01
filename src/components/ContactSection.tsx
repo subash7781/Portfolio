@@ -1,4 +1,5 @@
 import { useState, type FormEvent } from "react";
+import { motion, AnimatePresence } from "motion/react";
 import { LINKEDIN_PROFILE_URL } from "../data/content";
 
 export function ContactSection() {
@@ -35,86 +36,130 @@ export function ContactSection() {
         <h2 className="text-6xl md:text-8xl font-bold tracking-tighter leading-[0.85]">
           Let&apos;s discuss data architecture.
         </h2>
-        {!showForm ? (
-          <div className="flex flex-col sm:flex-row justify-center gap-6 pt-8">
-            <button
-              onClick={() => setShowForm(true)}
-              className="bg-surface-container-lowest text-primary font-bold px-12 py-6 text-sm uppercase tracking-widest transition-all hover:bg-tertiary-fixed hover:text-on-tertiary-fixed active:scale-95 inline-flex justify-center"
+        <AnimatePresence mode="wait">
+          {!showForm ? (
+            <motion.div
+              key="buttons"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.3 }}
+              className="flex flex-col sm:flex-row justify-center gap-6 pt-8"
             >
-              Initiate Email
-            </button>
-            <a
-              href={LINKEDIN_PROFILE_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="border border-on-primary-container text-on-primary font-bold px-12 py-6 text-sm uppercase tracking-widest transition-all hover:bg-on-primary-fixed-variant active:scale-95 inline-flex justify-center"
-            >
-              LinkedIn
-            </a>
-          </div>
-        ) : (
-          <div className="pt-8 animate-fadeIn">
-            <form className="max-w-5xl mx-auto" onSubmit={handleSubmit}>
-              <div className="flex flex-col md:flex-row justify-center items-start gap-8 md:gap-12">
-                <div className="flex-1 text-center md:text-left w-full">
-                  <label
-                    htmlFor="clientName"
-                    className="block font-label text-[10px] uppercase tracking-[0.3em] text-on-primary-container/60 mb-3"
-                  >
-                    Your Name
-                  </label>
-                  <input
-                    type="text"
-                    id="clientName"
-                    name="clientName"
-                    required
-                    placeholder="John Doe"
-                    className="w-full bg-transparent border-b border-on-primary-container/30 text-on-primary px-0 py-3 text-lg font-medium placeholder:text-on-primary-container/30 focus:outline-none focus:border-tertiary-fixed transition-colors"
-                  />
-                </div>
-                <div className="hidden md:block w-px h-16 bg-on-primary-container/20 self-center" />
-                <div className="flex-1 text-center md:text-left w-full">
-                  <label
-                    htmlFor="clientEmail"
-                    className="block font-label text-[10px] uppercase tracking-[0.3em] text-on-primary-container/60 mb-3"
-                  >
-                    Your Email
-                  </label>
-                  <input
-                    type="email"
-                    id="clientEmail"
-                    name="clientEmail"
-                    required
-                    placeholder="john@example.com"
-                    className="w-full bg-transparent border-b border-on-primary-container/30 text-on-primary px-0 py-3 text-lg font-medium placeholder:text-on-primary-container/30 focus:outline-none focus:border-tertiary-fixed transition-colors"
-                  />
-                </div>
-                <div className="hidden md:block w-px h-16 bg-on-primary-container/20 self-center" />
-                <div className="flex-1 text-center md:text-left w-full">
-                  <label
-                    htmlFor="clientPhone"
-                    className="block font-label text-[10px] uppercase tracking-[0.3em] text-on-primary-container/60 mb-3"
-                  >
-                    Your Phone
-                  </label>
-                  <input
-                    type="tel"
-                    id="clientPhone"
-                    name="clientPhone"
-                    placeholder="+1 234 567 890"
-                    className="w-full bg-transparent border-b border-on-primary-container/30 text-on-primary px-0 py-3 text-lg font-medium placeholder:text-on-primary-container/30 focus:outline-none focus:border-tertiary-fixed transition-colors"
-                  />
-                </div>
-              </div>
               <button
-                type="submit"
-                className="mt-16 bg-surface-container-lowest text-primary font-bold px-16 py-6 text-sm uppercase tracking-widest transition-all hover:bg-tertiary-fixed hover:text-on-tertiary-fixed active:scale-95"
+                onClick={() => setShowForm(true)}
+                className="bg-surface-container-lowest text-primary font-bold px-12 py-6 text-sm uppercase tracking-widest transition-all hover:bg-tertiary-fixed hover:text-on-tertiary-fixed active:scale-95 inline-flex justify-center"
               >
-                Send Details
+                Initiate Email
               </button>
-            </form>
-          </div>
-        )}
+              <a
+                href={LINKEDIN_PROFILE_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="border border-on-primary-container text-on-primary font-bold px-12 py-6 text-sm uppercase tracking-widest transition-all hover:bg-on-primary-fixed-variant active:scale-95 inline-flex justify-center"
+              >
+                LinkedIn
+              </a>
+            </motion.div>
+          ) : (
+            <motion.div
+              key="form"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.3, delay: 0.1 }}
+              className="pt-8"
+            >
+              <form className="max-w-5xl mx-auto" onSubmit={handleSubmit}>
+                <div className="flex flex-col md:flex-row justify-center items-start gap-8 md:gap-12">
+                  <motion.div
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.3, delay: 0.2 }}
+                    className="flex-1 text-center md:text-left w-full"
+                  >
+                    <label
+                      htmlFor="clientName"
+                      className="block font-label text-[10px] uppercase tracking-[0.3em] text-on-primary-container/60 mb-3"
+                    >
+                      Your Name
+                    </label>
+                    <input
+                      type="text"
+                      id="clientName"
+                      name="clientName"
+                      required
+                      placeholder="John Doe"
+                      className="w-full bg-transparent border-b border-on-primary-container/30 text-on-primary px-0 py-3 text-lg font-medium placeholder:text-on-primary-container/30 focus:outline-none focus:border-tertiary-fixed transition-colors"
+                    />
+                  </motion.div>
+                  <motion.div
+                    initial={{ opacity: 0, scaleY: 0 }}
+                    animate={{ opacity: 1, scaleY: 1 }}
+                    transition={{ duration: 0.3, delay: 0.3 }}
+                    className="hidden md:block w-px h-16 bg-on-primary-container/20 self-center origin-center"
+                  />
+                  <motion.div
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.3, delay: 0.35 }}
+                    className="flex-1 text-center md:text-left w-full"
+                  >
+                    <label
+                      htmlFor="clientEmail"
+                      className="block font-label text-[10px] uppercase tracking-[0.3em] text-on-primary-container/60 mb-3"
+                    >
+                      Your Email
+                    </label>
+                    <input
+                      type="email"
+                      id="clientEmail"
+                      name="clientEmail"
+                      required
+                      placeholder="john@example.com"
+                      className="w-full bg-transparent border-b border-on-primary-container/30 text-on-primary px-0 py-3 text-lg font-medium placeholder:text-on-primary-container/30 focus:outline-none focus:border-tertiary-fixed transition-colors"
+                    />
+                  </motion.div>
+                  <motion.div
+                    initial={{ opacity: 0, scaleY: 0 }}
+                    animate={{ opacity: 1, scaleY: 1 }}
+                    transition={{ duration: 0.3, delay: 0.4 }}
+                    className="hidden md:block w-px h-16 bg-on-primary-container/20 self-center origin-center"
+                  />
+                  <motion.div
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.3, delay: 0.45 }}
+                    className="flex-1 text-center md:text-left w-full"
+                  >
+                    <label
+                      htmlFor="clientPhone"
+                      className="block font-label text-[10px] uppercase tracking-[0.3em] text-on-primary-container/60 mb-3"
+                    >
+                      Your Phone
+                    </label>
+                    <input
+                      type="tel"
+                      id="clientPhone"
+                      name="clientPhone"
+                      placeholder="+1 234 567 890"
+                      className="w-full bg-transparent border-b border-on-primary-container/30 text-on-primary px-0 py-3 text-lg font-medium placeholder:text-on-primary-container/30 focus:outline-none focus:border-tertiary-fixed transition-colors"
+                    />
+                  </motion.div>
+                </div>
+                <motion.button
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3, delay: 0.6 }}
+                  type="submit"
+                  className="mt-16 bg-surface-container-lowest text-primary font-bold px-16 py-6 text-sm uppercase tracking-widest transition-all hover:bg-tertiary-fixed hover:text-on-tertiary-fixed active:scale-95"
+                >
+                  Send Details
+                </motion.button>
+              </form>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </section>
   );
