@@ -11,6 +11,7 @@
 - [ImpactSection.tsx](file://src/components/ImpactSection.tsx)
 - [ProjectsSection.tsx](file://src/components/ProjectsSection.tsx)
 - [EducationSection.tsx](file://src/components/EducationSection.tsx)
+- [ExperienceSection.tsx](file://src/components/ExperienceSection.tsx)
 - [ContactSection.tsx](file://src/components/ContactSection.tsx)
 - [Footer.tsx](file://src/components/Footer.tsx)
 - [package.json](file://package.json)
@@ -29,7 +30,7 @@
 10. [Appendices](#appendices)
 
 ## Introduction
-This document describes the portfolio’s React component library and UI elements. It covers the Navigation, Hero, BentoSection, ImpactSection, ProjectsSection, EducationSection, ContactSection, and Footer components. For each component, we explain props interfaces, state management, animations, responsive behavior, accessibility features, usage examples, customization options, and integration patterns. We also document the design system (colors, typography, spacing, and animation timing) and highlight composition patterns, prop drilling solutions, and performance optimizations.
+This document describes the portfolio's React component library and UI elements. It covers the Navigation, Hero, BentoSection, ImpactSection, ProjectsSection, EducationSection, ExperienceSection, ContactSection, and Footer components. For each component, we explain props interfaces, state management, animations, responsive behavior, accessibility features, usage examples, customization options, and integration patterns. We also document the design system (colors, typography, spacing, and animation timing) and highlight composition patterns, prop drilling solutions, and performance optimizations.
 
 ## Project Structure
 The portfolio is a React application built with Vite and Tailwind CSS v4. Components are organized under src/components, shared data under src/data, and global styles under src/index.css. The App component composes all sections in order.
@@ -42,6 +43,7 @@ App --> Impact["ImpactSection.tsx"]
 App --> Bento["BentoSection.tsx"]
 App --> Projects["ProjectsSection.tsx"]
 App --> Education["EducationSection.tsx"]
+App --> Experience["ExperienceSection.tsx"]
 App --> Contact["ContactSection.tsx"]
 App --> Footer["Footer.tsx"]
 Nav --> Content["content.ts<br/>navLinks, CV_PDF_HREF"]
@@ -50,6 +52,7 @@ Bento --> Content
 Impact --> Content
 Projects --> Content
 Education --> Content
+Experience --> Content
 Contact --> Content
 Footer --> Content
 App --> CSS["index.css<br/>Tailwind theme + utilities"]
@@ -57,16 +60,16 @@ App --> CSS["index.css<br/>Tailwind theme + utilities"]
 
 **Diagram sources**
 - [App.tsx:15-32](file://src/App.tsx#L15-L32)
-- [content.ts:10-82](file://src/data/content.ts#L10-L82)
+- [content.ts:10-148](file://src/data/content.ts#L10-L148)
 - [index.css:3-40](file://src/index.css#L3-L40)
 
 **Section sources**
 - [App.tsx:15-32](file://src/App.tsx#L15-L32)
-- [content.ts:10-82](file://src/data/content.ts#L10-L82)
+- [content.ts:10-148](file://src/data/content.ts#L10-L148)
 - [index.css:3-40](file://src/index.css#L3-L40)
 
 ## Core Components
-This section summarizes each component’s role, props, state, animations, responsiveness, and accessibility.
+This section summarizes each component's role, props, state, animations, responsiveness, and accessibility.
 
 - Navigation
   - Purpose: Fixed navigation with scroll-based active section highlighting and a CV download action.
@@ -109,12 +112,21 @@ This section summarizes each component’s role, props, state, animations, respo
   - Accessibility: Hover/focus affordances; readable lists.
 
 - EducationSection
-  - Purpose: Academic background presentation with timeline-style entries.
+  - Purpose: Academic background presentation with timeline-style entries and logo display functionality.
   - Props: None.
   - State: None.
   - Animations: Staggered entries with viewport triggers.
   - Responsive: Two-column layout on large screens; stacked on small screens.
-  - Accessibility: Clear headings and periods; readable text.
+  - Accessibility: Clear headings and periods; readable text; fallback icon when logo fails to load.
+  - **Updated**: Now includes logo display functionality alongside text-based information, enhancing visual presentation of educational credentials.
+
+- ExperienceSection
+  - Purpose: Professional experience presentation with detailed role descriptions and highlights.
+  - Props: None.
+  - State: None.
+  - Animations: Staggered entries with viewport triggers.
+  - Responsive: Two-column layout on large screens; stacked on small screens.
+  - Accessibility: Clear headings and bullet points; readable text.
 
 - ContactSection
   - Purpose: Professional engagement options with prominent CTA buttons.
@@ -138,7 +150,8 @@ This section summarizes each component’s role, props, state, animations, respo
 - [BentoSection.tsx:4-87](file://src/components/BentoSection.tsx#L4-L87)
 - [ImpactSection.tsx:56-106](file://src/components/ImpactSection.tsx#L56-L106)
 - [ProjectsSection.tsx:21-100](file://src/components/ProjectsSection.tsx#L21-L100)
-- [EducationSection.tsx:4-58](file://src/components/EducationSection.tsx#L4-L58)
+- [EducationSection.tsx:1-85](file://src/components/EducationSection.tsx#L1-L85)
+- [ExperienceSection.tsx:1-80](file://src/components/ExperienceSection.tsx#L1-L80)
 - [ContactSection.tsx:3-39](file://src/components/ContactSection.tsx#L3-L39)
 - [Footer.tsx:3-36](file://src/components/Footer.tsx#L3-L36)
 
@@ -155,6 +168,7 @@ participant Impact as "ImpactSection.tsx"
 participant Bento as "BentoSection.tsx"
 participant Projects as "ProjectsSection.tsx"
 participant Education as "EducationSection.tsx"
+participant Experience as "ExperienceSection.tsx"
 participant Contact as "ContactSection.tsx"
 participant Footer as "Footer.tsx"
 Browser->>App : Render
@@ -164,6 +178,7 @@ App->>Impact : Mount
 App->>Bento : Mount
 App->>Projects : Mount
 App->>Education : Mount
+App->>Experience : Mount
 App->>Contact : Mount
 App->>Footer : Mount
 Note over Nav,Hero : Scroll listener updates activeId
@@ -218,7 +233,7 @@ KeepPrev --> End
 
 **Section sources**
 - [Navigation.tsx:10-98](file://src/components/Navigation.tsx#L10-L98)
-- [content.ts:10-18](file://src/data/content.ts#L10-L18)
+- [content.ts:10-19](file://src/data/content.ts#L10-L19)
 
 ### Hero
 - Role: Personal introduction with animated headline, tagline, location, social links, and profile image.
@@ -249,11 +264,11 @@ Hero->>Hero : Render profile image with overlay badge
 
 **Diagram sources**
 - [Hero.tsx:11-99](file://src/components/Hero.tsx#L11-L99)
-- [content.ts:68-79](file://src/data/content.ts#L68-L79)
+- [content.ts:113-126](file://src/data/content.ts#L113-L126)
 
 **Section sources**
 - [Hero.tsx:11-99](file://src/components/Hero.tsx#L11-L99)
-- [content.ts:68-79](file://src/data/content.ts#L68-L79)
+- [content.ts:113-126](file://src/data/content.ts#L113-L126)
 
 ### BentoSection
 - Role: Executive summary and technical toolkit with animated skill bars.
@@ -279,11 +294,11 @@ AnimateBars --> Done(["Render completed"])
 
 **Diagram sources**
 - [BentoSection.tsx:8-87](file://src/components/BentoSection.tsx#L8-L87)
-- [content.ts:20-36](file://src/data/content.ts#L20-L36)
+- [content.ts:21-37](file://src/data/content.ts#L21-L37)
 
 **Section sources**
 - [BentoSection.tsx:4-87](file://src/components/BentoSection.tsx#L4-L87)
-- [content.ts:20-36](file://src/data/content.ts#L20-L36)
+- [content.ts:21-37](file://src/data/content.ts#L21-L37)
 
 ### ImpactSection
 - Role: Quantifiable metrics display with KPI cards and SVG charts.
@@ -338,41 +353,85 @@ HoverEffects --> Done(["Interactive cards ready"])
 
 **Diagram sources**
 - [ProjectsSection.tsx:21-100](file://src/components/ProjectsSection.tsx#L21-L100)
-- [content.ts:83-102](file://src/data/content.ts#L83-L102)
+- [content.ts:128-147](file://src/data/content.ts#L128-L147)
 
 **Section sources**
 - [ProjectsSection.tsx:21-100](file://src/components/ProjectsSection.tsx#L21-L100)
-- [content.ts:83-102](file://src/data/content.ts#L83-L102)
+- [content.ts:128-147](file://src/data/content.ts#L128-L147)
 
 ### EducationSection
-- Role: Academic background presentation with timeline-style entries.
+- Role: Academic background presentation with timeline-style entries and logo display functionality.
 - Props: None.
 - State: None.
 - Animations:
   - Entries animate in with staggered delays when scrolled into view.
 - Accessibility:
-  - Clear headings and periods; readable text.
+  - Clear headings and periods; readable text; fallback icon when logo fails to load.
 - Responsive:
   - Two-column layout on large screens; stacked on small screens.
 - Integration:
-  - Uses education array from content.ts.
+  - Uses education array from content.ts with logo property for each educational institution.
+- **Updated**: Enhanced with logo display functionality alongside text-based information, improving visual presentation of educational credentials.
+
+**Updated** The EducationSection component now includes comprehensive logo display functionality that enhances the visual presentation of educational credentials. The component displays institutional logos alongside text-based information, providing a richer visual experience for academic background presentation.
+
+Key features of the logo display functionality:
+- Conditional rendering: Logo images are displayed only when available (`item.logo ? (...) : null`)
+- Fallback mechanism: When logo fails to load, a fallback GraduationCap icon is shown
+- Error handling: Implements `onError` handler to hide broken images gracefully
+- Responsive sizing: Logo container maintains consistent dimensions (w-16 h-16)
+- Accessibility: Proper alt text with institution names for screen readers
+- Visual hierarchy: Logo placement before text-based information creates clear visual association
 
 ```mermaid
-sequenceDiagram
-participant Education as "EducationSection.tsx"
-participant Motion as "motion/react"
-Education->>Motion : Animate item 1 (delay 0)
-Education->>Motion : Animate item 2 (delay 0.1)
-Education->>Motion : Animate item 3 (delay 0.2)
+flowchart TD
+LogoCheck["Check item.logo"] --> HasLogo{"Logo exists?"}
+HasLogo --> |Yes| DisplayLogo["Display img with src and alt"]
+HasLogo --> |No| FallbackIcon["Display GraduationCap icon"]
+DisplayLogo --> ErrorHandling["Add onError handler"]
+ErrorHandling --> HideOnError["Hide broken image"]
+FallbackIcon --> ContinueText["Continue with text info"]
+HideOnError --> ContinueText
+ContinueText --> RenderComplete["Render complete entry"]
 ```
 
 **Diagram sources**
-- [EducationSection.tsx:4-58](file://src/components/EducationSection.tsx#L4-L58)
-- [content.ts:38-60](file://src/data/content.ts#L38-L60)
+- [EducationSection.tsx:34-44](file://src/components/EducationSection.tsx#L34-L44)
+- [content.ts:58-94](file://src/data/content.ts#L58-L94)
 
 **Section sources**
-- [EducationSection.tsx:4-58](file://src/components/EducationSection.tsx#L4-L58)
-- [content.ts:38-60](file://src/data/content.ts#L38-L60)
+- [EducationSection.tsx:1-85](file://src/components/EducationSection.tsx#L1-L85)
+- [content.ts:58-94](file://src/data/content.ts#L58-L94)
+
+### ExperienceSection
+- Role: Professional experience presentation with detailed role descriptions and highlights.
+- Props: None.
+- State: None.
+- Animations:
+  - Entries animate in with staggered delays when scrolled into view.
+- Accessibility:
+  - Clear headings and bullet points; readable text.
+- Responsive:
+  - Two-column layout on large screens; stacked on small screens.
+- Integration:
+  - Uses experience array from content.ts with detailed highlights.
+
+```mermaid
+sequenceDiagram
+participant Experience as "ExperienceSection.tsx"
+participant Motion as "motion/react"
+Experience->>Motion : Animate item 1 (delay 0)
+Experience->>Motion : Animate item 2 (delay 0.1)
+Experience->>Experience : Render company info and highlights
+```
+
+**Diagram sources**
+- [ExperienceSection.tsx:22-74](file://src/components/ExperienceSection.tsx#L22-L74)
+- [content.ts:39-56](file://src/data/content.ts#L39-L56)
+
+**Section sources**
+- [ExperienceSection.tsx:1-80](file://src/components/ExperienceSection.tsx#L1-L80)
+- [content.ts:39-56](file://src/data/content.ts#L39-L56)
 
 ### ContactSection
 - Role: Professional engagement options with prominent CTA buttons.
@@ -397,11 +456,11 @@ Buttons --> End(["Ready for engagement"])
 
 **Diagram sources**
 - [ContactSection.tsx:3-39](file://src/components/ContactSection.tsx#L3-L39)
-- [content.ts:62-65](file://src/data/content.ts#L62-L65)
+- [content.ts:96-103](file://src/data/content.ts#L96-L103)
 
 **Section sources**
 - [ContactSection.tsx:3-39](file://src/components/ContactSection.tsx#L3-L39)
-- [content.ts:62-65](file://src/data/content.ts#L62-L65)
+- [content.ts:96-103](file://src/data/content.ts#L96-L103)
 
 ### Footer
 - Role: Social media integration and copyright notice.
@@ -425,20 +484,20 @@ Footer->>Footer : Apply hover/focus styles
 
 **Diagram sources**
 - [Footer.tsx:3-36](file://src/components/Footer.tsx#L3-L36)
-- [content.ts:68-75](file://src/data/content.ts#L68-L75)
+- [content.ts:113-120](file://src/data/content.ts#L113-L120)
 
 **Section sources**
 - [Footer.tsx:3-36](file://src/components/Footer.tsx#L3-L36)
-- [content.ts:68-75](file://src/data/content.ts#L68-L75)
+- [content.ts:113-120](file://src/data/content.ts#L113-L120)
 
 ## Dependency Analysis
 - External libraries:
   - motion: Provides motion variants and layout animations.
-  - lucide-react: Provides icons for social links and skill bars.
+  - lucide-react: Provides icons for social links, skill bars, and fallback graduation cap icon.
   - react and react-dom: Core framework.
   - tailwindcss v4: Utility-first styling with a custom theme.
 - Internal dependencies:
-  - content.ts supplies navigation links, hero image, CV PDF, social links, skills, education, projects, and contact URLs.
+  - content.ts supplies navigation links, hero image, CV PDF, social links, skills, education, experience, projects, and contact URLs.
   - index.css defines the design tokens and utility classes used across components.
 
 ```mermaid
@@ -453,12 +512,12 @@ CSS["index.css"] --> Components
 
 **Diagram sources**
 - [package.json:13-23](file://package.json#L13-L23)
-- [content.ts:10-102](file://src/data/content.ts#L10-L102)
+- [content.ts:10-148](file://src/data/content.ts#L10-L148)
 - [index.css:1-71](file://src/index.css#L1-L71)
 
 **Section sources**
 - [package.json:13-23](file://package.json#L13-L23)
-- [content.ts:10-102](file://src/data/content.ts#L10-L102)
+- [content.ts:10-148](file://src/data/content.ts#L10-L148)
 - [index.css:1-71](file://src/index.css#L1-L71)
 
 ## Performance Considerations
@@ -469,12 +528,11 @@ CSS["index.css"] --> Components
   - Components use viewport-based triggers with once=true to prevent re-animation on scroll back.
 - Lazy loading:
   - Hero image uses async decoding and standard aspect ratio attributes.
+  - **Updated**: EducationSection logo images benefit from browser lazy loading when placed in public folder.
 - CSS:
   - Minimal radius values and backdrop blur are used; ensure GPU acceleration is acceptable on target devices.
 - Bundle size:
   - motion and lucide-react are included; consider tree-shaking and icon bundling if adding more icons.
-
-[No sources needed since this section provides general guidance]
 
 ## Troubleshooting Guide
 - Navigation underline not updating:
@@ -485,6 +543,11 @@ CSS["index.css"] --> Components
   - Check that skill.level is numeric and within expected bounds.
 - Social links opening in new tab:
   - Confirm href starts with http/https; otherwise, external link logic is skipped.
+- **Updated**: EducationSection logo display issues:
+  - Verify logo paths exist in public folder and are accessible.
+  - Check browser console for 404 errors indicating missing logo files.
+  - Ensure alt text follows format `${item.institution} logo` for accessibility.
+  - Test fallback icon display when logo fails to load.
 - Accessibility issues:
   - Ensure all images have alt text.
   - Provide aria-labels for icon-only links.
@@ -494,11 +557,10 @@ CSS["index.css"] --> Components
 - [Navigation.tsx:13-40](file://src/components/Navigation.tsx#L13-L40)
 - [BentoSection.tsx:71-78](file://src/components/BentoSection.tsx#L71-L78)
 - [Hero.tsx:44-68](file://src/components/Hero.tsx#L44-L68)
+- [EducationSection.tsx:34-44](file://src/components/EducationSection.tsx#L34-L44)
 
 ## Conclusion
-The portfolio’s component library is modular, accessible, and visually cohesive. Each section is self-contained, consumes shared data, and leverages motion for smooth interactions. The design system is centralized in index.css with Tailwind v4, enabling consistent typography, colors, and spacing. Composition is straightforward in App.tsx, and performance is optimized through viewport-triggered animations and passive event listeners.
-
-[No sources needed since this section summarizes without analyzing specific files]
+The portfolio's component library is modular, accessible, and visually cohesive. Each section is self-contained, consumes shared data, and leverages motion for smooth interactions. The design system is centralized in index.css with Tailwind v4, enabling consistent typography, colors, and spacing. Composition is straightforward in App.tsx, and performance is optimized through viewport-triggered animations and passive event listeners. **Updated**: The EducationSection enhancement with logo display functionality significantly improves the visual presentation of educational credentials, providing a more professional and engaging academic background showcase.
 
 ## Appendices
 
@@ -520,10 +582,12 @@ The portfolio’s component library is modular, accessible, and visually cohesiv
   - Impact cards: 0.1s stagger.
   - Project cards: 0.08s stagger.
   - Hero: 0.8s duration for entrance; 0.2s delay for image.
+  - **Updated**: EducationSection entries: 0.1s stagger with smooth opacity and x-axis transitions.
 - Utilities
   - Glass-nav effect with backdrop blur.
   - Impact card hover lift and shadow.
   - Skill bar background and fill utilities.
+  - **Updated**: EducationSection logo container with rounded corners and subtle background.
 
 **Section sources**
 - [index.css:3-40](file://src/index.css#L3-L40)
@@ -532,21 +596,26 @@ The portfolio’s component library is modular, accessible, and visually cohesiv
 - [ImpactSection.tsx:74-76](file://src/components/ImpactSection.tsx#L74-L76)
 - [ProjectsSection.tsx:49-51](file://src/components/ProjectsSection.tsx#L49-L51)
 - [Hero.tsx:17-18](file://src/components/Hero.tsx#L17-L18)
+- [EducationSection.tsx:24-30](file://src/components/EducationSection.tsx#L24-L30)
 
 ### Component Composition Patterns
 - App.tsx composes all sections in a single render pass.
 - Shared data is centralized in content.ts; components import only what they need.
 - No prop drilling is evident; data is passed directly to components.
+- **Updated**: EducationSection demonstrates conditional rendering pattern with logo fallback mechanism.
 
 **Section sources**
 - [App.tsx:15-32](file://src/App.tsx#L15-L32)
-- [content.ts:10-102](file://src/data/content.ts#L10-L102)
+- [content.ts:10-148](file://src/data/content.ts#L10-L148)
 
 ### Integration Patterns
 - Navigation links are defined in content.ts and consumed by Navigation and App.
 - Social links are reused in Hero and Footer for consistency.
 - CV and contact URLs are centralized for easy updates.
+- **Updated**: EducationSection logos are centralized in content.ts with institutional branding assets.
+- **Updated**: Logo display functionality follows standardized error handling and accessibility patterns.
 
 **Section sources**
-- [content.ts:10-18](file://src/data/content.ts#L10-L18)
-- [content.ts:62-75](file://src/data/content.ts#L62-L75)
+- [content.ts:10-19](file://src/data/content.ts#L10-L19)
+- [content.ts:58-94](file://src/data/content.ts#L58-L94)
+- [content.ts:113-120](file://src/data/content.ts#L113-L120)

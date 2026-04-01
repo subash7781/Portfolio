@@ -5,7 +5,6 @@
 - [EducationSection.tsx](file://src/components/EducationSection.tsx)
 - [content.ts](file://src/data/content.ts)
 - [App.tsx](file://src/App.tsx)
-- [index.css](file://src/index.css)
 - [Navigation.tsx](file://src/components/Navigation.tsx)
 - [ExperienceSection.tsx](file://src/components/ExperienceSection.tsx)
 - [package.json](file://package.json)
@@ -13,11 +12,11 @@
 
 ## Update Summary
 **Changes Made**
-- Enhanced educational data structure to include optional `credentialUrl` field for verifiable certifications
-- Added clickable credential verification links using ExternalLink icon from lucide-react
-- Updated component rendering logic to conditionally display verification links
-- Integrated proper URL handling with target="_blank" and security attributes
-- Added comprehensive examples of verifiable credential URLs for SQL for Data Science and Claude 101 certifications
+- Enhanced educational data structure with new credentials: BSc Computer Science, Claude 101, and SQL for Data Science
+- Updated postgraduate entry to show current status with "Present" indicator
+- Added logo support for educational institutions with fallback GraduationCap icon
+- Improved credential verification system with ExternalLink icons
+- Enhanced responsive design with logo integration and hover effects
 
 ## Table of Contents
 1. [Introduction](#introduction)
@@ -25,12 +24,14 @@
 3. [Core Components](#core-components)
 4. [Architecture Overview](#architecture-overview)
 5. [Detailed Component Analysis](#detailed-component-analysis)
-6. [Credential Verification System](#credential-verification-system)
-7. [Anchor Navigation and Section IDs](#anchor-navigation-and-section-ids)
-8. [Dependency Analysis](#dependency-analysis)
-9. [Performance Considerations](#performance-considerations)
-10. [Troubleshooting Guide](#troubleshooting-guide)
-11. [Conclusion](#conclusion)
+6. [Enhanced Educational Data Structure](#enhanced-educational-data-structure)
+7. [Credential Verification System](#credential-verification-system)
+8. [Institution Logo Integration](#institution-logo-integration)
+9. [Anchor Navigation and Section IDs](#anchor-navigation-and-section-ids)
+10. [Dependency Analysis](#dependency-analysis)
+11. [Performance Considerations](#performance-considerations)
+12. [Troubleshooting Guide](#troubleshooting-guide)
+13. [Conclusion](#conclusion)
 
 ## Introduction
 
@@ -38,7 +39,7 @@ The EducationSection component is a specialized React component designed to pres
 
 The component utilizes modern React patterns including TypeScript interfaces, TailwindCSS styling, and Framer Motion animations to create an engaging user experience. It dynamically renders educational entries with smooth entrance animations and responsive design patterns that adapt to different screen sizes.
 
-**Updated**: The component now features enhanced credential verification capabilities with clickable links for certifications, allowing visitors to validate educational credentials directly from the portfolio.
+**Updated**: The component now features enhanced credential verification capabilities with clickable links for certifications, allowing visitors to validate educational credentials directly from the portfolio. The educational data structure has been expanded to include logos for institutions and improved postgraduate status representation.
 
 ## Project Structure
 
@@ -95,7 +96,7 @@ App --> CSS
 
 ### Enhanced Educational Data Structure
 
-The EducationSection component expects a comprehensive data structure defined in the content.ts file. The educational entries now support verifiable credentials through an optional `credentialUrl` field:
+The EducationSection component expects a comprehensive data structure defined in the content.ts file. The educational entries now support logos, verifiable credentials, and enhanced status representation:
 
 ```mermaid
 classDiagram
@@ -106,6 +107,7 @@ class EducationEntry {
 +string location
 +string period
 +string credentialUrl
++string logo
 }
 class EducationData {
 +EducationEntry[] education
@@ -118,19 +120,20 @@ ComponentProps --> EducationEntry : "renders"
 ```
 
 **Diagram sources**
-- [content.ts:58-83](file://src/data/content.ts#L58-L83)
+- [content.ts:58-94](file://src/data/content.ts#L58-L94)
 
-The educational data structure consists of six essential fields:
+The educational data structure consists of seven essential fields:
 
-- **type**: Categorizes the educational credential (e.g., "Post-Graduate Degree", "Certification", "Technical Mastery")
+- **type**: Categorizes the educational credential (e.g., "Undergraduate Degree", "Post-Graduate Degree", "Certification")
 - **title**: The official name of the degree, certificate, or course
 - **institution**: The educational institution or provider
 - **location**: Geographic location or delivery mode (e.g., "Dublin, IE", "Remote", "Online")
-- **period**: Timeframe or credential identifier
-- **credentialUrl**: Optional URL for verifiable credentials (added enhancement)
+- **period**: Timeframe or credential identifier (supports "Present" for current status)
+- **credentialUrl**: Optional URL for verifiable credentials
+- **logo**: Optional institution logo URL for visual branding
 
 **Section sources**
-- [content.ts:58-83](file://src/data/content.ts#L58-L83)
+- [content.ts:58-94](file://src/data/content.ts#L58-L94)
 
 ## Architecture Overview
 
@@ -159,14 +162,14 @@ Note over Section,Data : Dynamic rendering with conditional credential links
 
 **Diagram sources**
 - [App.tsx:24-25](file://src/App.tsx#L24-L25)
-- [EducationSection.tsx:22-69](file://src/components/EducationSection.tsx#L22-L69)
-- [content.ts:58-83](file://src/data/content.ts#L58-L83)
+- [EducationSection.tsx:22-85](file://src/components/EducationSection.tsx#L22-L85)
+- [content.ts:58-94](file://src/data/content.ts#L58-L94)
 
 The component follows a unidirectional data flow pattern where the App component orchestrates rendering, the EducationSection handles presentation logic, and the content.ts file provides the data layer with enhanced credential verification capabilities.
 
 **Section sources**
 - [App.tsx:24-25](file://src/App.tsx#L24-L25)
-- [EducationSection.tsx:4-69](file://src/components/EducationSection.tsx#L4-L69)
+- [EducationSection.tsx:4-85](file://src/components/EducationSection.tsx#L4-L85)
 
 ## Detailed Component Analysis
 
@@ -184,7 +187,10 @@ Grid --> Column2["Right column (8/12)<br/>Timeline content"]
 Column2 --> MapEntries["Map through education array"]
 MapEntries --> Animation["Apply staggered animations<br/>with Framer Motion"]
 Animation --> CardLayout["Render each educational entry<br/>as animated card"]
-CardLayout --> CredentialCheck{"Check for credentialUrl"}
+CardLayout --> LogoCheck{"Check for logo"}
+LogoCheck --> |Present| LogoImage["Render institution logo<br/>with error fallback"]
+LogoCheck --> |Absent| DefaultIcon["Render GraduationCap icon"]
+LogoImage --> CredentialCheck{"Check for credentialUrl"}
 CredentialCheck --> |Present| VerificationLink["Render clickable verification link<br/>with ExternalLink icon"]
 CredentialCheck --> |Absent| StandardCard["Render standard educational card"]
 VerificationLink --> Responsive["Apply responsive design<br/>flex and grid layouts"]
@@ -193,7 +199,7 @@ Responsive --> End([Component Ready])
 ```
 
 **Diagram sources**
-- [EducationSection.tsx:10-69](file://src/components/EducationSection.tsx#L10-L69)
+- [EducationSection.tsx:10-85](file://src/components/EducationSection.tsx#L10-L85)
 
 ### Timeline Visualization Pattern
 
@@ -208,9 +214,11 @@ class TimelineCard {
 +string location
 +string period
 +string credentialUrl
++string logo
 +animateEntrance() void
 +handleHover() void
 +renderVerificationLink() JSX.Element
++renderLogo() JSX.Element
 }
 class AnimationSystem {
 +initialState : object
@@ -229,22 +237,30 @@ class CredentialVerification {
 +targetBlank : boolean
 +securityAttributes : object
 }
+class LogoIntegration {
++logo : string
++fallbackIcon : GraduationCap
++errorHandling : boolean
+}
 TimelineCard --> AnimationSystem : "uses"
 TimelineCard --> ResponsiveLayout : "adapts to"
 TimelineCard --> CredentialVerification : "conditionally renders"
+TimelineCard --> LogoIntegration : "integrates"
 ```
 
 **Diagram sources**
-- [EducationSection.tsx:22-69](file://src/components/EducationSection.tsx#L22-L69)
+- [EducationSection.tsx:22-85](file://src/components/EducationSection.tsx#L22-L85)
 
 The timeline visualization follows these key patterns:
 
 1. **Staggered Animations**: Each educational entry receives a delayed animation effect using Framer Motion's viewport-based triggers
 2. **Conditional Credential Links**: Verification links are only rendered when `credentialUrl` is present in the data
-3. **Visual Hierarchy**: Clear typography hierarchy with bold titles, secondary text, and small caps labels
-4. **Responsive Design**: Flexible layout that adapts from desktop grid to mobile stacked cards
-5. **Interactive Elements**: Hover effects that enhance user engagement without compromising readability
-6. **Security Compliance**: Proper handling of external links with target="_blank" and security attributes
+3. **Logo Integration**: Institution logos are displayed when available, with fallback to GraduationCap icon
+4. **Visual Hierarchy**: Clear typography hierarchy with bold titles, secondary text, and small caps labels
+5. **Responsive Design**: Flexible layout that adapts from desktop grid to mobile stacked cards
+6. **Interactive Elements**: Hover effects that enhance user engagement without compromising readability
+7. **Error Handling**: Graceful fallback for missing or broken logo images
+8. **Security Compliance**: Proper handling of external links with target="_blank" and security attributes
 
 ### Certification Display Patterns
 
@@ -252,28 +268,30 @@ The component supports multiple certification types through the `type` field, wi
 
 | Type Category | Visual Indicators | Typical Content | Verification Support |
 |---------------|-------------------|-----------------|---------------------|
-| Post-Graduate Degree | Formal academic title | Master's degrees, diplomas | No verification link |
-| Certification | Professional credential | Industry certifications | **✅ Clickable verification link** |
-| Technical Mastery | Skill-based achievement | Course completion, mastery badges | **✅ Clickable verification link** |
+| Undergraduate Degree | Formal academic title | BSc Computer Science | No verification link |
+| Post-Graduate Degree | Advanced academic title | MSc in Business Analytics | No verification link |
+| Certification | Professional credential | Claude 101, SQL for Data Science | **✅ Clickable verification link** |
 
 **Section sources**
-- [EducationSection.tsx:32-69](file://src/components/EducationSection.tsx#L32-L69)
-- [content.ts:58-83](file://src/data/content.ts#L58-L83)
+- [EducationSection.tsx:32-85](file://src/components/EducationSection.tsx#L32-L85)
+- [content.ts:58-94](file://src/data/content.ts#L58-L94)
 
 ### Academic Background Presentation
 
-The component presents academic information through a structured card-based interface with enhanced credential verification:
+The component presents academic information through a structured card-based interface with enhanced credential verification and logo integration:
 
 ```mermaid
 graph LR
 subgraph "Educational Card"
+Logo["Institution Logo<br/>or GraduationCap icon"]
 Type["Type Badge<br/>Small caps, uppercase"]
 Title["Main Title<br/>Large, bold"]
 Institution["Institution Name<br/>Medium weight"]
 CredentialLink["Verification Link<br/>ExternalLink icon + 'Show credential'"]
 Location["Location/Mode<br/>Right-aligned"]
-Period["Period/ID<br/>Small caps badge"]
+Period["Period/Status<br/>Small caps badge"]
 end
+Logo --> Type
 Type --> Title
 Title --> Institution
 Institution --> CredentialLink
@@ -282,10 +300,49 @@ Location --> Period
 ```
 
 **Diagram sources**
-- [EducationSection.tsx:31-61](file://src/components/EducationSection.tsx#L31-L61)
+- [EducationSection.tsx:31-76](file://src/components/EducationSection.tsx#L31-L76)
 
 **Section sources**
-- [EducationSection.tsx:31-61](file://src/components/EducationSection.tsx#L31-L61)
+- [EducationSection.tsx:31-76](file://src/components/EducationSection.tsx#L31-L76)
+
+## Enhanced Educational Data Structure
+
+### New Educational Credentials
+
+The component now supports four distinct educational entries with enhanced data structure:
+
+**BSc Computer Science** (Undergraduate):
+- Institution: PSG College of Arts and Science
+- Location: Coimbatore, Tamil Nadu, India
+- Period: 2020 - 2023
+- Type: Undergraduate Degree
+- Logo: `/psg-logo.png`
+
+**MSc in Business Analytics** (Post-Graduate):
+- Institution: Dublin Business School
+- Location: Dublin, IE
+- Period: 2026 - Present
+- Type: Post-Graduate Degree
+- Logo: `/dbs-logo.png`
+
+**Claude 101** (Certification):
+- Institution: Anthropic
+- Location: Remote
+- Period: 2026
+- Type: Certification
+- Credential URL: `https://verify.skilljar.com/c/2zoacjan4ehz`
+- Logo: `/anthropic-logo.png`
+
+**SQL for Data Science** (Certification):
+- Institution: University of California, Davis
+- Location: Coursera
+- Period: 2022
+- Type: Certification
+- Credential URL: `https://www.coursera.org/account/accomplishments/verify/YWV7WCFCFDEC?utm_source=link&utm_medium=certificate&utm_content=cert_image&utm_campaign=sharing_cta&utm_product=course`
+- Logo: `/uc-davis-logo.png`
+
+**Section sources**
+- [content.ts:58-94](file://src/data/content.ts#L58-L94)
 
 ## Credential Verification System
 
@@ -302,6 +359,7 @@ class EducationEntry {
 +string location
 +string period
 +string credentialUrl
++string logo
 }
 class VerifiableCredential {
 +credentialUrl : string
@@ -320,8 +378,8 @@ VerifiableCredential --> CredentialDisplay : "enables"
 ```
 
 **Diagram sources**
-- [content.ts:66-83](file://src/data/content.ts#L66-L83)
-- [EducationSection.tsx:42-52](file://src/components/EducationSection.tsx#L42-L52)
+- [content.ts:75-94](file://src/data/content.ts#L75-L94)
+- [EducationSection.tsx:56-66](file://src/components/EducationSection.tsx#L56-L66)
 
 ### Implementation Details
 
@@ -352,17 +410,77 @@ The credential verification system is implemented through conditional rendering 
 
 The component includes real-world examples of verifiable credentials:
 
-**SQL for Data Science Certification**:
-- Platform: Coursera
-- URL: `https://www.coursera.org/account/accomplishments/verify/YWV7WCFCFDEC?utm_source=link&utm_medium=certificate&utm_content=cert_image&utm_campaign=sharing_cta&utm_product=course`
-
 **Claude 101 Certification**:
 - Platform: Skilljar
 - URL: `https://verify.skilljar.com/c/2zoacjan4ehz`
 
+**SQL for Data Science Certification**:
+- Platform: Coursera
+- URL: `https://www.coursera.org/account/accomplishments/verify/YWV7WCFCFDEC?utm_source=link&utm_medium=certificate&utm_content=cert_image&utm_campaign=sharing_cta&utm_product=course`
+
 **Section sources**
-- [content.ts:66-83](file://src/data/content.ts#L66-L83)
-- [EducationSection.tsx:42-52](file://src/components/EducationSection.tsx#L42-L52)
+- [content.ts:75-94](file://src/data/content.ts#L75-L94)
+- [EducationSection.tsx:56-66](file://src/components/EducationSection.tsx#L56-L66)
+
+## Institution Logo Integration
+
+### Logo Support and Fallback System
+
+The component now supports institutional branding through logo integration with robust error handling:
+
+```mermaid
+classDiagram
+class LogoIntegration {
++string logo
++GraduationCapIcon : Icon
++onError : function
++fallbackLogic : boolean
+}
+class ImageFallback {
++display : none
++altText : "institution logo"
++maxDimensions : object
++objectFit : contain
+}
+class ResponsiveLogo {
++mobile : compact
++desktop : full-width
++aspectRatio : maintain
+}
+LogoIntegration --> ImageFallback : "handles errors"
+LogoIntegration --> ResponsiveLogo : "adapts to screens"
+```
+
+**Diagram sources**
+- [EducationSection.tsx:34-44](file://src/components/EducationSection.tsx#L34-L44)
+
+### Implementation Details
+
+The logo integration system provides enhanced visual branding:
+
+```typescript
+{item.logo ? (
+  <img
+    src={item.logo}
+    alt={`${item.institution} logo`}
+    className="max-w-full max-h-full object-contain"
+    onError={(e) => {
+      (e.target as HTMLImageElement).style.display = 'none';
+    }}
+  />
+) : null}
+```
+
+**Key Features**:
+- **Logo Display**: Institutional logos are shown when available
+- **Error Handling**: Graceful fallback when logo fails to load
+- **Responsive Design**: Logos scale appropriately across screen sizes
+- **Aspect Ratio**: Maintains logo proportions with object-contain
+- **Alt Text**: Descriptive alt text for accessibility
+- **Default Icon**: Fallback to GraduationCap icon when no logo available
+
+**Section sources**
+- [EducationSection.tsx:34-44](file://src/components/EducationSection.tsx#L34-L44)
 
 ## Anchor Navigation and Section IDs
 
@@ -525,10 +643,10 @@ The component implements efficient animation patterns using Framer Motion's view
 
 ### Conditional Rendering Optimization
 
-The credential verification links use conditional rendering to minimize DOM overhead:
+The credential verification links and logo images use conditional rendering to minimize DOM overhead:
 
-- **Lazy Loading**: Links are only created when `credentialUrl` is present
-- **Memory Efficiency**: No additional state or event handlers for non-verifiable entries
+- **Lazy Loading**: Links and logos are only created when data is present
+- **Memory Efficiency**: No additional state or event handlers for entries without logos or credentials
 - **DOM Cleanup**: Proper cleanup of event listeners and observers
 
 ### Responsive Optimization
@@ -546,6 +664,14 @@ The component implements proper security measures for external links:
 - **Target Blank**: Prevents tabnabbing attacks
 - **Rel Noopener**: Prevents malicious takeover of opener window
 - **HTTPS Validation**: Ensures secure credential URL handling
+
+### Error Handling Performance
+
+The logo fallback system minimizes performance impact:
+
+- **Graceful Degradation**: Fallback to icon prevents layout shifts
+- **Single Error Handler**: Efficient error handling for all logo failures
+- **Minimal DOM Manipulation**: Simple display:none operation on error
 
 ## Troubleshooting Guide
 
@@ -565,6 +691,16 @@ The component implements proper security measures for external links:
 - **Cause**: lucide-react dependency issues
 - **Solution**: Verify lucide-react installation and import
 - **Check**: Ensure proper icon sizing and styling
+
+**Issue**: Logo images not loading
+- **Cause**: Invalid logo URL or missing image file
+- **Solution**: Verify logo path exists in public folder
+- **Check**: Ensure logo file is uploaded to public directory
+
+**Issue**: Logo fallback not working
+- **Cause**: Error handler not triggered or logo path issues
+- **Solution**: Verify logo path and file permissions
+- **Check**: Ensure onError handler is properly attached
 
 **Issue**: Animations not triggering
 - **Cause**: Viewport observer not detecting element visibility
@@ -599,16 +735,18 @@ The component implements proper security measures for external links:
 4. **Responsive Testing**: Use browser developer tools to test different screen sizes
 5. **Navigation Testing**: Use browser dev tools to verify element with `id="education"` exists
 6. **Credential URL Testing**: Manually verify credential URLs are accessible and valid
+7. **Logo Path Testing**: Verify logo file paths exist in public directory
+8. **Error Handler Testing**: Test logo error fallback behavior
 
 **Section sources**
-- [EducationSection.tsx:22-69](file://src/components/EducationSection.tsx#L22-L69)
-- [content.ts:58-83](file://src/data/content.ts#L58-L83)
+- [EducationSection.tsx:22-85](file://src/components/EducationSection.tsx#L22-L85)
+- [content.ts:58-94](file://src/data/content.ts#L58-L94)
 
 ## Conclusion
 
 The EducationSection component represents a sophisticated implementation of educational presentation in modern web applications. Through its thoughtful combination of data-driven architecture, responsive design, and smooth animations, it effectively communicates academic achievements and professional qualifications.
 
-**Updated**: The component now features enhanced credential verification capabilities that significantly strengthen its professional presentation by allowing visitors to validate educational credentials directly from the portfolio.
+**Updated**: The component now features enhanced credential verification capabilities that significantly strengthen its professional presentation by allowing visitors to validate educational credentials directly from the portfolio. The educational data structure has been expanded to include logos for institutions, improved postgraduate status representation with "Present" indicator, and comprehensive support for multiple certification types.
 
 The component's strength lies in its modular design that separates concerns between data, presentation, and interaction patterns. This separation enables easy maintenance, extensibility, and consistent user experience across different devices and screen sizes.
 
@@ -622,9 +760,14 @@ The component's strength lies in its modular design that separates concerns betw
 - **New**: Conditional credential verification system with ExternalLink icons
 - **New**: Security-compliant external link handling
 - **New**: Real-world credential URL integration examples
+- **New**: Logo integration system with fallback mechanisms
+- **New**: Enhanced postgraduate status representation with "Present" indicator
+- **New**: Comprehensive educational data structure supporting multiple credential types
 
 The component successfully establishes educational credentials by presenting information in a clear, hierarchical format that emphasizes institutional reputation, academic achievements, and professional certifications. Its timeline visualization creates a logical narrative flow that helps visitors quickly understand the educational journey and professional development timeline.
 
 The addition of verifiable credential links enhances the component's professional credibility by providing direct access to validation sources. This feature is particularly valuable for data analysts and technology professionals who need to demonstrate their qualifications to potential employers or clients.
+
+The logo integration system adds professional branding and visual identity to the educational presentation, creating a cohesive and polished user experience.
 
 Future enhancements could include interactive filtering capabilities, expanded certification metadata support, integration with external educational databases for dynamic content updates, and support for additional verification platforms beyond Coursera and Skilljar.

@@ -30,7 +30,7 @@ export function EducationSection() {
                 className="bg-surface-container-lowest p-10 flex flex-col md:flex-row justify-between gap-8 group hover:bg-white transition-all cursor-default"
               >
                 <div className="flex items-start gap-6">
-                  <div className="shrink-0 w-16 h-16 bg-surface-container-high rounded-lg p-2 flex items-center justify-center">
+                  <div className="shrink-0 w-16 h-16 bg-white rounded-lg p-2 flex items-center justify-center">
                     {item.logo ? (
                       <img
                         src={item.logo}
