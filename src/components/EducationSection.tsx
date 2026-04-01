@@ -29,27 +29,38 @@ export function EducationSection() {
                 transition={{ delay: idx * 0.1 }}
                 className="bg-surface-container-lowest p-10 flex flex-col md:flex-row justify-between gap-8 group hover:bg-white transition-all cursor-default"
               >
-                <div className="space-y-3">
-                  <div className="font-label text-[10px] uppercase tracking-[0.2em] text-secondary">
-                    {item.type}
-                  </div>
-                  <h4 className="text-3xl font-bold text-primary tracking-tight group-hover:text-tertiary-container transition-colors">
-                    {item.title}
-                  </h4>
-                  <p className="text-on-surface-variant font-medium text-lg">
-                    {item.institution}
-                  </p>
-                  {item.credentialUrl && (
-                    <a
-                      href={item.credentialUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 mt-2 text-sm font-medium text-tertiary-container hover:text-tertiary-fixed transition-colors"
-                    >
-                      <span>Show credential</span>
-                      <ExternalLink size={14} />
-                    </a>
+                <div className="flex items-start gap-6">
+                  {item.logo && (
+                    <div className="shrink-0 w-16 h-16 bg-surface-container-high rounded-lg p-2 flex items-center justify-center">
+                      <img
+                        src={item.logo}
+                        alt={`${item.institution} logo`}
+                        className="max-w-full max-h-full object-contain"
+                      />
+                    </div>
                   )}
+                  <div className="space-y-3">
+                    <div className="font-label text-[10px] uppercase tracking-[0.2em] text-secondary">
+                      {item.type}
+                    </div>
+                    <h4 className="text-3xl font-bold text-primary tracking-tight group-hover:text-tertiary-container transition-colors">
+                      {item.title}
+                    </h4>
+                    <p className="text-on-surface-variant font-medium text-lg">
+                      {item.institution}
+                    </p>
+                    {item.credentialUrl && (
+                      <a
+                        href={item.credentialUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 mt-2 text-sm font-medium text-tertiary-container hover:text-tertiary-fixed transition-colors"
+                      >
+                        <span>Show credential</span>
+                        <ExternalLink size={14} />
+                      </a>
+                    )}
+                  </div>
                 </div>
                 <div className="md:text-right flex flex-col justify-end">
                   <div className="text-base font-bold text-primary">

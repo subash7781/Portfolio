@@ -57,28 +57,39 @@ export const experience = [
 
 export const education = [
   {
+    type: "Undergraduate Degree",
+    title: "BSc Computer Science",
+    institution: "PSG College of Arts and Science",
+    location: "Coimbatore, Tamil Nadu, India",
+    period: "2020 - 2023",
+    logo: "/psg-logo.png",
+  },
+  {
     type: "Post-Graduate Degree",
     title: "MSc in Business Analytics",
     institution: "Dublin Business School",
     location: "Dublin, IE",
-    period: "2023 - 2024",
-  },
-  {
-    type: "Certification",
-    title: "SQL for Data Science",
-    institution: "University of California, Davis",
-    location: "Coursera",
-    period: "2024",
-    credentialUrl:
-      "https://www.coursera.org/account/accomplishments/verify/YWV7WCFCFDEC?utm_source=link&utm_medium=certificate&utm_content=cert_image&utm_campaign=sharing_cta&utm_product=course",
+    period: "2024 - Present",
+    logo: "/dbs-logo.png",
   },
   {
     type: "Certification",
     title: "Claude 101",
     institution: "Anthropic",
     location: "Remote",
-    period: "2024",
+    period: "2026",
     credentialUrl: "https://verify.skilljar.com/c/2zoacjan4ehz",
+    logo: "/anthropic-logo.png",
+  },
+  {
+    type: "Certification",
+    title: "SQL for Data Science",
+    institution: "University of California, Davis",
+    location: "Coursera",
+    period: "2022",
+    credentialUrl:
+      "https://www.coursera.org/account/accomplishments/verify/YWV7WCFCFDEC?utm_source=link&utm_medium=certificate&utm_content=cert_image&utm_campaign=sharing_cta&utm_product=course",
+    logo: "/uc-davis-logo.png",
   },
 ];
 
