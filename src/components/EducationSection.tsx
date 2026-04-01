@@ -30,18 +30,19 @@ export function EducationSection() {
                 className="bg-surface-container-lowest p-10 flex flex-col md:flex-row justify-between gap-8 group hover:bg-white transition-all cursor-default"
               >
                 <div className="flex items-start gap-6">
-                  <div className="shrink-0 w-16 h-16 bg-white rounded-lg p-2 flex items-center justify-center">
+                  <div className="shrink-0 w-24 h-24 bg-white rounded-lg p-3 flex items-center justify-center">
                     {item.logo ? (
                       <img
                         src={item.logo}
                         alt={`${item.institution} logo`}
-                        className="max-w-full max-h-full object-contain"
+                        className={`w-full h-full object-contain ${item.institution.includes('Dublin Business') ? 'scale-150' : ''}`}
                         onError={(e) => {
                           (e.target as HTMLImageElement).style.display = 'none';
                         }}
                       />
-                    ) : null}
-                    <GraduationCap className="w-8 h-8 text-secondary" />
+                    ) : (
+                      <GraduationCap className="w-10 h-10 text-secondary" />
+                    )}
                   </div>
                   <div className="space-y-3">
                     <div className="font-label text-[10px] uppercase tracking-[0.2em] text-secondary">
