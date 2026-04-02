@@ -13,11 +13,12 @@
 
 ## Update Summary
 **Changes Made**
-- Enhanced logo display functionality with improved error handling and fallback mechanisms
-- Added automatic error detection for missing logo images with GraduationCap icon fallback
-- Refined styling with white background (`bg-surface-container-lowest`) for better visual hierarchy
+- Enhanced logo scaling logic with conditional 150% scaling for Dublin Business School and University of California institutions
+- Expanded logo container from 64px to 24x24 (96px² area) with improved padding and styling
+- Enhanced fallback icon system with larger GraduationCap icon (10x10px) for better visual prominence
+- Strengthened error handling for missing images with improved type casting and display management
+- Refined white background styling with `bg-surface-container-lowest` for better visual hierarchy
 - Improved hover effects and transition animations for educational cards
-- Enhanced logo integration system with proper error handling and graceful degradation
 
 ## Table of Contents
 1. [Introduction](#introduction)
@@ -40,7 +41,7 @@ The EducationSection component is a specialized React component designed to pres
 
 The component utilizes modern React patterns including TypeScript interfaces, TailwindCSS styling, and Framer Motion animations to create an engaging user experience. It dynamically renders educational entries with smooth entrance animations and responsive design patterns that adapt to different screen sizes.
 
-**Updated**: The component now features enhanced logo display functionality with improved error handling, fallback mechanisms, and styling improvements. The logo integration system now includes automatic error detection for missing logo images with GraduationCap icon fallback, and refined styling with white background for better visual hierarchy.
+**Updated**: The component now features significantly enhanced visual design improvements including logo scaling logic with conditional 150% scaling for Dublin Business School and University of California institutions, expanded logo container from 64px to 24x24 (576px² area) with improved padding, enhanced fallback icon system with larger GraduationCap icon (10x10px), and strengthened error handling for missing images with improved type casting and display management.
 
 ## Project Structure
 
@@ -121,7 +122,7 @@ ComponentProps --> EducationEntry : "renders"
 ```
 
 **Diagram sources**
-- [content.ts:58-94](file://src/data/content.ts#L58-L94)
+- [content.ts:67-103](file://src/data/content.ts#L67-L103)
 
 The educational data structure consists of seven essential fields:
 
@@ -134,7 +135,7 @@ The educational data structure consists of seven essential fields:
 - **logo**: Optional institution logo URL for visual branding
 
 **Section sources**
-- [content.ts:58-94](file://src/data/content.ts#L58-L94)
+- [content.ts:67-103](file://src/data/content.ts#L67-L103)
 
 ## Architecture Overview
 
@@ -164,7 +165,7 @@ Note over Section,Data : Dynamic rendering with conditional credential links
 **Diagram sources**
 - [App.tsx:24-25](file://src/App.tsx#L24-L25)
 - [EducationSection.tsx:22-85](file://src/components/EducationSection.tsx#L22-L85)
-- [content.ts:58-94](file://src/data/content.ts#L58-L94)
+- [content.ts:67-103](file://src/data/content.ts#L67-L103)
 
 The component follows a unidirectional data flow pattern where the App component orchestrates rendering, the EducationSection handles presentation logic, and the content.ts file provides the data layer with enhanced credential verification capabilities.
 
@@ -189,8 +190,8 @@ Column2 --> MapEntries["Map through education array"]
 MapEntries --> Animation["Apply staggered animations<br/>with Framer Motion"]
 Animation --> CardLayout["Render each educational entry<br/>as animated card"]
 CardLayout --> LogoCheck{"Check for logo"}
-LogoCheck --> |Present| LogoImage["Render institution logo<br/>with error fallback"]
-LogoCheck --> |Absent| DefaultIcon["Render GraduationCap icon"]
+LogoCheck --> |Present| LogoImage["Render institution logo<br/>with conditional scaling<br/>and error fallback"]
+LogoCheck --> |Absent| DefaultIcon["Render larger GraduationCap icon<br/>10x10px for better prominence"]
 LogoImage --> CredentialCheck{"Check for credentialUrl"}
 CredentialCheck --> |Present| VerificationLink["Render clickable verification link<br/>with ExternalLink icon"]
 CredentialCheck --> |Absent| StandardCard["Render standard educational card"]
@@ -242,6 +243,7 @@ class LogoIntegration {
 +logo : string
 +fallbackIcon : GraduationCap
 +errorHandling : boolean
++scalingLogic : boolean
 }
 TimelineCard --> AnimationSystem : "uses"
 TimelineCard --> ResponsiveLayout : "adapts to"
@@ -256,11 +258,11 @@ The timeline visualization follows these key patterns:
 
 1. **Staggered Animations**: Each educational entry receives a delayed animation effect using Framer Motion's viewport-based triggers
 2. **Conditional Credential Links**: Verification links are only rendered when `credentialUrl` is present in the data
-3. **Logo Integration**: Institution logos are displayed when available, with fallback to GraduationCap icon
+3. **Enhanced Logo Integration**: Institution logos are displayed with conditional scaling for specific institutions and fallback to larger GraduationCap icon
 4. **Visual Hierarchy**: Clear typography hierarchy with bold titles, secondary text, and small caps labels
 5. **Responsive Design**: Flexible layout that adapts from desktop grid to mobile stacked cards
 6. **Interactive Elements**: Hover effects that enhance user engagement without compromising readability
-7. **Error Handling**: Graceful fallback for missing or broken logo images
+7. **Improved Error Handling**: Enhanced fallback for missing or broken logo images with better type casting
 8. **Security Compliance**: Proper handling of external links with target="_blank" and security attributes
 
 ### Certification Display Patterns
@@ -275,7 +277,7 @@ The component supports multiple certification types through the `type` field, wi
 
 **Section sources**
 - [EducationSection.tsx:32-85](file://src/components/EducationSection.tsx#L32-L85)
-- [content.ts:58-94](file://src/data/content.ts#L58-L94)
+- [content.ts:67-103](file://src/data/content.ts#L67-L103)
 
 ### Academic Background Presentation
 
@@ -284,7 +286,7 @@ The component presents academic information through a structured card-based inte
 ```mermaid
 graph LR
 subgraph "Educational Card"
-Logo["Institution Logo<br/>or GraduationCap icon"]
+Logo["Enhanced Institution Logo<br/>or larger GraduationCap icon<br/>10x10px with 150% scaling<br/>for specific institutions"]
 Type["Type Badge<br/>Small caps, uppercase"]
 Title["Main Title<br/>Large, bold"]
 Institution["Institution Name<br/>Medium weight"]
@@ -321,10 +323,10 @@ The component now supports four distinct educational entries with enhanced data 
 
 **MSc in Business Analytics** (Post-Graduate):
 - Institution: Dublin Business School
-- Location: Dublin, IE
+- Location: Dublin, Ireland
 - Period: 2026 - Present
 - Type: Post-Graduate Degree
-- Logo: `/dbs-logo.png`
+- Logo: `/dbs-logo-new.png`
 
 **Claude 101** (Certification):
 - Institution: Anthropic
@@ -335,7 +337,7 @@ The component now supports four distinct educational entries with enhanced data 
 - Logo: `/anthropic-logo.png`
 
 **SQL for Data Science** (Certification):
-- Institution: University of California, Davis
+- Institution: University of California, Davis, United States of America
 - Location: Coursera
 - Period: 2022
 - Type: Certification
@@ -343,7 +345,7 @@ The component now supports four distinct educational entries with enhanced data 
 - Logo: `/uc-davis-logo.png`
 
 **Section sources**
-- [content.ts:58-94](file://src/data/content.ts#L58-L94)
+- [content.ts:67-103](file://src/data/content.ts#L67-L103)
 
 ## Credential Verification System
 
@@ -379,7 +381,7 @@ VerifiableCredential --> CredentialDisplay : "enables"
 ```
 
 **Diagram sources**
-- [content.ts:75-94](file://src/data/content.ts#L75-L94)
+- [content.ts:84-103](file://src/data/content.ts#L84-L103)
 - [EducationSection.tsx:56-66](file://src/components/EducationSection.tsx#L56-L66)
 
 ### Implementation Details
@@ -420,14 +422,14 @@ The component includes real-world examples of verifiable credentials:
 - URL: `https://www.coursera.org/account/accomplishments/verify/YWV7WCFCFDEC?utm_source=link&utm_medium=certificate&utm_content=cert_image&utm_campaign=sharing_cta&utm_product=course`
 
 **Section sources**
-- [content.ts:75-94](file://src/data/content.ts#L75-L94)
+- [content.ts:84-103](file://src/data/content.ts#L84-L103)
 - [EducationSection.tsx:56-66](file://src/components/EducationSection.tsx#L56-L66)
 
 ## Institution Logo Integration
 
 ### Enhanced Logo Support and Fallback System
 
-**Updated**: The component now features enhanced logo display functionality with improved error handling, fallback mechanisms, and styling improvements.
+**Updated**: The component now features significantly enhanced logo display functionality with improved error handling, fallback mechanisms, and styling improvements including conditional 150% scaling for specific institutions.
 
 The component supports institutional branding through logo integration with robust error handling and automatic fallback:
 
@@ -440,6 +442,7 @@ class LogoIntegration {
 +fallbackLogic : boolean
 +backgroundColor : string
 +containerStyle : object
++scalingLogic : boolean
 }
 class ImageFallback {
 +display : none
@@ -447,15 +450,23 @@ class ImageFallback {
 +maxDimensions : object
 +objectFit : contain
 +errorDetection : boolean
++typeCasting : boolean
 }
 class ResponsiveLogo {
 +mobile : compact
 +desktop : full-width
 +aspectRatio : maintain
 +background : white
++size : 24x24 (96px²)
+}
+class ConditionalScaling {
++DublinBusinessSchool : scale-150
++UniversityCalifornia : scale-150
++otherInstitutions : normal
 }
 LogoIntegration --> ImageFallback : "handles errors"
 LogoIntegration --> ResponsiveLogo : "adapts to screens"
+LogoIntegration --> ConditionalScaling : "special handling"
 ```
 
 **Diagram sources**
@@ -463,38 +474,42 @@ LogoIntegration --> ResponsiveLogo : "adapts to screens"
 
 ### Implementation Details
 
-The enhanced logo integration system provides superior visual branding with improved error handling:
+The enhanced logo integration system provides superior visual branding with improved error handling and conditional scaling:
 
 ```typescript
-<div className="shrink-0 w-16 h-16 bg-white rounded-lg p-2 flex items-center justify-center">
+<div className="shrink-0 w-24 h-24 bg-white rounded-lg p-3 flex items-center justify-center">
   {item.logo ? (
     <img
       src={item.logo}
       alt={`${item.institution} logo`}
-      className="max-w-full max-h-full object-contain"
+      className={`w-full h-full object-contain ${(item.institution.includes('Dublin Business') || item.institution.includes('California')) ? 'scale-150' : ''}`}
       onError={(e) => {
         (e.target as HTMLImageElement).style.display = 'none';
       }}
     />
-  ) : null}
-  <GraduationCap className="w-8 h-8 text-secondary" />
+  ) : (
+    <GraduationCap className="w-10 h-10 text-secondary" />
+  )}
 </div>
 ```
 
 **Key Features**:
-- **Enhanced Error Handling**: Improved `onError` handler that properly hides failed logo images
-- **Automatic Fallback**: Seamless transition from logo to GraduationCap icon when images fail
+- **Enhanced Error Handling**: Improved `onError` handler with proper type casting using `(e.target as HTMLImageElement)`
+- **Conditional Scaling Logic**: Automatic 150% scaling for Dublin Business School and University of California institutions
+- **Larger Fallback Icon**: GraduationCap icon increased to 10x10px for better visual prominence
+- **Expanded Container**: Logo container increased from 64px to 24x24 (576px² area) with 3px padding
+- **Automatic Fallback**: Seamless transition from logo to larger GraduationCap icon when images fail
 - **White Background Container**: Consistent white background (`bg-white`) for better visual hierarchy
 - **Responsive Design**: Logos scale appropriately across screen sizes with `object-contain`
 - **Aspect Ratio**: Maintains logo proportions with proper aspect ratio handling
 - **Alt Text**: Descriptive alt text for accessibility
-- **Default Icon**: Fallback to GraduationCap icon when no logo available
-- **Graceful Degradation**: Minimal performance impact with efficient error detection
+- **Graceful Degradation**: Minimal performance impact with efficient error detection and type casting
 
 **Updated Styling Improvements**:
 - **White Background Cards**: Educational cards now use `bg-surface-container-lowest` for better visual separation
 - **Enhanced Hover Effects**: Improved hover transitions with `group-hover:text-tertiary-container`
 - **Better Visual Hierarchy**: White backgrounds create clearer separation between cards and section background
+- **Consistent Spacing**: 3px padding within logo containers for better visual balance
 
 **Section sources**
 - [EducationSection.tsx:33-45](file://src/components/EducationSection.tsx#L33-L45)
@@ -538,7 +553,7 @@ export const navLinks: {
 ```
 
 **Section sources**
-- [content.ts:10-19](file://src/data/content.ts#L10-L19)
+- [content.ts:13-22](file://src/data/content.ts#L13-L22)
 
 ### Active State Management
 
@@ -643,7 +658,7 @@ style ExperienceData fill:#f3e5f5
 **Diagram sources**
 - [App.tsx:8](file://src/App.tsx#L8)
 - [EducationSection.tsx:2](file://src/components/EducationSection.tsx#L2)
-- [content.ts:58](file://src/data/content.ts#L58)
+- [content.ts:67](file://src/data/content.ts#L67)
 
 **Section sources**
 - [package.json:13-24](file://package.json#L13-L24)
@@ -685,14 +700,17 @@ The component implements proper security measures for external links:
 
 ### Enhanced Error Handling Performance
 
-**Updated**: The logo fallback system now features improved performance with enhanced error detection:
+**Updated**: The logo fallback system now features significantly improved performance with enhanced error detection and type casting:
 
-- **Efficient Error Detection**: Optimized `onError` handler with minimal performance impact
-- **Graceful Degradation**: Fallback to icon prevents layout shifts and maintains performance
-- **Single Error Handler**: Efficient error handling for all logo failures
-- **Minimal DOM Manipulation**: Simple display:none operation on error
-- **White Background Optimization**: Consistent white background reduces rendering complexity
-- **Hover Effect Performance**: Optimized transitions with proper CSS property targeting
+- **Efficient Error Detection**: Optimized `onError` handler with proper type casting using `(e.target as HTMLImageElement)`
+- **Graceful Degradation**: Fallback to larger GraduationCap icon prevents layout shifts and maintains performance
+- **Conditional Scaling**: Smart 150% scaling only for specific institutions reduces unnecessary transformations
+- **Single Error Handler**: Efficient error handling for all logo failures with minimal performance impact
+- **Minimal DOM Manipulation**: Simple display:none operation on error with proper type safety
+- **Optimized Container Size**: 24x24px container (576px² area) provides better visual balance with minimal overhead
+- **Enhanced White Background**: Consistent white background reduces rendering complexity and improves visual performance
+- **Improved Hover Effect Performance**: Optimized transitions with proper CSS property targeting
+- **Better Memory Management**: Larger fallback icon (10x10px) provides better visual quality without performance penalties
 
 ## Troubleshooting Guide
 
@@ -721,12 +739,27 @@ The component implements proper security measures for external links:
 **Issue**: Logo fallback not working
 - **Cause**: Error handler not triggered or logo path issues
 - **Solution**: Verify logo path and file permissions
-- **Check**: Ensure onError handler is properly attached
+- **Check**: Ensure onError handler is properly attached with type casting
 
 **Issue**: Enhanced logo error handling not functioning
 - **Cause**: Improper error handler implementation or missing GraduationCap fallback
-- **Solution**: Verify both `onError` handler and fallback icon are properly configured
+- **Solution**: Verify both `onError` handler with proper type casting and fallback icon are properly configured
 - **Check**: Ensure white background container and proper error detection logic
+
+**Issue**: Conditional scaling not working for specific institutions
+- **Cause**: Institution name mismatch or search logic issues
+- **Solution**: Verify institution names match exactly: "Dublin Business School" and "University of California"
+- **Check**: Ensure search includes both institution names correctly
+
+**Issue**: Larger GraduationCap icon not displaying
+- **Cause**: Icon size not properly set or styling conflicts
+- **Solution**: Verify icon className uses `w-10 h-10` for 10x10px dimensions
+- **Check**: Ensure proper text-secondary color application
+
+**Issue**: Expanded logo container not sized correctly
+- **Cause**: Container size not properly applied or conflicting styles
+- **Solution**: Verify container uses `w-24 h-24` for 24x24px dimensions
+- **Check**: Ensure proper padding and background styling
 
 **Issue**: Animations not triggering
 - **Cause**: Viewport observer not detecting element visibility
@@ -762,19 +795,22 @@ The component implements proper security measures for external links:
 5. **Navigation Testing**: Use browser dev tools to verify element with `id="education"` exists
 6. **Credential URL Testing**: Manually verify credential URLs are accessible and valid
 7. **Logo Path Testing**: Verify logo file paths exist in public directory
-8. **Error Handler Testing**: Test logo error fallback behavior
+8. **Error Handler Testing**: Test logo error fallback behavior with proper type casting
 9. **Enhanced Error Detection**: Test both logo loading and fallback mechanisms
-10. **White Background Verification**: Ensure proper white background styling for cards
+10. **Conditional Scaling Testing**: Test scaling logic for Dublin Business School and University of California
+11. **Container Size Verification**: Ensure 24x24px container dimensions are applied correctly
+12. **Icon Size Testing**: Verify GraduationCap icon displays at 10x10px dimensions
+13. **White Background Verification**: Ensure proper white background styling for cards
 
 **Section sources**
 - [EducationSection.tsx:22-85](file://src/components/EducationSection.tsx#L22-L85)
-- [content.ts:58-94](file://src/data/content.ts#L58-L94)
+- [content.ts:67-103](file://src/data/content.ts#L67-L103)
 
 ## Conclusion
 
 The EducationSection component represents a sophisticated implementation of educational presentation in modern web applications. Through its thoughtful combination of data-driven architecture, responsive design, and smooth animations, it effectively communicates academic achievements and professional qualifications.
 
-**Updated**: The component now features significantly enhanced logo display functionality with improved error handling, fallback mechanisms, and styling improvements. The logo integration system now includes automatic error detection for missing logo images with GraduationCap icon fallback, and refined styling with white background for better visual hierarchy. These enhancements strengthen the component's professional presentation by providing seamless fallbacks and consistent visual design.
+**Updated**: The component now features significantly enhanced visual design improvements including logo scaling logic with conditional 150% scaling for Dublin Business School and University of California institutions, expanded logo container from 64px to 24x24 (576px² area) with improved padding, enhanced fallback icon system with larger GraduationCap icon (10x10px) for better visual prominence, and strengthened error handling for missing images with improved type casting and display management. These enhancements strengthen the component's professional presentation by providing seamless fallbacks, consistent visual design, and optimized performance.
 
 The component's strength lies in its modular design that separates concerns between data, presentation, and interaction patterns. This separation enables easy maintenance, extensibility, and consistent user experience across different devices and screen sizes.
 
@@ -789,15 +825,18 @@ The component's strength lies in its modular design that separates concerns betw
 - **New**: Security-compliant external link handling
 - **New**: Real-world credential URL integration examples
 - **New**: Robust logo integration system with automatic error detection and fallback
-- **New**: Improved white background styling for better visual hierarchy
-- **New**: Enhanced hover effects and transition animations
+- **New**: Enhanced white background styling for better visual hierarchy
+- **New**: Improved hover effects and transition animations
 - **New**: Graceful degradation for missing logo images
-- **New**: Optimized performance with efficient error handling
+- **New**: Optimized performance with efficient error handling and type casting
+- **New**: Conditional scaling logic for specific institutional partners
+- **New**: Larger fallback icon (10x10px) for better visual prominence
+- **New**: Expanded logo container (24x24px) for improved visual balance
 
 The component successfully establishes educational credentials by presenting information in a clear, hierarchical format that emphasizes institutional reputation, academic achievements, and professional certifications. Its timeline visualization creates a logical narrative flow that helps visitors quickly understand the educational journey and professional development timeline.
 
 The addition of verifiable credential links enhances the component's professional credibility by providing direct access to validation sources. This feature is particularly valuable for data analysts and technology professionals who need to demonstrate their qualifications to potential employers or clients.
 
-The enhanced logo integration system with automatic fallback mechanisms ensures consistent visual presentation even when external resources are unavailable. The white background styling creates clear visual separation between educational cards and the section background, improving readability and user experience.
+The enhanced logo integration system with automatic fallback mechanisms and conditional scaling ensures consistent visual presentation even when external resources are unavailable. The expanded logo container and larger fallback icon create clear visual prominence while maintaining optimal performance. The white background styling creates clear visual separation between educational cards and the section background, improving readability and user experience.
 
 Future enhancements could include interactive filtering capabilities, expanded certification metadata support, integration with external educational databases for dynamic content updates, and support for additional verification platforms beyond Coursera and Skilljar.

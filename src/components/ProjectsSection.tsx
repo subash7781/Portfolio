@@ -67,7 +67,7 @@ export function ProjectsSection() {
                   {project.stack.map((tech) => (
                     <span
                       key={tech}
-                      className="inline-flex items-center gap-2 px-3 py-2 border border-outline-variant/25 bg-surface-container-low text-primary text-[10px] font-label uppercase tracking-[0.15em]"
+                      className="inline-flex items-center gap-2 px-3 py-2 border border-outline-variant/25 bg-surface-container-low text-primary text-[10px] font-label uppercase tracking-[0.15em] cursor-default select-none hover:bg-primary hover:text-on-primary hover:border-primary hover:-translate-y-0.5 transition-all duration-150"
                     >
                       <StackIcon name={tech} />
                       {tech}

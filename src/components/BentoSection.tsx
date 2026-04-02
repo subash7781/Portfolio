@@ -1,12 +1,5 @@
 import { motion } from "motion/react";
 import { skills } from "../data/content";
-import type { SkillTier } from "../data/content";
-
-const tierConfig: Record<SkillTier, { label: string; color: string; dot: string }> = {
-  "must-have":    { label: "Must-Have",    color: "bg-tertiary-container/20 text-tertiary-container border border-tertiary-container/30", dot: "bg-tertiary-container" },
-  "good-to-have": { label: "Good-to-Have", color: "bg-primary/10 text-primary border border-primary/20",                                 dot: "bg-primary" },
-  "edge":         { label: "Edge Skill",   color: "bg-secondary/10 text-secondary border border-secondary/20",                          dot: "bg-secondary" },
-};
 
 export function BentoSection() {
   return (
@@ -59,39 +52,50 @@ export function BentoSection() {
             <h3 className="text-3xl font-bold tracking-tight">
               Technical Stack
             </h3>
-
           </div>
 
-          <div className="space-y-6">
-            {skills.map((skill) => {
-              const cfg = tierConfig[skill.tier];
-              return (
-                <div key={skill.name} className="space-y-2 group">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <skill.icon size={16} className="text-tertiary-fixed shrink-0" />
-                      <span className="text-[11px] font-bold tracking-[0.15em] uppercase font-label">
-                        {skill.name}
-                      </span>
-                    </div>
-                  </div>
-                  <div className="skill-bar-bg">
-                    <motion.div
-                      initial={{ width: 0 }}
-                      whileInView={{ width: `${skill.level}%` }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 0.2, ease: "easeOut" }}
-                      className="skill-bar-fill"
-                    />
-                  </div>
-                  <div className="text-right">
-                    <span className="text-[10px] text-on-primary-container/50 font-label">
-                      {skill.level}%
+          <div className="space-y-4">
+            {skills.map((skill) => (
+              <div
+                key={skill.name}
+                className="cursor-default"
+                onMouseEnter={(e) => {
+                  const t = e.currentTarget;
+                  (t.children[0].children[0].children[0] as HTMLElement).style.color = "#fff";
+                  (t.children[0].children[0].children[1] as HTMLElement).style.color = "#fff";
+                  (t.children[0].children[1] as HTMLElement).style.color = "rgba(255,255,255,0.7)";
+                  (t.children[1].children[0] as HTMLElement).style.backgroundColor = "#fff";
+                }}
+                onMouseLeave={(e) => {
+                  const t = e.currentTarget;
+                  (t.children[0].children[0].children[0] as HTMLElement).style.color = "";
+                  (t.children[0].children[0].children[1] as HTMLElement).style.color = "";
+                  (t.children[0].children[1] as HTMLElement).style.color = "";
+                  (t.children[1].children[0] as HTMLElement).style.backgroundColor = "";
+                }}
+              >
+                <div className="flex items-center justify-between mb-1.5">
+                  <div className="flex items-center gap-2">
+                    <skill.icon size={16} style={{ color: "#a7f3d0" }} />
+                    <span style={{ fontSize: "11px", fontWeight: 700, letterSpacing: "0.15em", textTransform: "uppercase", fontFamily: "var(--font-label)" }}>
+                      {skill.name}
                     </span>
                   </div>
+                  <span style={{ fontSize: "10px", color: "rgba(255,255,255,0.5)", fontFamily: "var(--font-label)" }}>
+                    {skill.level}%
+                  </span>
                 </div>
-              );
-            })}
+                <div className="h-1.5 bg-white/20 rounded-full overflow-hidden">
+                  <motion.div
+                    initial={{ width: 0 }}
+                    whileInView={{ width: `${skill.level}%` }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.2, ease: "easeOut" }}
+                    style={{ height: "100%", backgroundColor: "#a7f3d0", borderRadius: "9999px" }}
+                  />
+                </div>
+              </div>
+            ))}
           </div>
         </motion.div>
       </div>
