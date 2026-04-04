@@ -46,7 +46,23 @@
   }
   body {
     @apply bg-background text-on-background font-body antialiased;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeSpeed;
   }
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* GPU-accelerated animation layer for all Framer Motion elements */
+[data-framer-component-type],
+[style*="transform"],
+[style*="opacity"] {
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transform-style: preserve-3d;
 }
 
 .glass-nav {

@@ -40,10 +40,10 @@ export function ContactSection() {
           {!showForm ? (
             <motion.div
               key="buttons"
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.3 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
               className="flex flex-col sm:flex-row justify-center gap-6 pt-8"
             >
               <button
@@ -64,18 +64,18 @@ export function ContactSection() {
           ) : (
             <motion.div
               key="form"
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.3, delay: 0.1 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
               className="pt-8"
             >
               <form className="max-w-5xl mx-auto" onSubmit={handleSubmit}>
                 <div className="flex flex-col md:flex-row justify-center items-start gap-8 md:gap-12">
                   <motion.div
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.3, delay: 0.2 }}
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3, delay: 0.1 }}
                     className="flex-1 text-center md:text-left w-full"
                   >
                     <label
@@ -100,9 +100,9 @@ export function ContactSection() {
                     className="hidden md:block w-px h-16 bg-on-primary-container/20 self-center origin-center"
                   />
                   <motion.div
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.3, delay: 0.35 }}
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3, delay: 0.15 }}
                     className="flex-1 text-center md:text-left w-full"
                   >
                     <label
@@ -127,9 +127,9 @@ export function ContactSection() {
                     className="hidden md:block w-px h-16 bg-on-primary-container/20 self-center origin-center"
                   />
                   <motion.div
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.3, delay: 0.45 }}
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3, delay: 0.2 }}
                     className="flex-1 text-center md:text-left w-full"
                   >
                     <label

@@ -10,7 +10,13 @@ export function EducationSection() {
     >
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
-          <div className="lg:col-span-4">
+          <motion.div
+            className="lg:col-span-4"
+            initial={{ opacity: 0, x: -40 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.5, ease: "easeOut" }}
+          >
             <h2 className="text-5xl font-bold tracking-tighter text-primary">
               Academic Foundation
             </h2>
@@ -18,15 +24,15 @@ export function EducationSection() {
               Continuous rigorous upskilling through globally recognized
               institutions and technical certifications.
             </p>
-          </div>
+          </motion.div>
           <div className="lg:col-span-8 space-y-1">
             {education.map((item, idx) => (
               <motion.div
                 key={item.title}
-                initial={{ opacity: 0, x: 20 }}
+                initial={{ opacity: 0, x: 60 }}
                 whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: idx * 0.1 }}
+                viewport={{ once: true, amount: 0.1 }}
+                transition={{ duration: 0.45, delay: idx * 0.08, ease: "easeOut" }}
                 className="bg-surface-container-lowest p-10 flex flex-col md:flex-row justify-between gap-8 group hover:bg-white transition-all cursor-default"
               >
                 <div className="flex items-start gap-6">

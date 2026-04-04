@@ -1,7 +1,39 @@
 import { motion } from "motion/react";
+import { useEffect } from "react";
 import { skills } from "../data/content";
 
 export function BentoSection() {
+  useEffect(() => {
+    if (document.getElementById("skill-glow-style")) return;
+    const style = document.createElement("style");
+    style.id = "skill-glow-style";
+    style.textContent = `
+      @keyframes barGlowPulse {
+        0%   { box-shadow: 0 0 0px rgba(152,249,148,0); }
+        50%  { box-shadow: 0 0 8px rgba(152,249,148,0.7), 0 0 16px rgba(152,249,148,0.3); }
+        100% { box-shadow: 0 0 5px rgba(152,249,148,0.5), 0 0 10px rgba(152,249,148,0.2); }
+      }
+      .bar-fill-glow {
+        background-color: #b8fdb5 !important;
+        animation: barGlowPulse 400ms ease forwards;
+      }
+      .bar-fill-plain {
+        background-color: #98f994 !important;
+        box-shadow: none;
+      }
+      @keyframes rowGlow {
+        0%   { box-shadow: inset 0 0 0px rgba(152,249,148,0); }
+        50%  { box-shadow: inset 0 0 10px rgba(152,249,148,0.12); }
+        100% { box-shadow: inset 0 0 6px rgba(152,249,148,0.08); }
+      }
+      .skill-row-hover {
+        background: rgba(152,249,148,0.07);
+        animation: rowGlow 400ms ease forwards;
+      }
+    `;
+    document.head.appendChild(style);
+  }, []);
+
   return (
     <section className="py-32 px-8 md:px-16 lg:px-24">
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8">
@@ -62,25 +94,30 @@ export function BentoSection() {
                 style={{ padding: "6px 8px", borderRadius: "6px", transition: "background 200ms ease" }}
                 onMouseEnter={(e) => {
                   const t = e.currentTarget;
-                  t.style.background = "rgba(152,249,148,0.08)";
+                  t.classList.add("skill-row-hover");
                   const fill = t.querySelector('.bar-fill') as HTMLElement | null;
                   const pct = t.querySelector('.bar-pct') as HTMLElement | null;
-                  if (fill) fill.style.backgroundColor = "#b8fdb5";
+                  const label = t.querySelector('.bar-label') as HTMLElement | null;
+                  if (fill) { fill.classList.remove("bar-fill-plain"); fill.classList.add("bar-fill-glow"); }
                   if (pct) pct.style.color = "#98f994";
+                  if (label) label.style.letterSpacing = "0.2em";
                 }}
                 onMouseLeave={(e) => {
                   const t = e.currentTarget;
+                  t.classList.remove("skill-row-hover");
                   t.style.background = "transparent";
                   const fill = t.querySelector('.bar-fill') as HTMLElement | null;
                   const pct = t.querySelector('.bar-pct') as HTMLElement | null;
-                  if (fill) fill.style.backgroundColor = "#98f994";
+                  const label = t.querySelector('.bar-label') as HTMLElement | null;
+                  if (fill) { fill.classList.remove("bar-fill-glow"); fill.classList.add("bar-fill-plain"); }
                   if (pct) pct.style.color = "rgba(152,249,148,0.7)";
+                  if (label) label.style.letterSpacing = "0.15em";
                 }}
               >
                 <div className="flex items-center justify-between mb-1.5">
                   <div className="flex items-center gap-2">
-                    <skill.icon size={16} className="bar-icon shrink-0" style={{ color: "#98f994", transition: "color 150ms ease" }} />
-                    <span className="bar-label" style={{ fontSize: "11px", fontWeight: 700, letterSpacing: "0.15em", textTransform: "uppercase", color: "#ffffff", transition: "color 150ms ease" }}>
+                    <skill.icon size={16} className="bar-icon shrink-0" style={{ color: "#98f994" }} />
+                    <span className="bar-label" style={{ fontSize: "11px", fontWeight: 700, letterSpacing: "0.15em", textTransform: "uppercase", color: "#ffffff", transition: "letter-spacing 200ms ease" }}>
                       {skill.name}
                     </span>
                   </div>
@@ -90,12 +127,12 @@ export function BentoSection() {
                 </div>
                 <div style={{ height: "2px", backgroundColor: "rgba(152,249,148,0.2)", borderRadius: "9999px", overflow: "hidden" }}>
                   <motion.div
-                    className="bar-fill"
+                    className="bar-fill bar-fill-plain"
                     initial={{ width: 0 }}
                     whileInView={{ width: `${skill.level}%` }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.2, ease: "easeOut" }}
-                    style={{ height: "100%", backgroundColor: "#98f994", borderRadius: "9999px", transition: "background-color 150ms ease" }}
+                    style={{ height: "100%", borderRadius: "9999px" }}
                   />
                 </div>
               </div>

@@ -33,7 +33,7 @@ export const skills: {
   { name: "SQL", icon: Database, level: 90, tier: "must-have" },
   { name: "Power BI", icon: BarChart3, level: 95, tier: "must-have" },
   { name: "Excel / Pivot Tables", icon: Table, level: 98, tier: "must-have" },
-  { name: "Python (pandas, matplotlib)", icon: Terminal, level: 85, tier: "must-have" },
+  { name: "Python", icon: Terminal, level: 85, tier: "must-have" },
   { name: "Tableau", icon: LineChart, level: 75, tier: "good-to-have" },
   { name: "Data Modelling", icon: Layers, level: 80, tier: "good-to-have" },
   { name: "ETL Basics", icon: GitBranch, level: 72, tier: "good-to-have" },
