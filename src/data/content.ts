@@ -132,7 +132,7 @@ export const socialLinks: {
 export const HERO_IMAGE_SRC = "/image.png";
 
 /** Resume PDF in `public/` */
-export const CV_PDF_HREF = "/Subash_cv.pdf";
+export const CV_PDF_HREF = "https://drive.google.com/file/d/1B5Mz8yAkmbdaRVkWEUuaCC3fVnp4F9I6/view?usp=sharing";
 
 export const projects: {
   title: string;
