@@ -22,7 +22,7 @@ export function Footer() {
                 {...(external
                   ? { target: "_blank", rel: "noopener noreferrer" }
                   : {})}
-                className="text-secondary hover:text-primary underline decoration-1 underline-offset-8 transition-all font-label text-[10px] uppercase tracking-widest"
+                className="text-secondary hover:text-[#172839] underline decoration-1 underline-offset-8 transition-all font-label text-[10px] uppercase tracking-widest"
               >
                 {link.name}
               </a>
