@@ -32,7 +32,7 @@ export function EducationSection() {
                 initial={{ opacity: 0, x: 60 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true, amount: 0.1 }}
-                transition={{ duration: 0.4, delay: idx * 0.06, ease: "easeOut" }}
+                transition={{ duration: 0.8, delay: idx * 0.06, ease: "easeOut" }}
                 className="bg-surface-container-lowest p-10 flex flex-col md:flex-row justify-between gap-8 group hover:bg-white transition-all cursor-default"
               >
                 <div className="flex items-start gap-6">
