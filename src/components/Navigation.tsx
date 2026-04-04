@@ -84,6 +84,7 @@ export function Navigation() {
         </div>
         <a
           href={CV_PDF_HREF}
+          download="subash_kannan_CV.pdf"
           target="_blank"
           rel="noopener noreferrer"
           className="bg-primary hover:bg-primary-container text-on-primary px-6 py-2 text-[10px] font-label uppercase tracking-[0.2em] transition-all active:scale-95 flex items-center gap-2"

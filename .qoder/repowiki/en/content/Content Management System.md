@@ -17,6 +17,13 @@
 - [README.md](file://README.md)
 </cite>
 
+## Update Summary
+**Changes Made**
+- Updated CV PDF hosting mechanism documentation to reflect Google Drive integration
+- Added troubleshooting guidance for external PDF hosting
+- Enhanced content validation and backup strategies for cloud-hosted assets
+- Updated deployment considerations for CV PDF distribution
+
 ## Table of Contents
 1. [Introduction](#introduction)
 2. [Project Structure](#project-structure)
@@ -31,6 +38,8 @@
 
 ## Introduction
 This document explains the centralized, data-driven content management approach used in the portfolio. All content—navigation, professional background, skills visualization, project showcase, academic timeline, and contact integration—is defined in a single TypeScript module and consumed by React components. The system emphasizes type safety, predictable updates, and scalable extension points for adding new content, adjusting visuals, and maintaining consistency across the application.
+
+**Updated** The CV PDF hosting mechanism has been migrated from local public folder hosting to Google Drive integration for improved reliability and accessibility.
 
 ## Project Structure
 The portfolio follows a clear separation of concerns:
@@ -122,6 +131,12 @@ This section documents the content model and how it is consumed across the appli
   - Consumption: Hero and Footer map over socialLinks; Hero uses HERO_IMAGE_SRC; Footer reuses socialLinks.
   - Extending: Update socialLinks and image/pdf paths as needed.
 
+- **CV PDF Hosting**
+  - Purpose: Provide downloadable CV in PDF format.
+  - Consumption: Navigation component uses CV_PDF_HREF for CV download button.
+  - Hosting Mechanism: Now hosted on Google Drive with direct download URL.
+  - Extending: Update CV_PDF_HREF with new Google Drive file ID for CV updates.
+
 - Type safety and interfaces
   - Purpose: Strong typing for content arrays and constants to prevent runtime errors.
   - Mechanisms: Explicit types for navLinks, skills, education, projects, and constants; union literal types for social link names.
@@ -132,6 +147,7 @@ This section documents the content model and how it is consumed across the appli
 - [content.ts:38-60](file://src/data/content.ts#L38-L60)
 - [content.ts:62-82](file://src/data/content.ts#L62-L82)
 - [content.ts:83-102](file://src/data/content.ts#L83-L102)
+- [content.ts:134-135](file://src/data/content.ts#L134-L135)
 - [BentoSection.tsx:59-81](file://src/components/BentoSection.tsx#L59-L81)
 - [ProjectsSection.tsx:45-93](file://src/components/ProjectsSection.tsx#L45-L93)
 - [EducationSection.tsx:22-51](file://src/components/EducationSection.tsx#L22-L51)
@@ -233,6 +249,7 @@ SocialLink <.. Constants : "shared by Hero/Footer"
 - [content.ts:38-60](file://src/data/content.ts#L38-L60)
 - [content.ts:62-82](file://src/data/content.ts#L62-L82)
 - [content.ts:83-102](file://src/data/content.ts#L83-L102)
+- [content.ts:134-135](file://src/data/content.ts#L134-L135)
 
 **Section sources**
 - [content.ts:10-18](file://src/data/content.ts#L10-L18)
@@ -240,19 +257,22 @@ SocialLink <.. Constants : "shared by Hero/Footer"
 - [content.ts:38-60](file://src/data/content.ts#L38-L60)
 - [content.ts:62-82](file://src/data/content.ts#L62-L82)
 - [content.ts:83-102](file://src/data/content.ts#L83-L102)
+- [content.ts:134-135](file://src/data/content.ts#L134-L135)
 
 ### Navigation Component
 - Reads navLinks to render tabs and compute active section based on scroll position.
 - Uses a layout animation identifier to animate active underline.
-- Downloads CV via CV_PDF_HREF.
+- Downloads CV via CV_PDF_HREF from Google Drive.
 
 ```mermaid
 sequenceDiagram
 participant Nav as "Navigation.tsx"
 participant Data as "content.ts"
+participant Drive as "Google Drive"
 participant DOM as "DOM"
 Nav->>Data : Import navLinks, CV_PDF_HREF
 Nav->>Nav : Compute activeId on scroll/resize
+Nav->>Drive : Access CV via Google Drive direct download URL
 Nav->>DOM : Update active underline class
 DOM-->>Nav : Render tabs with active state
 ```
@@ -260,12 +280,12 @@ DOM-->>Nav : Render tabs with active state
 **Diagram sources**
 - [Navigation.tsx:10-98](file://src/components/Navigation.tsx#L10-L98)
 - [content.ts:10-18](file://src/data/content.ts#L10-L18)
-- [content.ts:81](file://src/data/content.ts#L81)
+- [content.ts:134-135](file://src/data/content.ts#L134-L135)
 
 **Section sources**
 - [Navigation.tsx:10-98](file://src/components/Navigation.tsx#L10-L98)
 - [content.ts:10-18](file://src/data/content.ts#L10-L18)
-- [content.ts:81](file://src/data/content.ts#L81)
+- [content.ts:134-135](file://src/data/content.ts#L134-L135)
 
 ### Hero and Footer
 - Hero displays profile headline, location, description, and social links.
@@ -431,6 +451,8 @@ THEME --> FOOTER
 - Use fullWidth sparingly to maintain grid balance and readability.
 - Keep image and PDF assets optimized; ensure public assets are served efficiently.
 
+**Updated** CV PDF hosting via Google Drive provides improved reliability and global CDN distribution, reducing latency for international visitors.
+
 ## Troubleshooting Guide
 Common issues and resolutions:
 - Broken navigation anchors
@@ -453,15 +475,21 @@ Common issues and resolutions:
   - Cause: href does not start with http/https.
   - Fix: Ensure internal links do not include protocol prefixes.
 
-- CV download not working
-  - Symptom: Clicking CV button does nothing.
-  - Cause: CV_PDF_HREF path is incorrect or file missing.
-  - Fix: Confirm file exists in public/ and path matches CV_PDF_HREF.
+- **CV download not working**
+  - Symptom: Clicking CV button does nothing or downloads fail.
+  - Cause: CV_PDF_HREF points to non-existent or private Google Drive file.
+  - Fix: 
+    - Verify Google Drive file is publicly accessible or has proper sharing settings
+    - Ensure the direct download URL format is correct: `https://drive.google.com/uc?export=download&id=FILE_ID`
+    - Test the URL directly in browser to confirm accessibility
+    - Update CV_PDF_HREF with the correct file ID if the CV has been updated
 
 - Styling inconsistencies
   - Symptom: Colors or fonts appear off.
   - Cause: Tailwind theme overrides or missing CSS variables.
   - Fix: Verify index.css theme variables and Tailwind configuration.
+
+**Updated** Added specific troubleshooting steps for Google Drive CV hosting issues.
 
 **Section sources**
 - [Navigation.tsx:6-9](file://src/components/Navigation.tsx#L6-L9)
@@ -472,7 +500,9 @@ Common issues and resolutions:
 - [index.css:3-40](file://src/index.css#L3-L40)
 
 ## Conclusion
-The portfolio’s content management system centralizes all content in a strongly typed module and distributes it declaratively across components. This approach simplifies maintenance, enforces type safety, and enables rapid iteration. By following the extension guidelines below, teams can confidently add new projects, refine skills, update education, and expand navigation while preserving consistency and performance.
+The portfolio's content management system centralizes all content in a strongly typed module and distributes it declaratively across components. This approach simplifies maintenance, enforces type safety, and enables rapid iteration. By following the extension guidelines below, teams can confidently add new projects, refine skills, update education, and expand navigation while preserving consistency and performance.
+
+**Updated** The migration to Google Drive hosting enhances the CV PDF delivery mechanism, providing improved reliability and accessibility for international visitors.
 
 ## Appendices
 
@@ -485,7 +515,7 @@ The portfolio’s content management system centralizes all content in a strongl
 
 - Updating skills
   - Steps:
-    - Modify an existing skill’s level or add a new skill entry to the skills array.
+    - Modify an existing skill's level or add a new skill entry to the skills array.
     - Optionally set fullWidth to span across columns.
   - Reference: [content.ts:20-36](file://src/data/content.ts#L20-L36), [BentoSection.tsx:59-81](file://src/components/BentoSection.tsx#L59-L81)
 
@@ -494,16 +524,28 @@ The portfolio’s content management system centralizes all content in a strongl
     - Add or edit an entry in the education array with type, title, institution, location, and period.
   - Reference: [content.ts:38-60](file://src/data/content.ts#L38-L60), [EducationSection.tsx:22-51](file://src/components/EducationSection.tsx#L22-L51)
 
+- **Updating CV PDF**
+  - Steps:
+    - Upload new CV to Google Drive and obtain the file ID from the shareable link
+    - Update CV_PDF_HREF with the new Google Drive direct download URL format
+    - Test the download functionality in the Navigation component
+  - Reference: [content.ts:134-135](file://src/data/content.ts#L134-L135), [Navigation.tsx:85-89](file://src/components/Navigation.tsx#L85-L89)
+
 - Extending navigation links
   - Steps:
     - Add a new navLinks entry with name and href; ensure the href matches a section id.
   - Reference: [content.ts:10-18](file://src/data/content.ts#L10-L18), [Navigation.tsx:10-98](file://src/components/Navigation.tsx#L10-L98)
+
+**Updated** Added CV PDF update procedure with Google Drive integration.
 
 ### Guidelines for Content Consistency
 - Use consistent terminology for types and titles across education and projects.
 - Keep stack labels concise and standardized for accurate icon mapping.
 - Maintain a single source of truth for URLs and asset paths.
 - Review socialLinks for brand alignment and accessibility.
+- **Ensure CV PDF hosting URLs are accessible and properly formatted for Google Drive integration.**
+
+**Updated** Added guideline for CV PDF hosting URL validation.
 
 ### Multilingual Considerations
 - Current implementation uses hardcoded strings; to support multiple languages:
@@ -514,16 +556,25 @@ The portfolio’s content management system centralizes all content in a strongl
 ### Optimizing for Different Screen Sizes
 - Responsive grids are already used in major sections; maintain aspect ratios for images and avoid overly dense text.
 - Test breakpoints for navigation tabs and skill bars to ensure readability.
+- **Test CV download functionality across different devices and network conditions when using Google Drive hosting.**
+
+**Updated** Added optimization consideration for CV download across devices.
 
 ### Content Validation and Quality Assurance
 - Enforce type checks during builds using TypeScript.
 - Add unit tests for content shape validation if content grows complex.
 - Use linters to catch unused or malformed keys.
+- **Validate external asset URLs (like Google Drive CV) during build or CI processes to prevent broken links.**
+
+**Updated** Added validation step for external asset URLs.
 
 ### Backup and Version Control
 - Treat content.ts as a primary artifact; commit changes with clear messages.
 - Use feature branches for major content updates; review diffs carefully.
 - Back up critical content snapshots before large-scale restructuring.
+- **Maintain version control for CV PDF updates by tracking Google Drive file ID changes in CV_PDF_HREF.**
+
+**Updated** Added version control guidance for CV PDF hosting changes.
 
 **Section sources**
 - [content.ts:10-18](file://src/data/content.ts#L10-L18)
@@ -531,6 +582,7 @@ The portfolio’s content management system centralizes all content in a strongl
 - [content.ts:38-60](file://src/data/content.ts#L38-L60)
 - [content.ts:62-82](file://src/data/content.ts#L62-L82)
 - [content.ts:83-102](file://src/data/content.ts#L83-L102)
+- [content.ts:134-135](file://src/data/content.ts#L134-L135)
 - [Navigation.tsx:10-98](file://src/components/Navigation.tsx#L10-L98)
 - [BentoSection.tsx:59-81](file://src/components/BentoSection.tsx#L59-L81)
 - [ProjectsSection.tsx:45-93](file://src/components/ProjectsSection.tsx#L45-L93)

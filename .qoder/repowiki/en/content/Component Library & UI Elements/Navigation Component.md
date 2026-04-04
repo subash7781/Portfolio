@@ -6,6 +6,7 @@
 - [content.ts](file://src/data/content.ts)
 - [App.tsx](file://src/App.tsx)
 - [EducationSection.tsx](file://src/components/EducationSection.tsx)
+- [Footer.tsx](file://src/components/Footer.tsx)
 - [index.css](file://src/index.css)
 - [main.tsx](file://src/main.tsx)
 - [package.json](file://package.json)
@@ -14,7 +15,8 @@
 
 ## Update Summary
 **Changes Made**
-- Enhanced CV download functionality with improved accessibility labels and updated styling for better user experience
+- Enhanced security with external link attributes (target='_blank', rel='noopener noreferrer') for CV download functionality
+- CV link now points to Google Drive direct download URL for improved accessibility and version control
 - Renamed CV file from 'Subash_cv.pdf' to 'subash_kannan_CV.pdf' for better organization and professional presentation
 - Expanded navigation links to include Education section for comprehensive portfolio coverage
 - Integrated EducationSection component into main application layout
@@ -32,7 +34,7 @@
 9. [Conclusion](#conclusion)
 
 ## Introduction
-This document provides comprehensive documentation for the Navigation component, focusing on its scroll-based active section detection mechanism, glass-morphism design implementation, animated underline indicator, responsive behavior, CV download functionality, and performance considerations. The component integrates React hooks, the Motion library for animations, and Tailwind CSS for styling. Recent enhancements include expanded portfolio coverage through the addition of an Education section, providing comprehensive visibility into both professional experience and academic background, along with improved CV download functionality for better user experience.
+This document provides comprehensive documentation for the Navigation component, focusing on its scroll-based active section detection mechanism, glass-morphism design implementation, animated underline indicator, responsive behavior, enhanced CV download functionality with security attributes, and performance considerations. The component integrates React hooks, the Motion library for animations, and Tailwind CSS for styling. Recent enhancements include expanded portfolio coverage through the addition of an Education section, providing comprehensive visibility into both professional experience and academic background, along with improved CV download functionality featuring enhanced security attributes and Google Drive integration for better user experience and professional presentation.
 
 ## Project Structure
 The Navigation component is part of a React application built with Vite and Tailwind CSS. It relies on shared data from content.ts and integrates with the main application layout in App.tsx. The recent addition of the Education section enhances the portfolio's academic presentation capabilities.
@@ -44,6 +46,7 @@ App["App.tsx"]
 Nav["Navigation.tsx"]
 Content["content.ts"]
 Education["EducationSection.tsx"]
+Footer["Footer.tsx"]
 CSS["index.css"]
 Main["main.tsx"]
 end
@@ -51,6 +54,7 @@ App --> Nav
 App --> Education
 Nav --> Content
 Nav --> CSS
+Footer --> Content
 Main --> App
 ```
 
@@ -59,6 +63,7 @@ Main --> App
 - [Navigation.tsx:10-97](file://src/components/Navigation.tsx#L10-L97)
 - [content.ts:10-81](file://src/data/content.ts#L10-L81)
 - [EducationSection.tsx:1-58](file://src/components/EducationSection.tsx#L1-L58)
+- [Footer.tsx:1-36](file://src/components/Footer.tsx#L1-L36)
 - [index.css:52-54](file://src/index.css#L52-L54)
 - [main.tsx:6-10](file://src/main.tsx#L6-L10)
 
@@ -67,6 +72,7 @@ Main --> App
 - [Navigation.tsx:10-97](file://src/components/Navigation.tsx#L10-L97)
 - [content.ts:10-81](file://src/data/content.ts#L10-L81)
 - [EducationSection.tsx:1-58](file://src/components/EducationSection.tsx#L1-L58)
+- [Footer.tsx:1-36](file://src/components/Footer.tsx#L1-L36)
 - [index.css:52-54](file://src/index.css#L52-L54)
 - [main.tsx:6-10](file://src/main.tsx#L6-L10)
 
@@ -76,7 +82,9 @@ The Navigation component consists of:
 - Glass-morphism design via backdrop blur and translucent backgrounds
 - Animated underline indicator powered by the Motion library
 - Responsive layout with hidden navigation on small screens
-- Enhanced CV download functionality with improved accessibility attributes
+- **Updated** Enhanced CV download functionality with improved accessibility attributes and security measures
+- **Updated** External link security attributes (target='_blank', rel='noopener noreferrer') for all external navigation
+- **Updated** Google Drive integration for CV downloads with direct download URL
 - **Updated** Expanded navigation links including Education section for comprehensive portfolio coverage
 - **Updated** Removed dynamic skill pill display for cleaner interface
 
@@ -86,8 +94,10 @@ Key implementation areas:
 - Dynamic underline animation with layoutId
 - Responsive breakpoint handling
 - Accessibility-compliant download link with improved labeling
-- **Updated** Integration with Education section for academic background presentation
-- **Updated** Streamlined navigation interface without redundant visual elements
+- Security-enhanced external link handling
+- Google Drive direct download integration
+- Integration with Education section for academic background presentation
+- Streamlined navigation interface without redundant visual elements
 
 **Section sources**
 - [Navigation.tsx:13-40](file://src/components/Navigation.tsx#L13-L40)
@@ -246,15 +256,22 @@ The component uses:
 - [Navigation.tsx:48](file://src/components/Navigation.tsx#L48)
 
 ### Enhanced CV Download Functionality
-**Updated** The component includes an enhanced download button for the CV with improved accessibility attributes and professional naming convention.
+**Updated** The component includes an enhanced download button for the CV with improved accessibility attributes, security measures, and Google Drive integration.
 
-#### Accessibility Features
-The download button provides:
+#### Security Enhancements
+The download button now includes:
+- `target="_blank"` attribute for safe external link handling
+- `rel="noopener noreferrer"` attributes to prevent security vulnerabilities
 - Proper aria-label for screen readers: "Download CV (PDF)"
 - Semantic anchor element with download attribute
 - Icon integration with aria-hidden flag
 - Descriptive text for usability
-- Professional filename: subash_kannan_CV.pdf
+
+#### Google Drive Integration
+The CV link now points to:
+- Direct Google Drive download URL: `https://drive.google.com/uc?export=download&id=1B5Mz8yAkmbdaRVkWEUuaCC3fVnp4F9I6`
+- Improved accessibility and version control through cloud storage
+- Automatic file serving without local hosting requirements
 
 #### Styling Improvements
 The CV button features:
@@ -262,10 +279,33 @@ The CV button features:
 - Smooth hover transitions and scaling effects
 - Consistent typography with uppercase letter spacing
 - Integrated download icon for visual clarity
+- Professional filename: subash_kannan_CV.pdf
 
 **Section sources**
-- [Navigation.tsx:85-93](file://src/components/Navigation.tsx#L85-L93)
+- [Navigation.tsx:85-95](file://src/components/Navigation.tsx#L85-L95)
 - [content.ts:134-135](file://src/data/content.ts#L134-L135)
+
+### External Link Security Implementation
+**Updated** The navigation system now implements comprehensive security measures for external links across the application.
+
+#### Security Attributes
+All external links include:
+- `target="_blank"` to open in new tabs
+- `rel="noopener noreferrer"` to prevent security vulnerabilities
+- Dynamic detection of external URLs using protocol checks
+- Consistent security pattern across Navigation, Footer, and Education components
+
+#### Implementation Pattern
+The security pattern follows:
+- Protocol-based URL detection (`http://` or `https://`)
+- Conditional attribute application using spread operator
+- Consistent styling and hover effects
+- Accessible link semantics
+
+**Section sources**
+- [Navigation.tsx:85-95](file://src/components/Navigation.tsx#L85-L95)
+- [Footer.tsx:14-30](file://src/components/Footer.tsx#L14-L30)
+- [EducationSection.tsx:63-73](file://src/components/EducationSection.tsx#L63-L73)
 
 ### Adding New Navigation Links
 To add new navigation links, modify the navLinks array in content.ts with the desired name and href values.
@@ -295,7 +335,7 @@ The Education section features:
 - Motion animations for staggered content reveal
 - Responsive design for various screen sizes
 - Professional styling with academic color schemes
-- Credential verification links for certifications
+- Credential verification links with external security attributes
 - Institutional logo support with fallback icons
 
 ```mermaid
@@ -308,6 +348,7 @@ Institution --> Title["Degree/Certification Title"]
 Institution --> InstitutionName["Institution Name"]
 Institution --> Location["Location & Period"]
 Institution --> Credential["Credential Verification Link"]
+Credential --> Security["External Link Security<br/>target='_blank'<br/>rel='noopener noreferrer'"]
 ```
 
 **Diagram sources**
@@ -333,6 +374,7 @@ Content["content.ts"]
 CSS["index.css"]
 App["App.tsx"]
 Education["EducationSection.tsx"]
+Footer["Footer.tsx"]
 end
 Nav["Navigation.tsx"] --> React
 Nav --> Motion
@@ -341,6 +383,7 @@ Nav --> Content
 Nav --> CSS
 App --> Nav
 App --> Education
+Footer --> Content
 ```
 
 **Diagram sources**
@@ -350,6 +393,7 @@ App --> Education
 - [index.css:52-54](file://src/index.css#L52-L54)
 - [App.tsx:12](file://src/App.tsx#L12)
 - [EducationSection.tsx:1-2](file://src/components/EducationSection.tsx#L1-L2)
+- [Footer.tsx:1](file://src/components/Footer.tsx#L1)
 
 **Section sources**
 - [package.json:13-24](file://package.json#L13-L24)
@@ -378,6 +422,13 @@ The Motion library provides:
 - Configurable spring physics for smooth transitions
 - Efficient opacity transitions
 
+### Security Performance Benefits
+The external link security attributes provide:
+- Prevents tabnabbing attacks through `rel="noopener noreferrer"`
+- Reduces potential security vulnerabilities in cross-origin navigation
+- Maintains performance without additional overhead
+- Ensures consistent security across all external links
+
 **Section sources**
 - [Navigation.tsx:34-40](file://src/components/Navigation.tsx#L34-L40)
 
@@ -388,8 +439,11 @@ The Motion library provides:
 - **Animation not triggering**: Check layoutId consistency and Motion library installation
 - **Glass effect not appearing**: Confirm Tailwind CSS is properly configured and classes are applied
 - **Download button not working**: Ensure CV file exists in public directory and href is correct
+- **CV security warnings**: Verify `target="_blank"` and `rel="noopener noreferrer"` attributes are present
+- **Google Drive download issues**: Check direct download URL accessibility and file permissions
 - **Education section not displaying**: Verify EducationSection component is properly imported and rendered in App.tsx
 - **CV filename issues**: Ensure the renamed file 'subash_kannan_CV.pdf' exists in the public directory
+- **External link security failures**: Verify security attributes are properly applied to all external navigation
 
 ### Debugging Steps
 1. Verify navLinks array contains valid href values
@@ -397,10 +451,13 @@ The Motion library provides:
 3. Inspect browser console for Motion library errors
 4. Validate Tailwind CSS compilation and class application
 5. Test CV file accessibility in browser developer tools
-6. **Updated** Verify EducationSection component import and rendering in App.tsx
-7. **Updated** Check Education data array structure in content.ts
-8. **Updated** Confirm CV file rename from 'Subash_cv.pdf' to 'subash_kannan_CV.pdf'
-9. **Updated** Verify enhanced accessibility label "Download CV (PDF)" is properly applied
+6. **Updated** Verify Google Drive direct download URL responds correctly
+7. **Updated** Check external link security attributes in navigation, footer, and education sections
+8. **Updated** Verify EducationSection component import and rendering in App.tsx
+9. **Updated** Check Education data array structure in content.ts
+10. **Updated** Confirm CV file rename from 'Subash_cv.pdf' to 'subash_kannan_CV.pdf'
+11. **Updated** Verify enhanced accessibility label "Download CV (PDF)" is properly applied
+12. **Updated** Test external link security by clicking on LinkedIn, GitHub, and other external navigation links
 
 **Section sources**
 - [Navigation.tsx:13-40](file://src/components/Navigation.tsx#L13-L40)
@@ -410,4 +467,4 @@ The Motion library provides:
 - [content.ts:58-80](file://src/data/content.ts#L58-L80)
 
 ## Conclusion
-The Navigation component demonstrates a robust implementation of scroll-based active section detection, modern glass-morphism design, and smooth animated transitions. Its responsive architecture and performance optimizations make it suitable for production use. The recent enhancement with Education section integration expands the portfolio's academic presentation capabilities, providing comprehensive visibility into both professional experience and educational background. The improved CV download functionality with enhanced accessibility labels and professional naming conventions ensures better user experience and professional presentation. The removal of the dynamic skill pill display creates a cleaner, more focused interface while maintaining accessibility standards and cross-browser compatibility.
+The Navigation component demonstrates a robust implementation of scroll-based active section detection, modern glass-morphism design, and smooth animated transitions. Its responsive architecture and performance optimizations make it suitable for production use. The recent enhancement with Education section integration expands the portfolio's academic presentation capabilities, providing comprehensive visibility into both professional experience and educational background. The improved CV download functionality with enhanced accessibility labels, security attributes, and Google Drive integration ensures better user experience, professional presentation, and security compliance. The implementation of external link security attributes across the entire application demonstrates best practices for web security. The removal of the dynamic skill pill display creates a cleaner, more focused interface while maintaining accessibility standards and cross-browser compatibility. These enhancements collectively establish the Navigation component as a secure, accessible, and professional showcase for data analyst portfolios.
