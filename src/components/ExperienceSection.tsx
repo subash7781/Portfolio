@@ -11,10 +11,10 @@ export function ExperienceSection() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
           <motion.div
             className="lg:col-span-4"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
+            initial={{ opacity: 0, x: -40 }}
+            whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.5 }}
+            transition={{ duration: 0.45, ease: "easeOut" }}
           >
             <h2 className="text-5xl font-bold tracking-tighter text-primary">
               Professional Experience
@@ -31,7 +31,7 @@ export function ExperienceSection() {
                 initial={{ opacity: 0, y: 16 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.1 }}
-                transition={{ duration: 0.4, delay: idx * 0.08, ease: "easeOut" }}
+                transition={{ duration: 0.35, delay: idx * 0.06, ease: "easeOut" }}
                 className="bg-surface-container-lowest p-10 group hover:bg-white transition-all cursor-default"
               >
                 <div className="flex flex-col md:flex-row justify-between gap-4 mb-6">

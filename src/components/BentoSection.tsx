@@ -131,7 +131,7 @@ export function BentoSection() {
                     initial={{ width: 0 }}
                     whileInView={{ width: `${skill.level}%` }}
                     viewport={{ once: true }}
-                    transition={{ duration: 0.2, ease: "easeOut" }}
+                    transition={{ duration: 2.5, ease: "easeOut" }}
                     style={{ height: "100%", borderRadius: "9999px" }}
                   />
                 </div>

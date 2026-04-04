@@ -15,7 +15,7 @@ export function Hero() {
         <motion.div
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8 }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
           className="md:col-span-8 space-y-8"
         >
           <div className="space-y-4">
@@ -44,7 +44,7 @@ export function Hero() {
           <motion.div
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4, duration: 0.5 }}
+            transition={{ delay: 0.4, duration: 0.45, ease: "easeOut" }}
             className="inline-flex items-center gap-2 bg-tertiary-fixed/10 border border-tertiary-fixed/30 text-primary px-4 py-2 rounded-full"
           >
             <ShieldCheck size={14} className="text-tertiary-container" />
@@ -57,7 +57,7 @@ export function Hero() {
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5, duration: 0.5 }}
+            transition={{ delay: 0.5, duration: 0.45, ease: "easeOut" }}
             className="flex flex-wrap gap-2"
           >
             {heroSkillPills.map((skill, i) => (
@@ -65,7 +65,7 @@ export function Hero() {
                 key={skill}
                 initial={{ opacity: 0, scale: 0.85 }}
                 animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.55 + i * 0.07, type: "tween", duration: 0.2 }}
+                transition={{ delay: 0.55 + i * 0.06, duration: 0.35, ease: "easeOut" }}
                 className="bg-primary text-on-primary font-label text-[11px] uppercase tracking-[0.15em] px-4 py-2 font-bold cursor-default select-none"
                 style={{ display: "inline-block", transition: "transform 80ms linear" }}
                 onMouseEnter={e => (e.currentTarget.style.transform = "scale(1.08) translateY(-2px)")}
@@ -107,7 +107,7 @@ export function Hero() {
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
+          transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
           className="md:col-span-4 relative"
         >
           <div className="aspect-[4/5] bg-surface-container-high relative overflow-hidden">

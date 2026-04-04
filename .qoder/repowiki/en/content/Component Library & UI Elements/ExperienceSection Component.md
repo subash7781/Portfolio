@@ -12,11 +12,11 @@
 
 ## Update Summary
 **Changes Made**
-- Updated to reflect planned consolidation: Experience section functionality will be consolidated into the unified ImpactSection visualization approach
-- Added note about future architectural changes where standalone ExperienceSection component will be deprecated
-- Updated component architecture section to acknowledge planned migration to animated visualizations
-- Revised integration section to reflect future unified approach
-- Enhanced troubleshooting guide with migration considerations
+- Updated animation timing and positioning to reflect improved vertical positioning with fade-in with opacity 0-1 for header, slide-up from 16px for cards
+- Streamlined timing with 0.45s duration for header and 0.35s for cards
+- Reduced delay increments from 0.08s to 0.06s for smoother animation flow
+- Simplified SVG bullet points with circular markers
+- Enhanced animation performance and visual consistency
 
 ## Table of Contents
 1. [Introduction](#introduction)
@@ -77,7 +77,7 @@ ExperienceSection --> ContentProvider : "imports from"
 ```
 
 **Diagram sources**
-- [ExperienceSection.tsx:1-80](file://src/components/ExperienceSection.tsx#L1-L80)
+- [ExperienceSection.tsx:1-81](file://src/components/ExperienceSection.tsx#L1-L81)
 - [content.ts:48-65](file://src/data/content.ts#L48-L65)
 
 The component architecture emphasizes separation of concerns through:
@@ -88,7 +88,7 @@ The component architecture emphasizes separation of concerns through:
 - **Layout Layer**: Responsive grid system for adaptive design
 
 **Section sources**
-- [ExperienceSection.tsx:4-79](file://src/components/ExperienceSection.tsx#L4-L79)
+- [ExperienceSection.tsx:4-81](file://src/components/ExperienceSection.tsx#L4-L81)
 - [content.ts:48-65](file://src/data/content.ts#L48-L65)
 
 ## Data Structure Analysis
@@ -170,6 +170,8 @@ The visual design incorporates:
 
 The ExperienceSection leverages the Motion library to create engaging micro-interactions that enhance user experience without being distracting. The animation system is carefully tuned to provide smooth transitions while maintaining performance.
 
+**Updated** Recent animation improvements include refined vertical positioning with fade-in with opacity 0-1 for the header and slide-up from 16px for cards, streamlined timing with 0.45s duration for header and 0.35s for cards, reduced delay increments from 0.08s to 0.06s, and simplified SVG bullet points.
+
 ```mermaid
 sequenceDiagram
 participant User as "User"
@@ -189,17 +191,17 @@ Note over Component,Motion : Animation delays based on item index
 ```
 
 **Diagram sources**
-- [ExperienceSection.tsx:23-28](file://src/components/ExperienceSection.tsx#L23-L28)
+- [ExperienceSection.tsx:12-34](file://src/components/ExperienceSection.tsx#L12-L34)
 
 The animation system features:
 
 - **Intersection-Based Triggers**: Animations activate when sections enter the viewport
-- **Sequential Delays**: Staggered animations create visual rhythm
+- **Sequential Delays**: Staggered animations create visual rhythm with reduced delay increments (0.06s)
 - **Performance Optimization**: Configured to run only once per viewport intersection
 - **Smooth Transitions**: CSS transforms for optimal performance
 
 **Section sources**
-- [ExperienceSection.tsx:23-28](file://src/components/ExperienceSection.tsx#L23-L28)
+- [ExperienceSection.tsx:12-34](file://src/components/ExperienceSection.tsx#L12-L34)
 
 ## Responsive Layout Strategy
 
@@ -301,7 +303,7 @@ Key performance optimizations include:
 - **Bundle Size**: Strategic import of animation libraries only where needed
 
 **Section sources**
-- [ExperienceSection.tsx:23-28](file://src/components/ExperienceSection.tsx#L23-L28)
+- [ExperienceSection.tsx:12-34](file://src/components/ExperienceSection.tsx#L12-L34)
 - [package.json:23](file://package.json#L23)
 
 ## Accessibility Features
@@ -391,6 +393,18 @@ Common issues and their solutions when working with the ExperienceSection compon
 - Add appropriate responsive breakpoints
 - Check for conflicting CSS declarations
 - Verify viewport meta tag is present in HTML head
+
+### Animation Timing Issues
+**Symptoms**: Animations feel too slow or too fast
+**Causes**:
+- Duration values not optimized for user experience
+- Delay increments causing uneven timing
+- Transition easing not properly configured
+
+**Solutions**:
+- Adjust duration values (header: 0.45s, cards: 0.35s)
+- Verify delay increments are consistent (0.06s)
+- Test different easing functions for optimal feel
 
 ### Migration Considerations
 **Symptoms**: Confusion about component usage during consolidation

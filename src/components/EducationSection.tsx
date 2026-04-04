@@ -15,7 +15,7 @@ export function EducationSection() {
             initial={{ opacity: 0, x: -40 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.5, ease: "easeOut" }}
+            transition={{ duration: 0.45, ease: "easeOut" }}
           >
             <h2 className="text-5xl font-bold tracking-tighter text-primary">
               Academic Foundation
@@ -32,7 +32,7 @@ export function EducationSection() {
                 initial={{ opacity: 0, x: 60 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true, amount: 0.1 }}
-                transition={{ duration: 0.45, delay: idx * 0.08, ease: "easeOut" }}
+                transition={{ duration: 0.4, delay: idx * 0.06, ease: "easeOut" }}
                 className="bg-surface-container-lowest p-10 flex flex-col md:flex-row justify-between gap-8 group hover:bg-white transition-all cursor-default"
               >
                 <div className="flex items-start gap-6">
