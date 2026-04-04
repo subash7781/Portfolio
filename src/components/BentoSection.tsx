@@ -52,10 +52,7 @@ export function BentoSection() {
               Turning data into decisions — fast, clear, actionable.
             </h2>
             <p className="text-xl text-on-surface-variant max-w-xl leading-relaxed">
-              MSc in Business Analytics from Dublin Business School. I work
-              across the full data pipeline — from raw SQL queries and Python
-              scripts to Power BI dashboards that non-technical teams actually
-              use. Currently open to data analyst roles in Dublin.
+              Working across the full data pipeline with SQL, Python, and Power BI — transforming raw data into clear, actionable insights that drive business decisions. Currently open to data analyst roles in Dublin.
             </p>
           </div>
           <div className="mt-16 flex items-center gap-4 border-t border-outline-variant/20 pt-10">

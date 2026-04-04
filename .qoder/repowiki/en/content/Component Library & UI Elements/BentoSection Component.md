@@ -16,6 +16,7 @@
 - Implemented advanced hover interaction system with dual-layer glow effects (individual bar and row-level)
 - Enhanced skill card visual feedback with smooth color transitions, letter spacing adjustments, and dynamic glow animations
 - Integrated GPU-accelerated animation optimizations for smooth performance across all interactive elements
+- **Updated**: Performance-oriented animation adjustments with skill bar transition timing increased from 0.2 to 1.25 seconds and border radius styling updated from 9999px to 99999px
 
 ## Table of Contents
 1. [Introduction](#introduction)
@@ -212,6 +213,8 @@ Enhanced animation patterns with sophisticated glow effects:
 - **Consistent timing**: All animations use 150-200ms durations and smooth easing for predictable behavior
 - **Custom keyframes**: Specialized animations for bar pulsing and row glow effects with GPU acceleration
 
+**Updated**: Performance-oriented animation adjustments with skill bar transition timing increased from 0.2 to 1.25 seconds and border radius styling updated from 9999px to 99999px
+
 ```mermaid
 sequenceDiagram
 participant Viewport as "Viewport"
@@ -328,6 +331,8 @@ Optimization strategies for the advanced system:
 - **Leverage CSS keyframes** for optimized animation performance with glow effects
 - **Implement smooth transition durations** (150-200ms) for optimal user experience
 - **Utilize GPU acceleration** with `will-change` properties for smooth animations across all interactive elements
+- **Enhanced animation timing**: Updated skill bar transition timing from 0.2 to 1.25 seconds for improved performance and visual quality
+- **Optimized border radius**: Increased border radius from 9999px to 99999px for smoother progress bar edges and better visual continuity
 
 **Section sources**
 - [BentoSection.tsx:37-38](file://src/components/BentoSection.tsx#L37-L38)
@@ -377,6 +382,8 @@ GlowSystem --> GPUAcceleration["GPU Acceleration<br/>will-change Properties"]
 - **Transition duration tuning**: Carefully selected 150-200ms durations balance smoothness with performance for optimal user experience
 - **GPU acceleration**: Utilizing `will-change` properties and hardware acceleration ensures smooth animations across all interactive elements
 - **Dynamic CSS injection**: Efficient style element creation and caching prevents redundant CSS injection with optimized performance
+- **Enhanced animation timing**: Updated skill bar transition timing from 0.2 to 1.25 seconds improves visual quality and perceived performance
+- **Optimized border radius**: Increased border radius from 9999px to 99999px provides smoother progress bar edges and better visual continuity
 
 ## Troubleshooting Guide
 Common issues and resolutions for the enhanced system:
@@ -391,6 +398,8 @@ Common issues and resolutions for the enhanced system:
 - **Keyframe conflicts**: Ensure custom keyframes don't conflict with global animations and are properly scoped to skill cards
 - **CSS injection failures**: Verify that the dynamic style element is created successfully and not duplicated with optimized performance
 - **GPU acceleration issues**: Check that `will-change` properties are properly applied and not causing layout thrashing with smooth animations
+- **Animation timing issues**: Verify that the updated 1.25-second transition timing is properly applied to skill bars with enhanced visual quality
+- **Border radius problems**: Ensure the increased 99999px border radius is properly applied for smooth progress bar edges
 
 **Section sources**
 - [BentoSection.tsx:40-80](file://src/components/BentoSection.tsx#L40-L80)

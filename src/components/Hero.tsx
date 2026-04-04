@@ -35,9 +35,7 @@ export function Hero() {
           </div>
 
           <p className="max-w-xl text-lg text-on-surface-variant leading-relaxed font-body">
-            Data analyst based in Dublin. I turn messy datasets into clear
-            decisions using SQL, Python, and Power BI. MSc in Business Analytics
-            from Dublin Business School.
+            Data Analyst transforming complex datasets into actionable insights using SQL, Python, and Power BI — driving measurable performance improvements and smarter decision-making.
           </p>
 
           {/* Work authorisation badge */}
@@ -49,31 +47,8 @@ export function Hero() {
           >
             <ShieldCheck size={14} className="text-tertiary-container" />
             <span className="font-label text-[11px] uppercase tracking-[0.2em] font-bold">
-              Stamp 1G — Work Authorised in Ireland
+              Stamp 2 - Work Authorised in Ireland
             </span>
-          </motion.div>
-
-          {/* Skills pill row — visible above the fold */}
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5, duration: 0.45, ease: "easeOut" }}
-            className="flex flex-wrap gap-2"
-          >
-            {heroSkillPills.map((skill, i) => (
-              <motion.span
-                key={skill}
-                initial={{ opacity: 0, scale: 0.85 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.55 + i * 0.06, duration: 0.35, ease: "easeOut" }}
-                className="bg-primary text-on-primary font-label text-[11px] uppercase tracking-[0.15em] px-4 py-2 font-bold cursor-default select-none"
-                style={{ display: "inline-block", transition: "transform 80ms linear" }}
-                onMouseEnter={e => (e.currentTarget.style.transform = "scale(1.08) translateY(-2px)")}
-                onMouseLeave={e => (e.currentTarget.style.transform = "scale(1) translateY(0px)")}
-              >
-                {skill}
-              </motion.span>
-            ))}
           </motion.div>
 
           <div className="flex flex-wrap gap-8 pt-4">
