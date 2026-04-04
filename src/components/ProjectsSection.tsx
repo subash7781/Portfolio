@@ -26,7 +26,13 @@ export function ProjectsSection() {
     >
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
-          <div className="lg:col-span-4">
+          <motion.div
+            className="lg:col-span-4"
+            initial={{ opacity: 0, x: -40 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.35, ease: "easeOut" }}
+          >
             <span className="font-label text-[10px] uppercase tracking-[0.3em] text-secondary block mb-4">
               Portfolio
             </span>
@@ -39,7 +45,7 @@ export function ProjectsSection() {
               data supports revenue and partner-facing narratives.
             </p>
             <div className="mt-10 h-1 w-16 bg-tertiary-container" aria-hidden />
-          </div>
+          </motion.div>
 
           <div className="lg:col-span-8 space-y-6">
             {projects.map((project, idx) => (
@@ -47,8 +53,8 @@ export function ProjectsSection() {
                 key={project.title}
                 initial={{ opacity: 0, y: 16 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: idx * 0.08 }}
+                viewport={{ once: true, amount: 0.1 }}
+                transition={{ duration: 0.35, delay: idx * 0.06, ease: "easeOut" }}
                 className="bg-surface-container-lowest border border-outline-variant/15 p-10 md:p-12 flex flex-col gap-8 group hover:shadow-2xl hover:shadow-primary/5 hover:-translate-y-0.5 transition-all duration-300"
               >
                 <div className="space-y-4">

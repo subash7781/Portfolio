@@ -43,7 +43,20 @@ export function Hero() {
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4, duration: 0.45, ease: "easeOut" }}
-            className="inline-flex items-center gap-2 bg-tertiary-fixed/10 border border-tertiary-fixed/30 text-primary px-4 py-2 rounded-full"
+            className="inline-flex items-center gap-2 bg-tertiary-fixed/10 border border-tertiary-fixed/30 text-primary px-4 py-2 rounded-full cursor-default"
+            style={{ transition: "all 150ms ease", boxShadow: "none" }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = "translateY(-2px)";
+              e.currentTarget.style.boxShadow = "0 4px 12px rgba(152,249,148,0.3), 0 0 20px rgba(152,249,148,0.15)";
+              e.currentTarget.style.borderColor = "rgba(152,249,148,0.6)";
+              e.currentTarget.style.backgroundColor = "rgba(152,249,148,0.15)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = "translateY(0px)";
+              e.currentTarget.style.boxShadow = "none";
+              e.currentTarget.style.borderColor = "rgba(152,249,148,0.3)";
+              e.currentTarget.style.backgroundColor = "rgba(152,249,148,0.1)";
+            }}
           >
             <ShieldCheck size={14} className="text-tertiary-container" />
             <span className="font-label text-[11px] uppercase tracking-[0.2em] font-bold">

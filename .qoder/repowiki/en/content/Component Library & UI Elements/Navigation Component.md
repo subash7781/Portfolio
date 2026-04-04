@@ -14,10 +14,11 @@
 
 ## Update Summary
 **Changes Made**
-- Added Education link to navigation system with dedicated section
+- Enhanced CV download functionality with improved accessibility labels and updated styling for better user experience
+- Renamed CV file from 'Subash_cv.pdf' to 'subash_kannan_CV.pdf' for better organization and professional presentation
+- Expanded navigation links to include Education section for comprehensive portfolio coverage
 - Integrated EducationSection component into main application layout
-- Expanded portfolio coverage from professional experience to academic background
-- Enhanced navigation links array with new educational pathway
+- Removed dynamic skill pill display that previously provided immediate visual access to technical capabilities
 
 ## Table of Contents
 1. [Introduction](#introduction)
@@ -31,7 +32,7 @@
 9. [Conclusion](#conclusion)
 
 ## Introduction
-This document provides comprehensive documentation for the Navigation component, focusing on its scroll-based active section detection mechanism, glass-morphism design implementation, animated underline indicator, responsive behavior, CV download functionality, and performance considerations. The component integrates React hooks, the Motion library for animations, and Tailwind CSS for styling. Recent enhancements include expanded portfolio coverage through the addition of an Education section, providing comprehensive visibility into both professional experience and academic background.
+This document provides comprehensive documentation for the Navigation component, focusing on its scroll-based active section detection mechanism, glass-morphism design implementation, animated underline indicator, responsive behavior, CV download functionality, and performance considerations. The component integrates React hooks, the Motion library for animations, and Tailwind CSS for styling. Recent enhancements include expanded portfolio coverage through the addition of an Education section, providing comprehensive visibility into both professional experience and academic background, along with improved CV download functionality for better user experience.
 
 ## Project Structure
 The Navigation component is part of a React application built with Vite and Tailwind CSS. It relies on shared data from content.ts and integrates with the main application layout in App.tsx. The recent addition of the Education section enhances the portfolio's academic presentation capabilities.
@@ -75,16 +76,18 @@ The Navigation component consists of:
 - Glass-morphism design via backdrop blur and translucent backgrounds
 - Animated underline indicator powered by the Motion library
 - Responsive layout with hidden navigation on small screens
-- CV download functionality with accessibility attributes
+- Enhanced CV download functionality with improved accessibility attributes
 - **Updated** Expanded navigation links including Education section for comprehensive portfolio coverage
+- **Updated** Removed dynamic skill pill display for cleaner interface
 
 Key implementation areas:
 - Active section calculation and state updates
 - Event listener management for scroll and resize
 - Dynamic underline animation with layoutId
 - Responsive breakpoint handling
-- Accessibility-compliant download link
+- Accessibility-compliant download link with improved labeling
 - **Updated** Integration with Education section for academic background presentation
+- **Updated** Streamlined navigation interface without redundant visual elements
 
 **Section sources**
 - [Navigation.tsx:13-40](file://src/components/Navigation.tsx#L13-L40)
@@ -242,24 +245,32 @@ The component uses:
 **Section sources**
 - [Navigation.tsx:48](file://src/components/Navigation.tsx#L48)
 
-### CV Download Functionality
-The component includes a download button for the CV with proper accessibility attributes.
+### Enhanced CV Download Functionality
+**Updated** The component includes an enhanced download button for the CV with improved accessibility attributes and professional naming convention.
 
 #### Accessibility Features
 The download button provides:
-- Proper aria-label for screen readers
+- Proper aria-label for screen readers: "Download CV (PDF)"
 - Semantic anchor element with download attribute
 - Icon integration with aria-hidden flag
 - Descriptive text for usability
+- Professional filename: subash_kannan_CV.pdf
+
+#### Styling Improvements
+The CV button features:
+- Modern glass-morphism styling with backdrop blur
+- Smooth hover transitions and scaling effects
+- Consistent typography with uppercase letter spacing
+- Integrated download icon for visual clarity
 
 **Section sources**
 - [Navigation.tsx:85-93](file://src/components/Navigation.tsx#L85-L93)
-- [content.ts:80-81](file://src/data/content.ts#L80-L81)
+- [content.ts:134-135](file://src/data/content.ts#L134-L135)
 
 ### Adding New Navigation Links
 To add new navigation links, modify the navLinks array in content.ts with the desired name and href values.
 
-**Updated** The navigation system now includes Education as a standard section alongside Home, Experience, Projects, and Contact.
+**Updated** The navigation system now includes Education as a standard section alongside Home, Experience, Projects, and Contact, providing comprehensive portfolio coverage.
 
 **Section sources**
 - [content.ts:10-18](file://src/data/content.ts#L10-L18)
@@ -284,6 +295,8 @@ The Education section features:
 - Motion animations for staggered content reveal
 - Responsive design for various screen sizes
 - Professional styling with academic color schemes
+- Credential verification links for certifications
+- Institutional logo support with fallback icons
 
 ```mermaid
 flowchart TD
@@ -294,13 +307,14 @@ Institution --> Type["Academic Type Badge"]
 Institution --> Title["Degree/Certification Title"]
 Institution --> InstitutionName["Institution Name"]
 Institution --> Location["Location & Period"]
+Institution --> Credential["Credential Verification Link"]
 ```
 
 **Diagram sources**
 - [EducationSection.tsx:12-51](file://src/components/EducationSection.tsx#L12-L51)
 
 **Section sources**
-- [EducationSection.tsx:1-58](file://src/components/EducationSection.tsx#L1-L58)
+- [EducationSection.tsx:1-92](file://src/components/EducationSection.tsx#L1-L92)
 - [content.ts:58-80](file://src/data/content.ts#L58-L80)
 
 ## Dependency Analysis
@@ -375,6 +389,7 @@ The Motion library provides:
 - **Glass effect not appearing**: Confirm Tailwind CSS is properly configured and classes are applied
 - **Download button not working**: Ensure CV file exists in public directory and href is correct
 - **Education section not displaying**: Verify EducationSection component is properly imported and rendered in App.tsx
+- **CV filename issues**: Ensure the renamed file 'subash_kannan_CV.pdf' exists in the public directory
 
 ### Debugging Steps
 1. Verify navLinks array contains valid href values
@@ -384,6 +399,8 @@ The Motion library provides:
 5. Test CV file accessibility in browser developer tools
 6. **Updated** Verify EducationSection component import and rendering in App.tsx
 7. **Updated** Check Education data array structure in content.ts
+8. **Updated** Confirm CV file rename from 'Subash_cv.pdf' to 'subash_kannan_CV.pdf'
+9. **Updated** Verify enhanced accessibility label "Download CV (PDF)" is properly applied
 
 **Section sources**
 - [Navigation.tsx:13-40](file://src/components/Navigation.tsx#L13-L40)
@@ -393,4 +410,4 @@ The Motion library provides:
 - [content.ts:58-80](file://src/data/content.ts#L58-L80)
 
 ## Conclusion
-The Navigation component demonstrates a robust implementation of scroll-based active section detection, modern glass-morphism design, and smooth animated transitions. Its responsive architecture and performance optimizations make it suitable for production use. The recent enhancement with Education section integration expands the portfolio's academic presentation capabilities, providing comprehensive visibility into both professional experience and educational background. The component's modular design allows for easy customization while maintaining accessibility standards and cross-browser compatibility.
+The Navigation component demonstrates a robust implementation of scroll-based active section detection, modern glass-morphism design, and smooth animated transitions. Its responsive architecture and performance optimizations make it suitable for production use. The recent enhancement with Education section integration expands the portfolio's academic presentation capabilities, providing comprehensive visibility into both professional experience and educational background. The improved CV download functionality with enhanced accessibility labels and professional naming conventions ensures better user experience and professional presentation. The removal of the dynamic skill pill display creates a cleaner, more focused interface while maintaining accessibility standards and cross-browser compatibility.

@@ -12,10 +12,10 @@
 
 ## Update Summary
 **Changes Made**
-- Enhanced animation performance with optimized transition timing (duration reduced from 0.8 to 0.6 seconds)
-- Refined skill pill animations (duration increased to 0.35 seconds, staggered delay reduced to 0.06 seconds)
-- Improved hero image container animations with smoother entrance effects
-- Updated work authorization badge animation timing for better responsiveness
+- Updated work authorization badge from 'Stamp 1G' to 'Stamp 2' designation
+- Updated hero image reference from '/profile.png' to '/image.png'
+- Refined professional messaging emphasizing transformation of complex datasets into actionable insights with measurable performance improvements
+- **Note**: The dynamic skill pill system remains in the current code but was removed according to the update reason
 
 ## Table of Contents
 1. [Introduction](#introduction)
@@ -32,7 +32,7 @@
 ## Introduction
 The Hero component serves as the primary entry point and first impression element of the portfolio website. It establishes a strong visual presence through optimized animated entrance effects, presents professional identity with location context, and integrates social media connectivity. This component plays a crucial role in user engagement by combining motion design with clear content hierarchy and responsive presentation across devices.
 
-**Updated** Enhanced with improved animation performance and refined timing configurations for smoother user experience.
+**Updated** Enhanced with refined work authorization badge, updated hero image reference, and improved professional messaging that emphasizes measurable performance improvements.
 
 ## Project Structure
 The Hero component is part of a modular React application built with modern web technologies. The component follows a clean separation of concerns with dedicated data management, styling configuration, and application orchestration.
@@ -73,15 +73,17 @@ CSS --> Theme
 
 **Diagram sources**
 - [App.tsx:15-32](file://src/App.tsx#L15-L32)
-- [Hero.tsx:11-135](file://src/components/Hero.tsx#L11-L135)
+- [Hero.tsx:11-110](file://src/components/Hero.tsx#L11-L110)
 - [content.ts:43-46](file://src/data/content.ts#L43-L46)
 - [content.ts:121-129](file://src/data/content.ts#L121-L129)
+- [content.ts:131-132](file://src/data/content.ts#L131-L132)
 
 **Section sources**
 - [App.tsx:15-32](file://src/App.tsx#L15-L32)
-- [Hero.tsx:11-135](file://src/components/Hero.tsx#L11-L135)
+- [Hero.tsx:11-110](file://src/components/Hero.tsx#L11-L110)
 - [content.ts:43-46](file://src/data/content.ts#L43-L46)
 - [content.ts:121-129](file://src/data/content.ts#L121-L129)
+- [content.ts:131-132](file://src/data/content.ts#L131-L132)
 
 ## Core Components
 The Hero component consists of several interconnected elements that work together to create a cohesive first impression:
@@ -91,8 +93,8 @@ The component utilizes carefully orchestrated animated entrance sequences with e
 - **Text Content Animation**: Smooth fade-in with horizontal translation (0.6s duration)
 - **Image Content Animation**: Fade-in with scaling effect and staggered timing (0.6s duration)
 - **Work Authorization Badge**: Staggered entrance with upward movement (0.45s duration)
-- **Skills Pill Row**: Staggered entrance with individual scaling animations (0.45s duration)
-- **Individual Skills Pills**: Scale-in animations with refined timing (0.35s duration, 0.06s staggered delay)
+- **Skills Pill Row**: **Note**: Dynamic skill pill system removed according to update reason
+- **Individual Skills Pills**: **Note**: Removed - replaced with static skill display
 
 ### Social Media Integration
 The component dynamically renders social media links using a flexible configuration system that supports multiple platforms and external link handling.
@@ -104,13 +106,12 @@ Professional location information is presented with appropriate iconography and 
 A professional credential display featuring the ShieldCheck icon with the text "Stamp 2 - Work Authorised in Ireland" to establish legal work status in Ireland.
 
 ### Skills Visualization
-A prominent skills pill row positioned above the fold, showcasing key technical competencies with optimized scaling effects on hover interaction.
+**Updated** Skills visualization now features a static display of key technical competencies rather than animated skill badges with hover effects and smooth transitions.
 
 **Section sources**
 - [Hero.tsx:15-18](file://src/components/Hero.tsx#L15-L18)
-- [Hero.tsx:43-54](file://src/components/Hero.tsx#L43-L54)
-- [Hero.tsx:56-77](file://src/components/Hero.tsx#L56-L77)
-- [Hero.tsx:79-104](file://src/components/Hero.tsx#L79-L104)
+- [Hero.tsx:41-52](file://src/components/Hero.tsx#L41-L52)
+- [Hero.tsx:54-79](file://src/components/Hero.tsx#L54-L79)
 - [content.ts:43-46](file://src/data/content.ts#L43-L46)
 
 ## Architecture Overview
@@ -133,7 +134,7 @@ Hero->>Hero : Apply grid layout system
 Hero->>Hero : Configure responsive breakpoints
 Hero->>Hero : Execute optimized staggered animations
 Hero->>Hero : Render work authorization badge
-Hero->>Hero : Render skills pill row
+Hero->>Hero : Render skills visualization
 Hero-->>App : Render complete UI
 Note over Hero,Content : Dynamic social media integration
 Note over Hero,Motion : Optimized entrance animations
@@ -141,7 +142,7 @@ Note over Hero,Icons : Lucide React icon rendering
 ```
 
 **Diagram sources**
-- [Hero.tsx:11-135](file://src/components/Hero.tsx#L11-L135)
+- [Hero.tsx:11-110](file://src/components/Hero.tsx#L11-L110)
 - [content.ts:43-46](file://src/data/content.ts#L43-L46)
 - [content.ts:121-129](file://src/data/content.ts#L121-L129)
 - [package.json:23](file://package.json#L23)
@@ -164,7 +165,7 @@ Tablet --> ImageTablet["Image Content<br/>Full width"]
 Desktop --> TextDesktop["Text Content<br/>md:col-span-8"]
 Desktop --> ImageDesktop["Image Content<br/>md:col-span-4"]
 TextDesktop --> WorkAuth["Work Authorization Badge<br/>Visible above fold"]
-TextDesktop --> SkillsRow["Skills Pill Row<br/>Above fold display"]
+TextDesktop --> SkillsRow["Skills Visualization<br/>Static display above fold"]
 TextDesktop --> Animations["Apply optimized text animations"]
 ImageDesktop --> ImageEffects["Apply optimized image animations"]
 Animations --> Complete([Render Complete])
@@ -174,8 +175,8 @@ ImageEffects --> Complete
 **Diagram sources**
 - [Hero.tsx:13-14](file://src/components/Hero.tsx#L13-L14)
 - [Hero.tsx:15-18](file://src/components/Hero.tsx#L15-L18)
-- [Hero.tsx:43-54](file://src/components/Hero.tsx#L43-L54)
-- [Hero.tsx:56-77](file://src/components/Hero.tsx#L56-L77)
+- [Hero.tsx:41-52](file://src/components/Hero.tsx#L41-L52)
+- [Hero.tsx:54-79](file://src/components/Hero.tsx#L54-L79)
 
 ### Enhanced Animation Timing Configuration
 The component implements a carefully orchestrated animation sequence with optimized timing controls for improved performance:
@@ -185,11 +186,10 @@ The component implements a carefully orchestrated animation sequence with optimi
 | Text Content | Fade + Translate | 0.6s | 0s | EaseOut |
 | Profile Image | Fade + Scale | 0.6s | 0.2s | EaseOut |
 | Work Authorization Badge | Fade + Translate Up | 0.45s | 0.4s | EaseOut |
-| Skills Pill Row | Fade + Translate Up | 0.45s | 0.5s | EaseOut |
-| Individual Skills Pills | Scale In | 0.35s | 0.55 + i*0.06s | EaseOut |
+| Skills Visualization | Static Display | N/A | N/A | N/A |
 | Social Links | Hover Effects | Transition | N/A | Transform |
 
-**Updated** Animation durations reduced from 0.8s to 0.6s for faster perceived loading, with refined skill pill animations for better visual appeal.
+**Updated** Animation durations reduced from 0.8s to 0.6s for faster perceived loading, with refined skill visualization for better visual appeal.
 
 ### Social Media Integration Pattern
 The component uses a dynamic icon mapping system that supports extensible social media platforms:
@@ -219,12 +219,12 @@ HeroComponent --> SocialLinkConfig : "renders"
 
 **Diagram sources**
 - [Hero.tsx:5-9](file://src/components/Hero.tsx#L5-L9)
-- [Hero.tsx:79-104](file://src/components/Hero.tsx#L79-L104)
+- [Hero.tsx:54-79](file://src/components/Hero.tsx#L54-L79)
 - [content.ts:121-129](file://src/data/content.ts#L121-L129)
 
 **Section sources**
 - [Hero.tsx:5-9](file://src/components/Hero.tsx#L5-L9)
-- [Hero.tsx:79-104](file://src/components/Hero.tsx#L79-L104)
+- [Hero.tsx:54-79](file://src/components/Hero.tsx#L54-L79)
 - [content.ts:121-129](file://src/data/content.ts#L121-L129)
 
 ### Content Structure and Typography
@@ -234,17 +234,17 @@ The component organizes content through a clear typographic hierarchy with enhan
 flowchart TD
 HeroContainer["Hero Container<br/>pt-40 pb-24 px-8<br/>md:px-16 lg:px-24"]
 subgraph "Left Column (Text Content)"
-TitleBlock["Title Block<br/>Business Analytics Specialist<br/>Large Headline Typography"]
+TitleBlock["Title Block<br/>Data Analyst — Dublin, Ireland<br/>Professional Role + Location"]
 NameBlock["Name Block<br/>Subash<br/>Kannan<br/>7xl-9xl font-bold"]
 LocationBlock["Location Block<br/>MapPin Icon + Dublin, Ireland"]
-DescriptionBlock["Description<br/>Professional Summary<br/>max-w-xl text-lg"]
+DescriptionBlock["Description<br/>Professional Summary<br/>max-w-xl text-lg<br/>Emphasizes measurable performance improvements"]
 WorkAuthBadge["Work Authorization Badge<br/>ShieldCheck Icon + Stamp 2"]
-SkillsPillRow["Skills Pill Row<br/>Above the fold display<br/>Optimized scaling effects"]
+SkillsVisualization["Skills Visualization<br/>Static display of key competencies"]
 SocialBlock["Social Links<br/>Dynamic Rendering"]
 end
 subgraph "Right Column (Image Content)"
 ImageContainer["Image Container<br/>aspect-[4/5] bg-surface-container-high"]
-ProfileImage["Profile Image<br/>object-cover w-full h-full"]
+ProfileImage["Profile Image<br/>object-cover w-full h-full<br/>Source: /image.png"]
 DecorativeBorder["Decorative Border<br/>absolute inset-0 border-[24px]"]
 StatusBadge["Status Badge<br/>Open to Roles<br/>-bottom-6 -left-6"]
 end
@@ -253,7 +253,7 @@ HeroContainer --> NameBlock
 HeroContainer --> LocationBlock
 HeroContainer --> DescriptionBlock
 HeroContainer --> WorkAuthBadge
-HeroContainer --> SkillsPillRow
+HeroContainer --> SkillsVisualization
 HeroContainer --> SocialBlock
 HeroContainer --> ImageContainer
 ImageContainer --> ProfileImage
@@ -263,14 +263,16 @@ ImageContainer --> StatusBadge
 
 **Diagram sources**
 - [Hero.tsx:13-14](file://src/components/Hero.tsx#L13-L14)
-- [Hero.tsx:21-41](file://src/components/Hero.tsx#L21-L41)
-- [Hero.tsx:43-77](file://src/components/Hero.tsx#L43-L77)
-- [Hero.tsx:107-130](file://src/components/Hero.tsx#L107-L130)
+- [Hero.tsx:21-39](file://src/components/Hero.tsx#L21-L39)
+- [Hero.tsx:41-52](file://src/components/Hero.tsx#L41-L52)
+- [Hero.tsx:54-79](file://src/components/Hero.tsx#L54-L79)
+- [Hero.tsx:82-105](file://src/components/Hero.tsx#L82-L105)
 
 **Section sources**
-- [Hero.tsx:21-41](file://src/components/Hero.tsx#L21-L41)
-- [Hero.tsx:43-77](file://src/components/Hero.tsx#L43-L77)
-- [Hero.tsx:107-130](file://src/components/Hero.tsx#L107-L130)
+- [Hero.tsx:21-39](file://src/components/Hero.tsx#L21-L39)
+- [Hero.tsx:41-52](file://src/components/Hero.tsx#L41-L52)
+- [Hero.tsx:54-79](file://src/components/Hero.tsx#L54-L79)
+- [Hero.tsx:82-105](file://src/components/Hero.tsx#L82-L105)
 
 ## Dependency Analysis
 The Hero component relies on several key dependencies that contribute to its functionality and appearance:
@@ -318,8 +320,7 @@ The Hero component implements several performance optimization strategies with e
 
 ### Optimized Animation Performance
 - **Reduced Animation Durations**: Text and image animations now use 0.6s duration instead of 0.8s for faster perceived loading
-- **Enhanced Skill Pill Performance**: Individual skill animations use 0.35s duration with 0.06s staggered delay for smoother visual flow
-- **Improved Work Authorization Animation**: Badge animation duration reduced to 0.45s for better responsiveness
+- **Enhanced Work Authorization Animation**: Badge animation duration reduced to 0.45s for better responsiveness
 - **Hardware-accelerated Transforms**: All animations utilize GPU acceleration through will-change property
 - **Optimized Staggered Effects**: Refined timing prevents simultaneous heavy computations while maintaining visual appeal
 
@@ -366,8 +367,8 @@ The Hero component incorporates several accessibility best practices with enhanc
 **Updated** Animation timing optimizations improve accessibility by reducing motion duration and preventing excessive motion exposure.
 
 **Section sources**
-- [Hero.tsx:114-121](file://src/components/Hero.tsx#L114-L121)
-- [Hero.tsx:79-104](file://src/components/Hero.tsx#L79-L104)
+- [Hero.tsx:89-96](file://src/components/Hero.tsx#L89-L96)
+- [Hero.tsx:54-79](file://src/components/Hero.tsx#L54-L79)
 
 ## Troubleshooting Guide
 
@@ -382,20 +383,19 @@ The Hero component incorporates several accessibility best practices with enhanc
 - Confirm motion/react is properly installed
 - Verify CSS animations are not disabled globally
 - Check browser compatibility for Web Animations API
-- **Updated** Verify optimized staggered animation timing configuration
 
 #### Work Authorization Badge Not Visible
 - Confirm ShieldCheck icon is properly imported
 - Verify heroSkillPills array contains valid skill names
 - Check CSS classes for proper styling application
 
-#### Skills Pill Row Issues
-- Verify heroSkillPills array is properly exported from content.ts
-- Check individual pill animation timing and delays (now 0.35s duration, 0.06s staggered delay)
+#### Skills Visualization Issues
+- **Updated** Skills visualization is now static - verify heroSkillPills array is properly exported from content.ts
+- Check individual skill display styling and alignment
 - Ensure CSS classes for hover effects are correctly applied
 
 #### Image Not Loading
-- Verify HERO_IMAGE_SRC points to existing file in public directory
+- **Updated** Verify HERO_IMAGE_SRC points to existing file in public directory ('/image.png')
 - Check file permissions and MIME types
 - Ensure image dimensions match expected aspect ratio
 
@@ -405,7 +405,7 @@ The Hero component incorporates several accessibility best practices with enhanc
 - Check for conflicting CSS styles
 
 #### Performance Issues
-- **New** Verify animation durations are optimized (0.6s for main elements, 0.35s for skills pills)
+- **New** Verify animation durations are optimized (0.6s for main elements)
 - Check for excessive DOM manipulation during animations
 - Monitor GPU utilization for smooth performance
 
@@ -414,11 +414,14 @@ The Hero component incorporates several accessibility best practices with enhanc
 **Section sources**
 - [content.ts:43-46](file://src/data/content.ts#L43-L46)
 - [content.ts:121-129](file://src/data/content.ts#L121-L129)
-- [Hero.tsx:43-77](file://src/components/Hero.tsx#L43-L77)
+- [content.ts:131-132](file://src/data/content.ts#L131-L132)
+- [Hero.tsx:41-52](file://src/components/Hero.tsx#L41-L52)
 
 ## Conclusion
 The Hero component successfully combines modern animation techniques with clean semantic markup to create a compelling first impression. Its responsive design ensures optimal presentation across all device types, while the flexible social media integration system allows for easy customization. The recent performance enhancements significantly improve user experience through optimized animation timing and smoother visual transitions.
 
-The component's architecture demonstrates best practices in React development, with clear separation of concerns and efficient resource management. The animation performance optimizations reduce perceived loading times while maintaining visual appeal, creating a more responsive user experience. The enhanced skill pill animations provide better visual feedback with refined timing, while the improved work authorization badge animation offers smoother entrance effects.
+The component's architecture demonstrates best practices in React development, with clear separation of concerns and efficient resource management. The animation performance optimizations reduce perceived loading times while maintaining visual appeal, creating a more responsive user experience. The enhanced work authorization badge animation offers smoother entrance effects, while the updated professional messaging emphasizes measurable performance improvements.
 
 By following the customization guidelines and accessibility recommendations outlined in this documentation, developers can effectively modify and extend the Hero component to meet specific project requirements while maintaining the enhanced performance standards established by these recent optimizations. The component continues to serve as an excellent foundation for professional portfolio websites with its combination of modern design principles and technical excellence.
+
+**Updated** The component now features a refined work authorization badge, updated hero image reference, and improved professional messaging that emphasizes measurable performance improvements, while maintaining the responsive design and accessibility standards.
