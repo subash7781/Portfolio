@@ -59,39 +59,43 @@ export function BentoSection() {
               <div
                 key={skill.name}
                 className="cursor-default"
+                style={{ padding: "6px 8px", borderRadius: "6px", transition: "background 200ms ease" }}
                 onMouseEnter={(e) => {
                   const t = e.currentTarget;
-                  (t.children[0].children[0].children[0] as HTMLElement).style.color = "#fff";
-                  (t.children[0].children[0].children[1] as HTMLElement).style.color = "#fff";
-                  (t.children[0].children[1] as HTMLElement).style.color = "rgba(255,255,255,0.7)";
-                  (t.children[1].children[0] as HTMLElement).style.backgroundColor = "#fff";
+                  t.style.background = "rgba(152,249,148,0.08)";
+                  const fill = t.querySelector('.bar-fill') as HTMLElement | null;
+                  const pct = t.querySelector('.bar-pct') as HTMLElement | null;
+                  if (fill) fill.style.backgroundColor = "#b8fdb5";
+                  if (pct) pct.style.color = "#98f994";
                 }}
                 onMouseLeave={(e) => {
                   const t = e.currentTarget;
-                  (t.children[0].children[0].children[0] as HTMLElement).style.color = "";
-                  (t.children[0].children[0].children[1] as HTMLElement).style.color = "";
-                  (t.children[0].children[1] as HTMLElement).style.color = "";
-                  (t.children[1].children[0] as HTMLElement).style.backgroundColor = "";
+                  t.style.background = "transparent";
+                  const fill = t.querySelector('.bar-fill') as HTMLElement | null;
+                  const pct = t.querySelector('.bar-pct') as HTMLElement | null;
+                  if (fill) fill.style.backgroundColor = "#98f994";
+                  if (pct) pct.style.color = "rgba(152,249,148,0.7)";
                 }}
               >
                 <div className="flex items-center justify-between mb-1.5">
                   <div className="flex items-center gap-2">
-                    <skill.icon size={16} style={{ color: "#a7f3d0" }} />
-                    <span style={{ fontSize: "11px", fontWeight: 700, letterSpacing: "0.15em", textTransform: "uppercase", fontFamily: "var(--font-label)" }}>
+                    <skill.icon size={16} className="bar-icon shrink-0" style={{ color: "#98f994", transition: "color 150ms ease" }} />
+                    <span className="bar-label" style={{ fontSize: "11px", fontWeight: 700, letterSpacing: "0.15em", textTransform: "uppercase", color: "#ffffff", transition: "color 150ms ease" }}>
                       {skill.name}
                     </span>
                   </div>
-                  <span style={{ fontSize: "10px", color: "rgba(255,255,255,0.5)", fontFamily: "var(--font-label)" }}>
+                  <span className="bar-pct" style={{ fontSize: "10px", color: "rgba(152,249,148,0.7)", transition: "color 150ms ease" }}>
                     {skill.level}%
                   </span>
                 </div>
-                <div className="h-1.5 bg-white/20 rounded-full overflow-hidden">
+                <div style={{ height: "2px", backgroundColor: "rgba(152,249,148,0.2)", borderRadius: "9999px", overflow: "hidden" }}>
                   <motion.div
+                    className="bar-fill"
                     initial={{ width: 0 }}
                     whileInView={{ width: `${skill.level}%` }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.2, ease: "easeOut" }}
-                    style={{ height: "100%", backgroundColor: "#a7f3d0", borderRadius: "9999px" }}
+                    style={{ height: "100%", backgroundColor: "#98f994", borderRadius: "9999px", transition: "background-color 150ms ease" }}
                   />
                 </div>
               </div>
